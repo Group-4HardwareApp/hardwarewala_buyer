@@ -3,6 +3,8 @@ package com.example.hardwarewale;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -27,8 +29,21 @@ public class LauncherActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(inflater);
         View v= binding.getRoot();
         setContentView(v);
-
-
+        int versionCode = BuildConfig.VERSION_CODE;
+        String versionName = BuildConfig.VERSION_NAME;
+        binding.tvVersion.setText("Version "+versionName  +" "+versionCode);
+/*
+        PackageManager manager = this.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(
+                    this.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = info.versionName;
+        //binding.tvVersion.setText("Version" + " "+version);
+*/
         if(!isConnectedToInternet(this)){
             AlertDialog.Builder builder= new AlertDialog.Builder(LauncherActivity.this);
             builder.setMessage("Please check the Internet connection").setCancelable(false);
@@ -51,20 +66,19 @@ public class LauncherActivity extends AppCompatActivity {
             public void run() {
                 if(currentUser!=null){
                     sendUserToHomeActivity();
-                }else {
+                }
+                else {
                     sendUserToLogInActivity();
                 }
             }
         },4000);
-
         }
-
     }
 
     private void sendUserToHomeActivity() {
        Intent in = new Intent(this,HomeActivity.class);
-        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(in);
+       in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+       startActivity(in);
     }
 
     private void sendUserToLogInActivity() {

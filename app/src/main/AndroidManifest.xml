@@ -23,10 +23,28 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity"/>
+
         <activity android:name=".ProfileActivity"/>
+
         <activity android:name=".LogInActivity"/>
-        <activity android:name=".ProductActivity"/>
-        <activity android:name=".ProductDescriptionActivity"/>
+
+        <activity android:name=".ProductActivity"
+            android:parentActivityName=".HomeActivity"/>
+
+        <activity android:name=".ProductDescriptionActivity"
+            android:parentActivityName=".ProductActivity"/>
+
         <activity android:name=".CategoryActivity"/>
+
+        <activity android:name=".OrderHistoryActivity"
+            android:parentActivityName=".HomeActivity"/>
+
+        <activity android:name=".OrderDetailsActivity"
+            android:parentActivityName=".OrderHistoryActivity"/>
+
+        <activity android:name=".FavoriteActivity"/>
+
+        <activity android:name=".SettingActivity"/>
+
     </application>
 </manifest>

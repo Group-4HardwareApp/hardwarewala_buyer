@@ -10,7 +10,8 @@
         android:title="Cart" />
     <item
         android:id="@+id/menuShopByCategoty"
-        android:title="Shop by Category" />
+        android:title="Shop by Category"
+        android:icon="@drawable/store_icon"/>
     <item
         android:id="@+id/menuFavorites"
         android:icon="@drawable/favorite_icon"
@@ -35,16 +36,10 @@
                 android:title="Contact us"
                 android:icon="@drawable/contact_us_icon"/>
             <item
-                android:id="@+id/menuAboutus"
-                android:title="About us"
-                />
-            <item
                 android:id="@+id/menuCustomerSupport"
                 android:title="Customer Support"
                 android:icon="@drawable/contact_support"/>
-            <item
-                android:id="@+id/menuCompanyPolicy"
-                android:title="Company Policy" />
+
             <item
                 android:id="@+id/menuLogout"
                 android:icon="@drawable/logout_icon"
