@@ -3,13 +3,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:layout_margin="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/app_logo" />
+        android:src="@drawable/app_logo_1" />
 </androidx.cardview.widget.CardView>

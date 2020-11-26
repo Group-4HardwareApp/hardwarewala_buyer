@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
+import com.example.hardwarewale.bean.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,14 +49,14 @@ public class LogInActivity extends AppCompatActivity {
         );
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         listener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 if (user != null) {
                     Toast.makeText(LogInActivity.this, "user already logged in with uid" + user.getUid(), Toast.LENGTH_SHORT).show();
-                     sendUserToHomeScreen();
+                    sendUserToHomeScreen();
                 } else {
                     startActivityForResult(AuthUI.getInstance()
                             .createSignInIntentBuilder()
@@ -62,12 +64,10 @@ public class LogInActivity extends AppCompatActivity {
                             .setTheme(R.style.LogInTheme)
                             .setAvailableProviders(providers)
                             .build(),AUTH_REQUEST_CODE);
-
                 }
             }
 
         };
-
     }
 
     @Override
@@ -81,23 +81,10 @@ public class LogInActivity extends AppCompatActivity {
                 Toast.makeText(this, "Something went wrong.....", Toast.LENGTH_SHORT).show();
             }
         }
-
     }
 
     private void sendUserToHomeScreen() {
         Intent intent = new Intent(LogInActivity.this,HomeActivity.class);
         startActivity(intent);
-
     }
-    /*
-    public void signOut(View view){
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(MainActivity.this, "Signed Out", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-    }*/
 }

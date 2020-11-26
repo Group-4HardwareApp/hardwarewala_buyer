@@ -4,7 +4,9 @@ package com.example.hardwarewale.bean;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Favorite {
+import java.io.Serializable;
+
+public class Favorite implements Serializable {
 
     @SerializedName("favoriteId")
     @Expose
@@ -23,7 +25,7 @@ public class Favorite {
     private String name;
     @SerializedName("price")
     @Expose
-    private Long price;
+    private Double price;
     @SerializedName("brand")
     @Expose
     private String brand;
@@ -36,6 +38,34 @@ public class Favorite {
     @SerializedName("shopKeeperId")
     @Expose
     private String shopKeeperId;
+
+    public Favorite() {
+    }
+
+    public Favorite(String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl, String description, String shopKeeperId) {
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.brand = brand;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.shopKeeperId = shopKeeperId;
+    }
+
+    public Favorite(String favoriteId, String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl, String description, String shopKeeperId) {
+        this.favoriteId = favoriteId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.brand = brand;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.shopKeeperId = shopKeeperId;
+    }
 
     public String getFavoriteId() {
         return favoriteId;
@@ -77,11 +107,11 @@ public class Favorite {
         this.name = name;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

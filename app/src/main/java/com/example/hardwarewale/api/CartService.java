@@ -1,6 +1,6 @@
 package com.example.hardwarewale.api;
 
-import com.example.hardwarewale.bean.Favorite;
+import com.example.hardwarewale.bean.Cart;
 
 import java.util.concurrent.TimeUnit;
 
@@ -9,15 +9,13 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 import static com.example.hardwarewale.utility.ServerAddress.BASE_URL;
 
-public class FavoriteService {
-
-    public static FavoriteApi favoriteApi;
-    public static FavoriteApi getFavoriteApiInstance(){
+public class CartService {
+    public static CartApi cartApi;
+    public static CartApi getCartApiInstance(){
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(10000, TimeUnit.SECONDS)
                 .readTimeout(10000, TimeUnit.SECONDS).build();
@@ -28,13 +26,13 @@ public class FavoriteService {
                 .client(client)
                 .build();
 
-        if (favoriteApi == null)
-            favoriteApi = retrofit.create(FavoriteApi.class);
-        return favoriteApi;
+        if (cartApi == null)
+            cartApi = retrofit.create(CartService.CartApi.class);
+        return cartApi;
     }
 
-    public interface FavoriteApi{
-        @POST("/favorite/")
-        public Call<Favorite> addFavorite(@Body Favorite favorite);
+    public interface CartApi{
+        @POST("/cart/")
+        Call<Cart> saveProductInCart(@Body Cart cart);
     }
 }
