@@ -75,13 +75,25 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
         if (currentUser == null)
             sendUserToLoginActivity();
-        else if (checkUserProfile())
-            sendUserToProfileActivity();
+        else
+            checkUserProfile();
     }
 
     private boolean checkUserProfile() {
         String status = sp.getString("userId", "");
-        return status.equals("");
+        boolean flag =  status.equals("");
+        if(flag)
+            sendUserToProfileActivity();
+        else{
+            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            if(!currentUserId.equals(status)){
+               // Call api to check user profile exist or not
+               // if exist then update data in shared preferences and user will stay on homeactivity
+                // if not then send user to create profile activity
+
+            }
+        }
+        return false;
     }
 
     public void sendUserToProfileActivity() {
@@ -253,7 +265,9 @@ public class HomeActivity extends AppCompatActivity {
                             final ProgressDialog pd = new ProgressDialog(HomeActivity.this);
                             pd.setTitle("Please wait...");
                             pd.show();
-                            sp.edit().clear();
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.clear();
+                            editor.commit();
                             mAuth.signOut();
                             pd.dismiss();
                             navivateUserToLoginActivity();

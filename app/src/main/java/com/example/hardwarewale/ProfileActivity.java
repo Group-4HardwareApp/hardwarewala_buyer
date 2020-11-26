@@ -27,6 +27,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.ActivityCreateProfileBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 import java.io.File;
@@ -84,6 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.e("VALIDATION", "" + awesomeValidation.validate());
 
                     if (awesomeValidation.validate()) {
+                        String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                         String address = binding.etAddress.getText().toString().trim();
                         String email = binding.etEmail.getText().toString().trim();
                         String name = binding.etName.getText().toString().trim();
@@ -103,9 +105,9 @@ public class ProfileActivity extends AppCompatActivity {
                             RequestBody useremail = RequestBody.create(okhttp3.MultipartBody.FORM, email);
                             RequestBody usermobile = RequestBody.create(okhttp3.MultipartBody.FORM, mobile);
                             RequestBody usertoken = RequestBody.create(okhttp3.MultipartBody.FORM, token);
-
+                            RequestBody userId = RequestBody.create(okhttp3.MultipartBody.FORM, id);
                             UserService.UserApi userApi = UserService.getUserApiInstance();
-                            Call<User> call = userApi.saveUser(body, username, usermobile, useraddress, useremail, usertoken);
+                            Call<User> call = userApi.saveUser(body, username, usermobile, useraddress, useremail, usertoken,userId);
                             call.enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {

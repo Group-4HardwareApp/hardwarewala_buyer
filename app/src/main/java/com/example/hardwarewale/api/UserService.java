@@ -40,7 +40,8 @@ public class UserService {
                                    @Part("address") RequestBody address,
                                    @Part("mobile") RequestBody mobile,
                                    @Part("email") RequestBody email,
-                                   @Part("token") RequestBody token);
+                                   @Part("token") RequestBody token,
+                                   @Part("userId") RequestBody userId);
 
         @Multipart
         @POST("/user/update")

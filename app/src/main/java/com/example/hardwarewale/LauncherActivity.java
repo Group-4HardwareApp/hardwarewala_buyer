@@ -29,9 +29,7 @@ public class LauncherActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(inflater);
         View v= binding.getRoot();
         setContentView(v);
-        int versionCode = BuildConfig.VERSION_CODE;
-        String versionName = BuildConfig.VERSION_NAME;
-        binding.tvVersion.setText("Version "+versionName  +" "+versionCode);
+        binding.tvVersion.setText("Version 1.0");
 /*
         PackageManager manager = this.getPackageManager();
         PackageInfo info = null;
