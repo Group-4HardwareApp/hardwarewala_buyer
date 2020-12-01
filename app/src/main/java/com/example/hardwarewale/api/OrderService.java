@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -38,5 +39,11 @@ public class OrderService {
 
         @GET("/order/user/{userId}")
         public Call<ArrayList<Order>> getOrderOfCurrentUser(@Path("userId") String userId);
+
+        @GET("/order/active/{userId}")
+        Call<ArrayList<Order>> getActiveOrders(@Path("userId") String userId);
+
+        @DELETE("/order/{orderId}")
+        Call<Order> cancelOrder(@Path("OrderId") String orderId);
     }
 }

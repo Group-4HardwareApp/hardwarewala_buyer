@@ -45,6 +45,7 @@
         <activity android:name=".FavoriteActivity"/>
 
         <activity android:name=".SettingActivity"/>
-
+        <activity android:name=".CartActivity"/>
+         <activity android:name=".ManageOrderActivity"/>
     </application>
 </manifest>

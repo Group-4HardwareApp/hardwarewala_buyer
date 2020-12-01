@@ -3,15 +3,12 @@ package com.example.hardwarewale;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -30,18 +27,7 @@ public class LauncherActivity extends AppCompatActivity {
         View v= binding.getRoot();
         setContentView(v);
         binding.tvVersion.setText("Version 1.0");
-/*
-        PackageManager manager = this.getPackageManager();
-        PackageInfo info = null;
-        try {
-            info = manager.getPackageInfo(
-                    this.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        String version = info.versionName;
-        //binding.tvVersion.setText("Version" + " "+version);
-*/
+
         if(!isConnectedToInternet(this)){
             AlertDialog.Builder builder= new AlertDialog.Builder(LauncherActivity.this);
             builder.setMessage("Please check the Internet connection").setCancelable(false);
