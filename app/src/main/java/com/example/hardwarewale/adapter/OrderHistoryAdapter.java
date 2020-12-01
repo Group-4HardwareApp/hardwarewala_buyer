@@ -1,4 +1,3 @@
-
 package com.example.hardwarewale.adapter;
 
 import android.content.Context;
@@ -11,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.OrderDetailsActivity;
-import com.example.hardwarewale.OrderHistoryActivity;
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.bean.OrderItems;
 import com.example.hardwarewale.databinding.ActivityOrderHistoryItemListBinding;
@@ -46,6 +45,11 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
           holder.binding.tvOrderAmount.setText(""+order.getTotalAmount());
           holder.binding.tvOrderDate.setText(""+order.getDate());
           holder.binding.tvOrderStatus.setText(""+ order.getShippingStatus());
+          String status = order.getShippingStatus();
+          if(status.equals("Cancelled"))
+              holder.binding.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.red));
+          else
+              holder.binding.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.dark_green));
 
           final ArrayList<OrderItems> items = (ArrayList<OrderItems>) order.getOrderItems();
           holder.binding.btnViewMore.setOnClickListener(new View.OnClickListener() {

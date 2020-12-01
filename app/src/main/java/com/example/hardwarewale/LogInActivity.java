@@ -60,7 +60,7 @@ public class LogInActivity extends AppCompatActivity {
                 } else {
                     startActivityForResult(AuthUI.getInstance()
                             .createSignInIntentBuilder()
-                            .setLogo(R.drawable.app_logo)
+                            .setLogo(R.drawable.app_logo_1)
                             .setTheme(R.style.LogInTheme)
                             .setAvailableProviders(providers)
                             .build(),AUTH_REQUEST_CODE);

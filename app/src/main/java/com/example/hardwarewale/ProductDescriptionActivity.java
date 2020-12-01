@@ -25,6 +25,7 @@ import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.bean.Favorite;
 import com.example.hardwarewale.bean.Product;
 import com.example.hardwarewale.databinding.ActivityProductDescriptionBinding;
+import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -42,6 +43,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     FirebaseUser currentUser;
     String userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand;
     Double price;
+    InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        finish();
         Intent in = getIntent();
         product = (Product) in.getSerializableExtra("product");
 
@@ -86,8 +88,9 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         binding.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isConnectedToInternet(ProductDescriptionActivity.this)) {
+                if (connectivity.isConnectedToInternet(ProductDescriptionActivity.this)) {
                     Cart cart = new Cart(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
+
                     CartService.CartApi api = CartService.getCartApiInstance();
                     Call<Cart> call = api.saveProductInCart(cart);
                     call.enqueue(new Callback<Cart>() {
@@ -104,6 +107,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
 
                         }
                     });
+                    
                 }
             }
         });
@@ -113,7 +117,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         binding.ivAddtoFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isConnectedToInternet(ProductDescriptionActivity.this)) {
+                if (connectivity.isConnectedToInternet(ProductDescriptionActivity.this)) {
                     Favorite f = new Favorite(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
                     final FavoriteService.FavoriteApi favoriteApi = FavoriteService.getFavoriteApiInstance();
                     Call<Favorite> call = favoriteApi.addFavorite(f);
@@ -157,43 +161,32 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         binding.tvDiscountedPrice.setText("₹ " + offerPrice);
     }
 
-    public boolean isConnectedToInternet(Context context) {
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
-        if (manager != null) {
-            NetworkInfo[] info = manager.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
-
     private void showSimilarProducts() {
-        ProductService.ProductApi api = ProductService.getProductApiInstance();
-        Call<ArrayList<Product>> call = api.searchProductByName(product.getName());
-        call.enqueue(new Callback<ArrayList<Product>>() {
-            @Override
-            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                if (response.code() == 200) {
-                    ArrayList<Product> productList = response.body();
-                    if(product.getName() == null)
-                       binding.tvNoSimilarProducts.setVisibility(View.VISIBLE);
-                    else {
-                        adapter = new RecentUpdateAdapter(ProductDescriptionActivity.this, productList);
-                        binding.rvSimilarProducts.setAdapter(adapter);
-                        binding.rvSimilarProducts.setLayoutManager(new LinearLayoutManager(ProductDescriptionActivity.this, RecyclerView.HORIZONTAL, false));
+        if (connectivity.isConnectedToInternet(this)) {
+            ProductService.ProductApi api = ProductService.getProductApiInstance();
+            Call<ArrayList<Product>> call = api.searchProductByName(product.getName());
+            call.enqueue(new Callback<ArrayList<Product>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                    if (response.code() == 200) {
+                        ArrayList<Product> productList = response.body();
+                        if (product.getName() == null)
+                            binding.tvNoSimilarProducts.setVisibility(View.VISIBLE);
+                        else {
+                            adapter = new RecentUpdateAdapter(ProductDescriptionActivity.this, productList);
+                            // binding.rvSimilarProducts.setVisibility(View.VISIBLE);
+                            binding.rvSimilarProducts.setAdapter(adapter);
+                            binding.rvSimilarProducts.setLayoutManager(new LinearLayoutManager(ProductDescriptionActivity.this, RecyclerView.HORIZONTAL, false));
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-                Toast.makeText(ProductDescriptionActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                Log.e("Error : ", "==> " + t);
-            }
-        });
+                @Override
+                public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+                    Toast.makeText(ProductDescriptionActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Log.e("Error : ", "==> " + t);
+                }
+            });
+        }
     }
 }

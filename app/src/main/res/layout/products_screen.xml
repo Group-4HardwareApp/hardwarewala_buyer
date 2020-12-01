@@ -10,7 +10,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:background="@color/yellow"
                 android:id="@+id/toolbar"
-                android:layout_height="match_parent"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_width="match_parent">
 
                 <LinearLayout
@@ -45,7 +45,6 @@
             android:background="@drawable/search_decorator"
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/search_icon"
-            android:focusable="false"
             android:hint="Search Product"
             android:id="@+id/etSearch"
             android:layout_below="@+id/toolbar"
@@ -75,5 +74,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_width="match_parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_below="@id/rvProduct"
+            android:id="@+id/rvSearch"
+            android:visibility="gone"
+            />
     </RelativeLayout>
 </ScrollView>

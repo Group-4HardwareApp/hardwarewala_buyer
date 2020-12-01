@@ -11,9 +11,12 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public class UserService {
     public static UserApi userApi;
@@ -51,8 +54,12 @@ public class UserService {
                               @Part("email") RequestBody email,
                               @Part("address") RequestBody address,
                               @Part("token") RequestBody token);
-        @POST("/user//update/withoutImage")
+        @POST("/user/update/withoutImage")
         Call<User> updateUserWithoutImage(User user);
+
+        @GET("/user/{currentUserId}")
+        Call<User> getUserDetails(@Path("currentUserId")String currentUserId);
+
     }
 
 }

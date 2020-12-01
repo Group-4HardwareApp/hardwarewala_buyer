@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,9 +27,12 @@ import com.example.hardwarewale.adapter.DiscountAdapter;
 import com.example.hardwarewale.adapter.RecentUpdateAdapter;
 import com.example.hardwarewale.api.CategoryService;
 import com.example.hardwarewale.api.ProductService;
+import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.Category;
 import com.example.hardwarewale.bean.Product;
+import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.HomeScreenBinding;
+import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,18 +55,28 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     SharedPreferences sp = null;
     FirebaseUser currentUser;
+    InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         homeBinding = HomeScreenBinding.inflate(LayoutInflater.from(HomeActivity.this));
         setContentView(homeBinding.getRoot());
-
+        setSupportActionBar(homeBinding.toolbar);
         mAuth = FirebaseAuth.getInstance();
         setSupportActionBar(homeBinding.toolbar);
 
         sp = getSharedPreferences("user", MODE_PRIVATE);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        homeBinding.ivCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(HomeActivity.this, CartActivity.class);
+                startActivity(in);
+            }
+        });
+
 
         getNavigationDrawer();
         showDiscountedProducts();
@@ -80,16 +94,40 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private boolean checkUserProfile() {
-        String status = sp.getString("userId", "");
-        boolean flag =  status.equals("");
-        if(flag)
+        final String status = sp.getString("userId", "");
+        final boolean flag = status.equals("");
+        Log.e("Status : ", "==>" + status);
+        if (flag)
             sendUserToProfileActivity();
-        else{
-            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            if(!currentUserId.equals(status)){
-               // Call api to check user profile exist or not
-               // if exist then update data in shared preferences and user will stay on homeactivity
-                // if not then send user to create profile activity
+        else {
+            final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            Log.e("CurretnUserId : ", "==>" + currentUserId);
+            if (!currentUserId.equals(status)) {
+                if (connectivity.isConnectedToInternet(this)) {
+                    UserService.UserApi api = UserService.getUserApiInstance();
+                    Call<User> call = api.getUserDetails(currentUserId);
+                    call.enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if (response.code() == 200) {
+                                User user = response.body();
+                                if (user.getUserId().equals(status)) {
+
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Toast.makeText(HomeActivity.this, "" + t, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    // Call api to check user profile exist or not
+                    // if exist then update data in shared preferences and user will stay on homeactivity
+                    // if not then send user to create profile activity
+
+                }
+            } else {
 
             }
         }
@@ -108,7 +146,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showCategories() {
-        if (isConnectedToInternet(this)) {
+        if (connectivity.isConnectedToInternet(this)) {
             Toast.makeText(this, "Internet Connected", Toast.LENGTH_SHORT).show();
             CategoryService.CategoryApi categoryApi = CategoryService.getCategoryApiInstance();
             Call<ArrayList<Category>> call = categoryApi.getCategoryList();
@@ -164,7 +202,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showRecentUpdates() {
-        if (isConnectedToInternet(this)) {
+        if (connectivity.isConnectedToInternet(this)) {
             ProductService.ProductApi recentUpdateAPI = ProductService.getProductApiInstance();
             Call<ArrayList<Product>> call2 = recentUpdateAPI.getRecentProducts();
             call2.enqueue(new Callback<ArrayList<Product>>() {
@@ -188,20 +226,19 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showDiscountedProducts() {
-        if (isConnectedToInternet(this)) {
+        if (connectivity.isConnectedToInternet(this)) {
             final ProductService.ProductApi discountApi = ProductService.getProductApiInstance();
             Call<ArrayList<Product>> call1 = discountApi.getProductByDiscount();
             call1.enqueue(new Callback<ArrayList<Product>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                     ArrayList<Product> discountedProductList = response.body();
-                     // for (Product p : discountedProductList)
-                       // Log.e("Product", "===>" + p.getName());
+                    // for (Product p : discountedProductList)
+                    // Log.e("Product", "===>" + p.getName());
                     discountAdapter = new DiscountAdapter(HomeActivity.this, discountedProductList);
                     homeBinding.HomeDiscount.setAdapter(discountAdapter);
                     homeBinding.HomeDiscount.setLayoutManager(new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                     /*
-                    discountAdapter.onItemClickListener(new DiscountAdapter.onRecyeclerViewClick() {
+                     /*discountAdapter.onItemClickListener(new DiscountAdapter.onRecyeclerViewClick() {
                         @Override
                         public void onItemClick(Product product, int position) {
                             Intent in = new Intent(HomeActivity.this, ProductDescriptionActivity.class);
@@ -231,27 +268,29 @@ public class HomeActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 if (id == R.id.menuHome) {
                     Toast.makeText(HomeActivity.this, "Home clicked", Toast.LENGTH_SHORT).show();
-                }
-                else if (id == R.id.menuCart) {
+                    Intent in = new Intent(HomeActivity.this, HomeActivity.class);
+                } else if (id == R.id.menuCart) {
                     Toast.makeText(HomeActivity.this, "Cart clicked", Toast.LENGTH_SHORT).show();
-                }
-                else if (id == R.id.menuSetting) {
-                    Toast.makeText(HomeActivity.this, "Setting clicked", Toast.LENGTH_SHORT).show();
-                    Intent in = new Intent(HomeActivity.this, SettingActivity.class );
+                    Intent in = new Intent(HomeActivity.this, CartActivity.class);
                     startActivity(in);
-                }
-                else if (id == R.id.menuFavorites) {
+                } else if (id == R.id.menuSetting) {
+                    Toast.makeText(HomeActivity.this, "Setting clicked", Toast.LENGTH_SHORT).show();
+                    Intent in = new Intent(HomeActivity.this, SettingActivity.class);
+                    startActivity(in);
+                } else if (id == R.id.menuFavorites) {
                     Toast.makeText(HomeActivity.this, "Favorites clicked", Toast.LENGTH_SHORT).show();
-                }
-                else if (id == R.id.menuShopByCategoty) {
+                    Intent in = new Intent(HomeActivity.this, FavoriteActivity.class);
+                    startActivity(in);
+                } else if (id == R.id.menuShopByCategoty) {
                     //Toast.makeText(HomeActivity.this, "Shop by category clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, CategoryActivity.class);
-                    startActivity(in);;
-                }
-                else if (id == R.id.menuManageOrders) {
+                    startActivity(in);
+                    ;
+                } else if (id == R.id.menuManageOrders) {
                     Toast.makeText(HomeActivity.this, "Manage Order clicked", Toast.LENGTH_SHORT).show();
-                }
-                else if (id == R.id.menuOrderHistory) {
+                    Intent in = new Intent(HomeActivity.this, ManageOrderActivity.class);
+                    startActivity(in);
+                } else if (id == R.id.menuOrderHistory) {
                     Toast.makeText(HomeActivity.this, "Order History clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, OrderHistoryActivity.class);
                     startActivity(in);
@@ -280,11 +319,9 @@ public class HomeActivity extends AppCompatActivity {
                         }
                     });
                     ab.show();
-                }
-                else if (id == R.id.menuContactus) {
+                } else if (id == R.id.menuContactus) {
                     Toast.makeText(HomeActivity.this, "Contactus clicked", Toast.LENGTH_SHORT).show();
-                }
-                else if (id == R.id.menuCustomerSupport) {
+                } else if (id == R.id.menuCustomerSupport) {
                     Toast.makeText(HomeActivity.this, "Customer support clicked", Toast.LENGTH_SHORT).show();
                 }
                 return false;
@@ -297,19 +334,5 @@ public class HomeActivity extends AppCompatActivity {
         in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
         finish();
-    }
-
-    public boolean isConnectedToInternet(Context context) {
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
-        if (manager != null) {
-            NetworkInfo[] info = manager.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                        return true;
-                }
-            }
-        }
-        return false;
     }
 }

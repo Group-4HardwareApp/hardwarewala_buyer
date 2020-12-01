@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.bean.OrderItems;
 import com.example.hardwarewale.databinding.OrderDetailItemListBinding;
 import com.squareup.picasso.Picasso;
@@ -32,8 +33,11 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     public void onBindViewHolder(@NonNull OrderDetailViewHolder holder, int position) {
          OrderItems item = itemList.get(position);
          holder.binding.tvProductName.setText("" + item.getProductName());
+         holder.binding.tvProductName.setTextColor(context.getResources().getColor(R.color.black));
          holder.binding.tvProductPrice.setText("₹ " + item.getPrice());
-         holder.binding.tvProductQty.setText("" + item.getQuantity());
+         holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.black));
+         holder.binding.tvProductQty.setText("Qty : " + item.getQuantity());
+         holder.binding.tvProductQty.setTextColor(context.getResources().getColor(R.color.black));
          Picasso.get().load(item.getImageUrl()).into(holder.binding.ivProductImage);
     }
 

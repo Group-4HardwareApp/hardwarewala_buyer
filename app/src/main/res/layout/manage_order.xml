@@ -12,7 +12,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="match_parent"
             android:background="@color/yellow">
 
             <LinearLayout
@@ -48,12 +48,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingLeft="22dp"
-            android:text="Order History"
+            android:text="Manage orders"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvOrderHistory"
+            android:id="@+id/rvManageOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp" />

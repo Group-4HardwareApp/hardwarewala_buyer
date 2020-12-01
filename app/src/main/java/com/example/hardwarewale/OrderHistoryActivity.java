@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.bean.OrderItems;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.OrderHistoryScreenBinding;
+import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -32,11 +34,10 @@ import retrofit2.Response;
 
 public class OrderHistoryActivity extends AppCompatActivity {
     OrderHistoryScreenBinding binding;
-    Order order;
     OrderHistoryAdapter adapter;
     FirebaseUser currentUser;
     String userId;
-    User user;
+    InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,9 +52,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
     }
 
     private void showOrders() {
-        if (isConnectedToInternet(this)) {
+        if (connectivity.isConnectedToInternet(this)) {
             OrderService.OrderApi orderApi = OrderService.getOrderApiInstance();
-            Call<ArrayList<Order>> call = orderApi.getOrderOfCurrentUser(userId);
+            Call<ArrayList<Order>> call = orderApi.getOrders(userId);
             call.enqueue(new Callback<ArrayList<Order>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
@@ -64,27 +65,11 @@ public class OrderHistoryActivity extends AppCompatActivity {
                         binding.rvOrderHistory.setLayoutManager(new LinearLayoutManager(OrderHistoryActivity.this));
                     }
                 }
-
-                @Override
                 public void onFailure(Call<ArrayList<Order>> call, Throwable t) {
-
-
+                    Log.e("Error : ", "==> "+t);
+                    Toast.makeText(OrderHistoryActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
             });
         }
-    }
-
-    public boolean isConnectedToInternet(Context context) {
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
-        if (manager != null) {
-            NetworkInfo[] info = manager.getAllNetworkInfo();
-            if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
-                        return true;
-                }
-            }
-        }
-        return false;
     }
 }

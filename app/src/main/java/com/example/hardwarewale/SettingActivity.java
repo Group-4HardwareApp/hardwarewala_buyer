@@ -61,8 +61,9 @@ public class SettingActivity extends AppCompatActivity {
         binding = ActivityCreateProfileBinding.inflate(inflater);
         View v = binding.getRoot();
         setContentView(v);
-
-        Gson gson = new Gson();
+        prefrenceCall();
+        awesomeValidation = new AwesomeValidation(BASIC);
+/*      Gson gson = new Gson();
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         String json = sp.getString(currentUserId, "");
         final User user = gson.fromJson(json, User.class);
@@ -72,13 +73,13 @@ public class SettingActivity extends AppCompatActivity {
         binding.etMobile.setText(user.getMobile());
         Picasso.get().load(user.getImageUrl()).into(binding.civImage);
         binding.btnSave.setText("Update");
+
         binding.etbtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ActivityCompat.checkSelfPermission(SettingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(SettingActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 11);
-                }
-                else {
+                } else {
                     Intent in = new Intent();
                     in.setAction(Intent.ACTION_GET_CONTENT);
                     in.setType("image/*");
@@ -86,6 +87,7 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
+
 
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,8 +178,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
     }
-       //prefrenceCall();
-        //awesomeValidation = new AwesomeValidation(BASIC);
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -187,8 +187,8 @@ public class SettingActivity extends AppCompatActivity {
             Picasso.get().load(imageUri).into(binding.civImage);
             Toast.makeText(this, ""+imageUri, Toast.LENGTH_SHORT).show();
         }
-    }
-        /*binding.etbtnEdit.setOnClickListener(new View.OnClickListener() {
+    }*/
+        binding.etbtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ActivityCompat.checkSelfPermission(SettingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
@@ -315,8 +315,6 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     private void prefrenceCall() {
@@ -325,8 +323,6 @@ public class SettingActivity extends AppCompatActivity {
         binding.etMobile.setText(sp.getString("mobile", "mobile here"));
         binding.etEmail.setText(sp.getString("email", "email here"));
         binding.etAddress.setText(sp.getString("address", "address here"));
-
-
     }
 
     public boolean isConnected() {
@@ -340,5 +336,5 @@ public class SettingActivity extends AppCompatActivity {
             Log.e("Connectivity Exception", e.getMessage());
         }
         return connected;
-    }*/
+    }
 }

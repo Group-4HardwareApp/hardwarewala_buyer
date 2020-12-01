@@ -345,7 +345,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="No relevent products"
-            android:visibility="visible"
+            android:visibility="gone"
             android:ellipsize="start"
             android:gravity="center"
             android:typeface="serif"
@@ -355,6 +355,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+
             android:id="@+id/rvSimilarProducts"/>
 
     </LinearLayout>
