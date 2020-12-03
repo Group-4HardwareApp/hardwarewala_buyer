@@ -47,5 +47,6 @@
         <activity android:name=".SettingActivity"/>
         <activity android:name=".CartActivity"/>
          <activity android:name=".ManageOrderActivity"/>
+        <activity android:name=".BuyActivity"/>
     </application>
 </manifest>

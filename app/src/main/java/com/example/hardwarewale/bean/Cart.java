@@ -4,7 +4,9 @@ package com.example.hardwarewale.bean;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Cart {
+import java.io.Serializable;
+
+public class Cart implements Serializable {
 
     @SerializedName("cartId")
     @Expose
@@ -37,7 +39,18 @@ public class Cart {
     @Expose
     private Object shopKeeperId;
 
+    @SerializedName("qtyInStock")
+    @Expose
+    private Double qtyInStock;
     public Cart() {
+    }
+
+    public Double getQtyInStock() {
+        return qtyInStock;
+    }
+
+    public void setQtyInStock(Double qtyInStock) {
+        this.qtyInStock = qtyInStock;
     }
 
     public Cart(String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl, String description, Object shopKeeperId) {

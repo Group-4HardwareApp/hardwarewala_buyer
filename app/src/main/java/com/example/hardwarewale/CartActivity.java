@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -34,7 +35,7 @@ public class CartActivity extends AppCompatActivity {
     CartAdapter adapter;
     String currentUserId;
     InternetConnectivity connectivity = new InternetConnectivity();
-
+    ArrayList<Cart> al;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,16 @@ public class CartActivity extends AppCompatActivity {
         Intent in = getIntent();
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         showCartProduct();
+        binding.btnbuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(al!=null ){
+                   Intent in = new Intent(CartActivity.this,BuyActivity.class);
+                   in.putExtra("cartlist",al);
+                   startActivity(in);
+                }
+            }
+        });
     }
 
     private void showCartProduct() {
@@ -53,10 +64,12 @@ public class CartActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
                     if (response.code() == 200) {
+                        al = new ArrayList<Cart>();
                         ArrayList<Cart> cartList = response.body();
                         adapter = new CartAdapter(CartActivity.this, cartList);
                         binding.rvCartScreen.setAdapter(adapter);
                         binding.rvCartScreen.setLayoutManager(new LinearLayoutManager(CartActivity.this));
+                        al = cartList;
                     }
                 }
 

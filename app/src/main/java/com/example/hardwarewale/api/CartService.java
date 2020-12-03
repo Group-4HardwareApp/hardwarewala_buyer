@@ -1,5 +1,6 @@
 package com.example.hardwarewale.api;
 
+import com.example.hardwarewale.bean.BuyCart;
 import com.example.hardwarewale.bean.Cart;
 
 import java.util.ArrayList;
@@ -45,5 +46,7 @@ public class CartService {
         @DELETE("/cart/{cartId}")
         public Call<Cart>removeProductFormCart( @Path("cartId") String CartId);
 
+        @POST("/cart/buycart")
+        public Call<BuyCart> getCartProductWithQty(@Body BuyCart buyCart);
     }
 }
