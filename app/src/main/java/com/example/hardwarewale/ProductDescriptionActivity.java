@@ -40,8 +40,9 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     ActivityProductDescriptionBinding binding;
     RecentUpdateAdapter adapter;
     Product product;
+    Favorite favorite;
     FirebaseUser currentUser;
-    String userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand;
+    String userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand, productName;
     Double price;
     InternetConnectivity connectivity = new InternetConnectivity();
 
@@ -52,9 +53,10 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        finish();
+
         Intent in = getIntent();
         product = (Product) in.getSerializableExtra("product");
+        favorite = (Favorite) in.getSerializableExtra("favorite");
 
         productData();
         setProductDetails();
@@ -90,25 +92,28 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (connectivity.isConnectedToInternet(ProductDescriptionActivity.this)) {
                     Cart cart = new Cart(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
-
-                    CartService.CartApi api = CartService.getCartApiInstance();
-                    Call<Cart> call = api.saveProductInCart(cart);
-                    call.enqueue(new Callback<Cart>() {
-                        @Override
-                        public void onResponse(Call<Cart> call, Response<Cart> response) {
-                            if (response.code() == 200) {
-                                Cart c = response.body();
-                                Toast.makeText(ProductDescriptionActivity.this, "Product added", Toast.LENGTH_SHORT).show();
+                    //if (!cart.getProductId().equals(productId)) {
+                        CartService.CartApi api = CartService.getCartApiInstance();
+                        Call<Cart> call = api.saveProductInCart(cart);
+                        call.enqueue(new Callback<Cart>() {
+                            @Override
+                            public void onResponse(Call<Cart> call, Response<Cart> response) {
+                                if (response.code() == 200) {
+                                    Cart c = response.body();
+                                    Toast.makeText(ProductDescriptionActivity.this, "Product added", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<Cart> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<Cart> call, Throwable t) {
 
-                        }
-                    });
-                    
+                            }
+                        });
+                    //} else
+                      //  Toast.makeText(ProductDescriptionActivity.this, "Already added", Toast.LENGTH_SHORT).show();
                 }
+                else
+                    Toast.makeText(ProductDescriptionActivity.this, "Internet not connected", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -119,26 +124,32 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (connectivity.isConnectedToInternet(ProductDescriptionActivity.this)) {
                     Favorite f = new Favorite(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
-                    final FavoriteService.FavoriteApi favoriteApi = FavoriteService.getFavoriteApiInstance();
-                    Call<Favorite> call = favoriteApi.addFavorite(f);
-                    call.enqueue(new Callback<Favorite>() {
-                        @Override
-                        public void onResponse(Call<Favorite> call, Response<Favorite> response) {
-                            if (response.code() == 200) {
-                                Favorite fav = response.body();
-                                binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_border_icon));
-                                binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
-                                Toast.makeText(ProductDescriptionActivity.this, "Product added successfully", Toast.LENGTH_SHORT).show();
+                   // if (!favorite.getProductId().equals(productId)) {
+                        final FavoriteService.FavoriteApi favoriteApi = FavoriteService.getFavoriteApiInstance();
+                        Call<Favorite> call = favoriteApi.addFavorite(f);
+                        call.enqueue(new Callback<Favorite>() {
+                            @Override
+                            public void onResponse(Call<Favorite> call, Response<Favorite> response) {
+                                if (response.code() == 200) {
+                                    Favorite fav = response.body();
+                                    binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_border_icon));
+                                    binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
+                                    Toast.makeText(ProductDescriptionActivity.this, "Product added successfully", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<Favorite> call, Throwable t) {
-                            Toast.makeText(ProductDescriptionActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-                            Log.e("Error ", "===>" + t);
-                        }
-                    });
-                }
+                            @Override
+                            public void onFailure(Call<Favorite> call, Throwable t) {
+                                Toast.makeText(ProductDescriptionActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                Log.e("Error ", "===>" + t);
+                            }
+                        });
+                    //} else {
+                      //  Toast.makeText(ProductDescriptionActivity.this, "Already added", Toast.LENGTH_SHORT).show();
+                        //binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
+                    //}
+                } else
+                    Toast.makeText(ProductDescriptionActivity.this, "Internet not available ", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -154,7 +165,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         binding.tvProductDescription.setText("" + product.getDescription());
         binding.tvQuantity.setText("" + product.getQtyInStock());
         Picasso.get().load(product.getImageUrl()).placeholder(R.mipmap.app_logo).into(binding.ivProductImage);
-        // binding.tvProductDescription.setTextColor(this.getResources().getColor(R.color.black));
         double price = product.getPrice();
         double dis = price * (discount / 100);
         double offerPrice = price - dis;
@@ -163,8 +173,9 @@ public class ProductDescriptionActivity extends AppCompatActivity {
 
     private void showSimilarProducts() {
         if (connectivity.isConnectedToInternet(this)) {
+            productName = product.getName();
             ProductService.ProductApi api = ProductService.getProductApiInstance();
-            Call<ArrayList<Product>> call = api.searchProductByName(product.getName());
+            Call<ArrayList<Product>> call = api.searchProductByName(productName);
             call.enqueue(new Callback<ArrayList<Product>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {

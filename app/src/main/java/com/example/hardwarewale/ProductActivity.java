@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,75 +48,55 @@ public class ProductActivity extends AppCompatActivity {
 
         Intent in = getIntent();
         category = (Category) in.getSerializableExtra("category");
-        showProducts();
-        searchProduct();
-       /*  binding.etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+        //searchProduct();
+        if(TextUtils.isEmpty(binding.etSearch.getText())){
+            showProducts();
+        }
+        else{
+            binding.etSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                product = s.toString();
-                searchProduct();
-            }
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    product = s.toString();
+                    searchProduct();
+                }
 
-            }
-        });*/
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        }
     }
 
     private void searchProduct() {
-         if(connectivity.isConnectedToInternet(this)){
-             ProductService.ProductApi api = ProductService.getProductApiInstance();
-             Call<ArrayList<Product>> call = api.searchProductByName(product);
-             call.enqueue(new Callback<ArrayList<Product>>() {
-                 @Override
-                 public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                     if(response.code() == 200){
-                         ArrayList<Product> productList = response.body();
-                         adapter = new ProductAdapter(ProductActivity.this, productList);
-                         binding.rvProduct.setVisibility(View.VISIBLE);
-                         binding.rvProduct.setAdapter(adapter);
-                         binding.rvProduct.setLayoutManager(new GridLayoutManager(ProductActivity.this,2));
-                     }
-                 }
-
-                 @Override
-                 public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-
-                 }
-             });
-         }
-    }
-
-    private void showProducts() {
-        if(connectivity.isConnectedToInternet(this)){
-            ProductService.ProductApi productApi = ProductService.getProductApiInstance();
-            Call<ArrayList<Product>> call = productApi.viewProductByCategory(category.getCategoryId());
+        if (connectivity.isConnectedToInternet(ProductActivity.this)) {
+            ProductService.ProductApi api = ProductService.getProductApiInstance();
+            Call<ArrayList<Product>> call = api.searchProductByName(product);
             call.enqueue(new Callback<ArrayList<Product>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                    ArrayList<Product> productList = response.body();
-                    //Log.e("Response ","==>"+response.code());
-                    for (Product p : productList)
-                        Log.e("Product ","===> " +p);
-                    adapter = new ProductAdapter(ProductActivity.this,productList);
-                    binding.rvProduct.setVisibility(View.VISIBLE);
-                    binding.rvProduct.setAdapter(adapter);
-                    binding.rvProduct.setLayoutManager(new GridLayoutManager(ProductActivity.this,2));
+                    if (response.code() == 200) {
+                        ArrayList<Product> productList = response.body();
+                        adapter = new ProductAdapter(ProductActivity.this, productList);
+                        binding.rvProduct.setVisibility(View.VISIBLE);
+                        binding.rvProduct.setAdapter(adapter);
+                        binding.rvProduct.setLayoutManager(new GridLayoutManager(ProductActivity.this, 2));
 
-                    adapter.setOnItemClicklistner(new ProductAdapter.OnRecyclerViewClick() {
-                        @Override
-                        public void onItemClick(Product product, int position) {
-                            Intent in = new Intent(ProductActivity.this, ProductDescriptionActivity.class);
-                            in.putExtra("product",product);
-                            startActivity(in);
-                        }
-                    });
+                        adapter.setOnItemClicklistner(new ProductAdapter.OnRecyclerViewClick() {
+                            @Override
+                            public void onItemClick(Product product, int position) {
+                                Intent in = new Intent(ProductActivity.this, ProductDescriptionActivity.class);
+                                in.putExtra("product", product);
+                                startActivity(in);
+                            }
+                        });
+                    }
                 }
 
                 @Override
@@ -124,7 +105,40 @@ public class ProductActivity extends AppCompatActivity {
                 }
             });
         }
-        else
+    }
+
+    private void showProducts() {
+        if (connectivity.isConnectedToInternet(this)) {
+            ProductService.ProductApi productApi = ProductService.getProductApiInstance();
+            Call<ArrayList<Product>> call = productApi.viewProductByCategory(category.getCategoryId());
+            call.enqueue(new Callback<ArrayList<Product>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                    if (response.code() == 200) {
+                        ArrayList<Product> productList = response.body();
+                        for (Product p : productList)
+                            Log.e("Product ", "===> " + p);
+                        adapter = new ProductAdapter(ProductActivity.this, productList);
+                        binding.rvProduct.setAdapter(adapter);
+                        binding.rvProduct.setLayoutManager(new GridLayoutManager(ProductActivity.this, 2));
+
+                        adapter.setOnItemClicklistner(new ProductAdapter.OnRecyclerViewClick() {
+                            @Override
+                            public void onItemClick(Product product, int position) {
+                                Intent in = new Intent(ProductActivity.this, ProductDescriptionActivity.class);
+                                in.putExtra("product", product);
+                                startActivity(in);
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+
+                }
+            });
+        } else
             Toast.makeText(this, "Please check your connection", Toast.LENGTH_SHORT).show();
     }
 }

@@ -232,20 +232,21 @@ public class HomeActivity extends AppCompatActivity {
             call1.enqueue(new Callback<ArrayList<Product>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                    ArrayList<Product> discountedProductList = response.body();
-                    // for (Product p : discountedProductList)
-                    // Log.e("Product", "===>" + p.getName());
-                    discountAdapter = new DiscountAdapter(HomeActivity.this, discountedProductList);
-                    homeBinding.HomeDiscount.setAdapter(discountAdapter);
-                    homeBinding.HomeDiscount.setLayoutManager(new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                     /*discountAdapter.onItemClickListener(new DiscountAdapter.onRecyeclerViewClick() {
-                        @Override
-                        public void onItemClick(Product product, int position) {
-                            Intent in = new Intent(HomeActivity.this, ProductDescriptionActivity.class);
-                            in.putExtra("product",product);
-                            startActivity(in);
-                        }
-                    });*/
+                    if (response.code() == 200) {
+                        ArrayList<Product> discountedProductList = response.body();
+                        discountAdapter = new DiscountAdapter(HomeActivity.this, discountedProductList);
+                        homeBinding.HomeDiscount.setAdapter(discountAdapter);
+                        homeBinding.HomeDiscount.setLayoutManager(new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false));
+
+                        discountAdapter.onItemClickListener(new DiscountAdapter.onRecyeclerViewClick() {
+                            @Override
+                            public void onItemClick(Product p, int position) {
+                                Intent in = new Intent(HomeActivity.this, ProductDescriptionActivity.class);
+                                in.putExtra("product", p);
+                                startActivity(in);
+                            }
+                        });
+                    }
                 }
 
                 @Override
@@ -282,7 +283,6 @@ public class HomeActivity extends AppCompatActivity {
                     Intent in = new Intent(HomeActivity.this, FavoriteActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuShopByCategoty) {
-                    //Toast.makeText(HomeActivity.this, "Shop by category clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, CategoryActivity.class);
                     startActivity(in);
                     ;
@@ -294,8 +294,7 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(HomeActivity.this, "Order History clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, OrderHistoryActivity.class);
                     startActivity(in);
-                }
-                else if (id == R.id.menuLogout) {
+                } else if (id == R.id.menuLogout) {
                     AlertDialog.Builder ab = new AlertDialog.Builder(HomeActivity.this);
                     ab.setMessage("Do you want to logout ?");
                     ab.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
