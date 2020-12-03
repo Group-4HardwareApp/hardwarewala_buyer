@@ -54,6 +54,15 @@ public class FavoriteActivity extends AppCompatActivity {
                         adapter = new FavoriteAdapter(FavoriteActivity.this, favoriteList);
                         binding.rvFavoriteScreen.setAdapter(adapter);
                         binding.rvFavoriteScreen.setLayoutManager(new LinearLayoutManager(FavoriteActivity.this));
+
+                        adapter.setOnItemClicklistner(new FavoriteAdapter.OnRecyclerViewClick() {
+                            @Override
+                            public void onItemClick(Favorite favorite, int position) {
+                                Intent in = new Intent(FavoriteActivity.this, ProductDescriptionActivity.class);
+                                in.putExtra("favorite",favorite);
+                                startActivity(in);
+                            }
+                        });
                     }
                 }
 
