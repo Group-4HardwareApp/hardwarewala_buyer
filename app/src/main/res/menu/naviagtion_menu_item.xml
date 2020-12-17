@@ -24,6 +24,9 @@
         android:id="@+id/menuOrderHistory"
         android:title="Order History"
         android:icon="@drawable/history_icon"/>
+    <item android:id="@+id/menuProfile"
+        android:title="View profile"
+        android:icon="@drawable/person_icon"/>
     <item
         android:id="@+id/menuSetting"
         android:icon="@drawable/settings_icon"

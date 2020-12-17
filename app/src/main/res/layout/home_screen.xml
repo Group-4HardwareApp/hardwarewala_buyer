@@ -43,44 +43,49 @@
                             android:gravity="center_vertical"
                             android:text="HardwareWale"
                             android:textColor="@color/black"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etSearch"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.7"
+                            android:visibility="gone"
+                            android:textSize="12sp"
+                            android:paddingLeft="10dp"
+                            android:layout_margin="10dp"
+                            android:background="@drawable/search_decorator"
+                            android:hint="Search Product"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black" />
+
+                        <ImageView
+                            android:id="@+id/ivSearch"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:padding="2dp"
+                            android:src="@drawable/search_icon" />
 
                         <ImageView
                             android:id="@+id/ivCart"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.3"
-                            android:padding="15dp"
+                            android:padding="2dp"
+                            android:layout_weight="0.1"
                             android:src="@drawable/cart_icon" />
+
                     </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>
-
             </com.google.android.material.appbar.AppBarLayout>
-
-            <EditText
-                android:id="@+id/etSearch"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_below="@+id/appBarLayout"
-                android:layout_margin="15dp"
-                android:background="@drawable/search_decorator"
-                android:drawableRight="@drawable/search_icon"
-                android:drawablePadding="10dp"
-                android:focusable="false"
-                android:hint="Search Product"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tvDiscounts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/etSearch"
-                android:layout_margin="5dp"
+                android:layout_below="@+id/appBarLayout"
+                android:layout_marginTop="15dp"
                 android:paddingLeft="15dp"
                 android:text="Discounted Products"
                 android:textColor="@color/black"
@@ -147,6 +152,15 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvCategory1"
                 />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSearch"
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rvHomeCategory1"
+                />
         </RelativeLayout>
     </ScrollView>
 
@@ -160,13 +174,4 @@
         app:headerLayout="@layout/naviagtion_header"
         app:menu="@menu/naviagtion_menu_item"
         />
-
-        <!--ExpandableListView
-            android:id="@+id/expandableList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gavity="start"
-            android:choiceMode="multipleChoice"
-            android:dividerHeight="0dp" />
-    </com.google.android.material.navigation.NavigationView-->
 </androidx.drawerlayout.widget.DrawerLayout>

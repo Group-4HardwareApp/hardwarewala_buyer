@@ -40,6 +40,49 @@ public class Product implements Serializable {
     @SerializedName("timestamp")
     @Expose
     private Long timestamp;
+    @SerializedName("qty")
+    @Expose
+    private Integer qty;
+    @SerializedName("totalAmt")
+    @Expose
+    private Double totalAmt;
+
+    public Product(){
+
+    }
+
+    public Product(String productId, String categoryId, String shopKeeperId, String name, Double price, Double discount,
+                   String brand, Double totalAmt,Integer qtyInStock, String imageUrl, String description, Long timestamp, Integer qty) {
+        this.productId = productId;
+        this.categoryId = categoryId;
+        this.shopKeeperId = shopKeeperId;
+        this.totalAmt = totalAmt;
+        this.name = name;
+        this.price = price;
+        this.discount = discount;
+        this.brand = brand;
+        this.qtyInStock = qtyInStock;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.timestamp = timestamp;
+        this.qty = qty;
+    }
+
+    public Double getTotalAmt() {
+        return totalAmt;
+    }
+
+    public void setTotalAmt(Double totalAmt) {
+        this.totalAmt = totalAmt;
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
 
     public String getProductId() {
         return productId;

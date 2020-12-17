@@ -49,62 +49,7 @@ public class ProductActivity extends AppCompatActivity {
         Intent in = getIntent();
         category = (Category) in.getSerializableExtra("category");
 
-        //searchProduct();
-        if(TextUtils.isEmpty(binding.etSearch.getText())){
-            showProducts();
-        }
-        else{
-            binding.etSearch.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    product = s.toString();
-                    searchProduct();
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-        }
-    }
-
-    private void searchProduct() {
-        if (connectivity.isConnectedToInternet(ProductActivity.this)) {
-            ProductService.ProductApi api = ProductService.getProductApiInstance();
-            Call<ArrayList<Product>> call = api.searchProductByName(product);
-            call.enqueue(new Callback<ArrayList<Product>>() {
-                @Override
-                public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
-                    if (response.code() == 200) {
-                        ArrayList<Product> productList = response.body();
-                        adapter = new ProductAdapter(ProductActivity.this, productList);
-                        binding.rvProduct.setVisibility(View.VISIBLE);
-                        binding.rvProduct.setAdapter(adapter);
-                        binding.rvProduct.setLayoutManager(new GridLayoutManager(ProductActivity.this, 2));
-
-                        adapter.setOnItemClicklistner(new ProductAdapter.OnRecyclerViewClick() {
-                            @Override
-                            public void onItemClick(Product product, int position) {
-                                Intent in = new Intent(ProductActivity.this, ProductDescriptionActivity.class);
-                                in.putExtra("product", product);
-                                startActivity(in);
-                            }
-                        });
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-
-                }
-            });
-        }
+        showProducts();
     }
 
     private void showProducts() {
@@ -116,8 +61,7 @@ public class ProductActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                     if (response.code() == 200) {
                         ArrayList<Product> productList = response.body();
-                        for (Product p : productList)
-                            Log.e("Product ", "===> " + p);
+                        binding.rvProduct.setVisibility(View.VISIBLE);
                         adapter = new ProductAdapter(ProductActivity.this, productList);
                         binding.rvProduct.setAdapter(adapter);
                         binding.rvProduct.setLayoutManager(new GridLayoutManager(ProductActivity.this, 2));

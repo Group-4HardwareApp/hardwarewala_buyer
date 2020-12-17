@@ -38,11 +38,26 @@ public class Cart implements Serializable {
     @SerializedName("shopKeeperId")
     @Expose
     private Object shopKeeperId;
-
     @SerializedName("qtyInStock")
     @Expose
     private Double qtyInStock;
+    @SerializedName("totalAmt")
+    @Expose
+    private Double totalAmt;
+    @SerializedName("qty")
+    @Expose
+    private Integer qty;
+
+
     public Cart() {
+    }
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
     }
 
     public Double getQtyInStock() {
@@ -53,7 +68,33 @@ public class Cart implements Serializable {
         this.qtyInStock = qtyInStock;
     }
 
-    public Cart(String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl, String description, Object shopKeeperId) {
+    public Double getTotalAmt() {
+        return totalAmt;
+    }
+
+    public void setTotalAmt(Double totalAmt) {
+        this.totalAmt = totalAmt;
+    }
+
+    public Cart(String cartId, String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl,
+                String description, Object shopKeeperId, Double qtyInStock, Double totalAmt, Integer qty) {
+        this.cartId = cartId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.brand = brand;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.shopKeeperId = shopKeeperId;
+        this.qtyInStock = qtyInStock;
+        this.totalAmt = totalAmt;
+        this.qty = qty;
+    }
+
+    public Cart(String userId, String categoryId, String productId, String name,
+                Double price, String brand, String imageUrl, String description, Object shopKeeperId) {
         super();
         this.userId = userId;
         this.categoryId = categoryId;
@@ -65,6 +106,7 @@ public class Cart implements Serializable {
         this.description = description;
         this.shopKeeperId = shopKeeperId;
     }
+
 
     public String getCartId() {
         return cartId;

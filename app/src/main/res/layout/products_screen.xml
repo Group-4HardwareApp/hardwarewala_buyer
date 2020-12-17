@@ -21,49 +21,47 @@
                     android:weightSum="1">
 
                     <TextView
-                        android:gravity="center_vertical"
                         android:id="@+id/tvAppName"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
-                        android:layout_width="0dp"
+                        android:gravity="center_vertical"
                         android:text="HardwareWale"
                         android:textColor="@color/black"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/ivCart"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"
+                    <EditText
+                        android:id="@+id/etSearch"
                         android:layout_width="0dp"
-                        android:padding="15dp"
-                        android:src="@drawable/cart_icon" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:visibility="gone"
+                        android:textSize="12sp"
+                        android:paddingLeft="10dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/search_decorator"
+                        android:hint="Search Product"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black" />
+
+                    <ImageView
+                        android:id="@+id/ivSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"
+                        android:padding="2dp"
+                        android:visibility="gone"
+                        android:src="@drawable/search_icon" />
+
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
-        <EditText
-            android:background="@drawable/search_decorator"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/search_icon"
-            android:hint="Search Product"
-            android:id="@+id/etSearch"
-            android:focusable="false"
-            android:layout_below="@+id/toolbar"
-            android:layout_height="35dp"
-            android:layout_margin="15dp"
-            android:layout_width="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:textSize="15sp"
-            />
-
         <TextView
             android:id="@+id/tvProducts"
-            android:layout_below="@+id/etSearch"
+            android:layout_below="@+id/toolbar"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:paddingLeft="15dp"
             android:text="Products"
@@ -77,13 +75,5 @@
             android:layout_margin="10dp"
             android:layout_width="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_below="@id/rvProduct"
-            android:id="@+id/rvSearch"
-            android:visibility="gone"
-            />
     </RelativeLayout>
 </ScrollView>

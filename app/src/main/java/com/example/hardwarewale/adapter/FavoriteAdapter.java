@@ -93,7 +93,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                     ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            pd.dismiss();
+                            dialog.dismiss();
                         }
                     });
                     ab.show();

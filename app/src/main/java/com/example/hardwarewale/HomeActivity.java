@@ -8,6 +8,9 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.hardwarewale.adapter.CategoryAdapter;
 import com.example.hardwarewale.adapter.DiscountAdapter;
+import com.example.hardwarewale.adapter.ProductAdapter;
 import com.example.hardwarewale.adapter.RecentUpdateAdapter;
 import com.example.hardwarewale.api.CategoryService;
 import com.example.hardwarewale.api.ProductService;
@@ -55,6 +59,8 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     SharedPreferences sp = null;
     FirebaseUser currentUser;
+    Product product;
+    ProductAdapter adapter;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -69,6 +75,50 @@ public class HomeActivity extends AppCompatActivity {
         sp = getSharedPreferences("user", MODE_PRIVATE);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        getNavigationDrawer();
+        checkUserProfile();
+
+        //if(TextUtils.isEmpty(homeBinding.etSearch.getText())){
+        showDiscountedProducts();
+        showRecentUpdates();
+        showCategories();
+
+        homeBinding.etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                name = s.toString();
+                homeBinding.tvCategories.setVisibility(View.GONE);
+                homeBinding.tvCategory1.setVisibility(View.GONE);
+                homeBinding.tvDiscounts.setVisibility(View.GONE);
+                homeBinding.HomeDiscount.setVisibility(View.GONE);
+                homeBinding.tvRecentUpdates.setVisibility(View.GONE);
+                homeBinding.rvHomeCategory1.setVisibility(View.GONE);
+                homeBinding.rvHomeCategory.setVisibility(View.GONE);
+                homeBinding.rvHomeRecentUpdates.setVisibility(View.GONE);
+                homeBinding.rvSearch.setVisibility(View.VISIBLE);
+                searchProduct();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                homeBinding.tvCategories.setVisibility(View.VISIBLE);
+                homeBinding.tvCategory1.setVisibility(View.VISIBLE);
+                homeBinding.tvDiscounts.setVisibility(View.VISIBLE);
+                homeBinding.HomeDiscount.setVisibility(View.VISIBLE);
+                homeBinding.tvRecentUpdates.setVisibility(View.VISIBLE);
+                homeBinding.rvHomeCategory1.setVisibility(View.VISIBLE);
+                homeBinding.rvHomeCategory.setVisibility(View.VISIBLE);
+                homeBinding.rvHomeRecentUpdates.setVisibility(View.VISIBLE);
+                homeBinding.rvSearch.setVisibility(View.GONE);
+
+            }
+        });
+
         homeBinding.ivCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,72 +127,116 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        homeBinding.ivSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                homeBinding.tvAppName.setVisibility(View.GONE);
+                homeBinding.etSearch.setVisibility(View.VISIBLE);
+            }
+        });
 
-        getNavigationDrawer();
-        showDiscountedProducts();
-        showRecentUpdates();
-        showCategories();
-    }
+    }//eOf onCreate
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (currentUser == null)
-            sendUserToLoginActivity();
-        else
-            checkUserProfile();
-    }
-
-    private boolean checkUserProfile() {
-        final String status = sp.getString("userId", "");
-        final boolean flag = status.equals("");
-        Log.e("Status : ", "==>" + status);
-        if (flag)
-            sendUserToProfileActivity();
-        else {
-            final String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            Log.e("CurretnUserId : ", "==>" + currentUserId);
-            if (!currentUserId.equals(status)) {
-                if (connectivity.isConnectedToInternet(this)) {
-                    UserService.UserApi api = UserService.getUserApiInstance();
-                    Call<User> call = api.getUserDetails(currentUserId);
-                    call.enqueue(new Callback<User>() {
-                        @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                            if (response.code() == 200) {
-                                User user = response.body();
-                                if (user.getUserId().equals(status)) {
-
-                                }
-                            }
+    private void checkUserProfile() {
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final SharedPreferences sp = getSharedPreferences("MyStore", MODE_PRIVATE);
+        String id = sp.getString("userId", "Not found");
+        Log.e("status : ", "=====>" + id);
+        if (!id.equals("Not found")) {
+            if (!id.equals(currentUserId)) {
+                UserService.UserApi userApi = UserService.getUserApiInstance();
+                Call<User> call = userApi.getUserDetails(currentUserId);
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.code() == 200) {
+                            User user = response.body();
+                            SharedPreferences.Editor editor = sp.edit();
+                            editor.putString("userId", user.getUserId());
+                            editor.putString("address", user.getAddress());
+                            editor.putString("email", user.getEmail());
+                            editor.putString("mobile", user.getMobile());
+                            editor.putString("token", user.getToken());
+                            editor.putString("imageUrl", user.getImageUrl());
+                            editor.putString("name", user.getName());
+                            editor.commit();
+                        } else if (response.code() == 404) {
+                            sendUserToProfileActivity();
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Call<User> call, Throwable t) {
-                            Toast.makeText(HomeActivity.this, "" + t, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    // Call api to check user profile exist or not
-                    // if exist then update data in shared preferences and user will stay on homeactivity
-                    // if not then send user to create profile activity
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+
+                    }
+                });
+            }
+        } else {
+            UserService.UserApi userApi = UserService.getUserApiInstance();
+            Call<User> call = userApi.getUserDetails(currentUserId);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if (response.code() == 200) {
+                        User user = response.body();
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("userId", user.getUserId());
+                        editor.putString("address", user.getAddress());
+                        editor.putString("email", user.getEmail());
+                        editor.putString("mobile", user.getMobile());
+                        editor.putString("token", user.getToken());
+                        editor.putString("imageUrl", user.getImageUrl());
+                        editor.putString("name", user.getName());
+                        editor.commit();
+                    } else if (response.code() == 404) {
+                        sendUserToProfileActivity();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
 
                 }
-            } else {
-
-            }
+            });
         }
-        return false;
+    }
+
+    private void searchProduct() {
+        if (connectivity.isConnectedToInternet(HomeActivity.this)) {
+            ProductService.ProductApi api = ProductService.getProductApiInstance();
+            Call<ArrayList<Product>> call = api.searchProductByName(name);
+            call.enqueue(new Callback<ArrayList<Product>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                    if (response.code() == 200) {
+                        ArrayList<Product> productList = response.body();
+                        adapter = new ProductAdapter(HomeActivity.this, productList);
+                        homeBinding.rvSearch.setVisibility(View.VISIBLE);
+                        homeBinding.rvSearch.setAdapter(adapter);
+                        homeBinding.rvSearch.setLayoutManager(new GridLayoutManager(HomeActivity.this, 2));
+
+                        adapter.setOnItemClicklistner(new ProductAdapter.OnRecyclerViewClick() {
+                            @Override
+                            public void onItemClick(Product product, int position) {
+                                Intent in = new Intent(HomeActivity.this, ProductDescriptionActivity.class);
+                                in.putExtra("product", product);
+                                startActivity(in);
+                            }
+                        });
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+
+                }
+            });
+        }
     }
 
     public void sendUserToProfileActivity() {
         Intent in = new Intent(this, ProfileActivity.class);
         startActivity(in);
-    }
-
-    private void sendUserToLoginActivity() {
-        Intent in = new Intent(HomeActivity.this, LogInActivity.class);
-        startActivity(in);
-        finish();
     }
 
     private void showCategories() {
@@ -212,7 +306,6 @@ public class HomeActivity extends AppCompatActivity {
                     recentUpdateAdapter = new RecentUpdateAdapter(HomeActivity.this, recentProductList);
                     homeBinding.rvHomeRecentUpdates.setAdapter(recentUpdateAdapter);
                     homeBinding.rvHomeRecentUpdates.setLayoutManager(new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false));
-
                 }
 
                 @Override
@@ -285,7 +378,6 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (id == R.id.menuShopByCategoty) {
                     Intent in = new Intent(HomeActivity.this, CategoryActivity.class);
                     startActivity(in);
-                    ;
                 } else if (id == R.id.menuManageOrders) {
                     Toast.makeText(HomeActivity.this, "Manage Order clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, ManageOrderActivity.class);
@@ -293,6 +385,10 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (id == R.id.menuOrderHistory) {
                     Toast.makeText(HomeActivity.this, "Order History clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, OrderHistoryActivity.class);
+                    startActivity(in);
+                } else if (id == R.id.menuProfile) {
+                    Toast.makeText(HomeActivity.this, "View profile clicked", Toast.LENGTH_SHORT).show();
+                    Intent in = new Intent(HomeActivity.this, ViewProfileActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuLogout) {
                     AlertDialog.Builder ab = new AlertDialog.Builder(HomeActivity.this);
@@ -303,9 +399,9 @@ public class HomeActivity extends AppCompatActivity {
                             final ProgressDialog pd = new ProgressDialog(HomeActivity.this);
                             pd.setTitle("Please wait...");
                             pd.show();
-                            SharedPreferences.Editor editor = sp.edit();
-                            editor.clear();
-                            editor.commit();
+                            //SharedPreferences.Editor editor = sp.edit();
+                            //editor.clear();
+                            //editor.commit();
                             mAuth.signOut();
                             pd.dismiss();
                             navivateUserToLoginActivity();
@@ -314,7 +410,7 @@ public class HomeActivity extends AppCompatActivity {
                     ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            dialog.dismiss();
                         }
                     });
                     ab.show();
