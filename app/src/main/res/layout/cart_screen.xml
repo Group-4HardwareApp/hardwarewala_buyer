@@ -43,7 +43,10 @@
             android:paddingLeft="22dp"
             android:text="Cart"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/tvCart"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCartScreen"
@@ -56,6 +59,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:layout_below="@id/rvCartScreen"
             android:orientation="horizontal"
             android:layout_gravity="center"
             app:cardBackgroundColor="@color/yellow"

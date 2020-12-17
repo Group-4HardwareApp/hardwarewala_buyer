@@ -3,18 +3,22 @@ package com.example.hardwarewale.adapter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.databinding.ActivityCartItemBinding;
+import com.example.hardwarewale.databinding.CartItemListBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.squareup.picasso.Picasso;
 
@@ -24,32 +28,76 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
+public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartViewHolder> {
     private OnRecyclerViewClick listener;
     Context context;
     ArrayList<Cart> cartList;
     InternetConnectivity connectivity = new InternetConnectivity();
     ProgressDialog pd;
+    double price, tot;
 
-    public CartAdapter(Context context, ArrayList<Cart> cartList) {
+    public BuyCartAdapter(Context context, ArrayList<Cart> cartList) {
         this.context = context;
         this.cartList = cartList;
     }
 
     @NonNull
     @Override
-    public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ActivityCartItemBinding binding = ActivityCartItemBinding.inflate(LayoutInflater.from(context), parent, false);
-        return new CartViewHolder(binding);
+    public BuyCartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        CartItemListBinding binding = CartItemListBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new BuyCartViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CartViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final BuyCartViewHolder holder, final int position) {
         final Cart cart = cartList.get(position);
+        final double qtyInStock = cart.getQtyInStock();
+        price = cart.getPrice();
+        int quantity = (int) qtyInStock;
+        int qty = 1;
+        holder.binding.tvQty.setText("" + qty);
         Picasso.get().load(cart.getImageUrl()).into(holder.binding.productImage);
+
         holder.binding.tvProductName.setText("" + cart.getName());
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
-        holder.binding.tvProductDescription.setText(""+cart.getDescription());
+        holder.binding.tvProductQty.setText("Available : "+quantity);
+
+        holder.binding.ivAdd.setColorFilter(context.getResources().getColor(R.color.dark_green));
+        holder.binding.ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.binding.tvQty.getText().toString();
+                int q = Integer.parseInt(holder.binding.tvQty.getText().toString());
+                if(q<qtyInStock){
+                    q++;
+                    holder.binding.tvQty.setText(""+q);
+                    //double qun = (double) q;
+                    cart.setQty(q);
+                }
+                tot = price * q;
+                cart.setTotalAmt(tot);
+                //Toast.makeText(context, ""+price, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        holder.binding.ivSubrtact.setColorFilter(context.getResources().getColor(R.color.red));
+        holder.binding.ivSubrtact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                price = cart.getPrice();
+                holder.binding.tvQty.getText().toString();
+                int q = Integer.parseInt(holder.binding.tvQty.getText().toString());
+                if(q>1){
+                    q--;
+                    holder.binding.tvQty.setText(""+q);
+                    //double qun = (double) q;
+                    cart.setQty(q);
+                }
+                tot = price * q;
+                cart.setTotalAmt(tot);
+            }
+        });
+
         holder.binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,10 +149,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         return cartList.size();
     }
 
-    public class CartViewHolder extends RecyclerView.ViewHolder {
-        ActivityCartItemBinding binding;
-
-        public CartViewHolder(ActivityCartItemBinding binding) {
+    public class BuyCartViewHolder extends RecyclerView.ViewHolder {
+        CartItemListBinding binding;
+        public BuyCartViewHolder(CartItemListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(new View.OnClickListener() {

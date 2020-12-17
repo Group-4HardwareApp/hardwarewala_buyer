@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardElevation="10dp">
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/ivCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/cancel_icon" />
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/ivCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/cancel_icon" />
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardElevation="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="0.6"
+                android:layout_weight="0.7"
                 android:orientation="vertical"
                 android:padding="5dp">
 
@@ -44,6 +46,7 @@
                     android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:text="Name"
                     android:textColor="@color/black" />
 
@@ -55,40 +58,57 @@
                     android:text="Price"
                     android:textColor="@color/black" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
-                    android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:weightSum="1">
-
-                    <ImageView
-                        android:id="@+id/ivSubrtact"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:src="@drawable/subtract_icon" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/tvQty"
-                        android:layout_width="0dp"
+                        android:id="@+id/tvProductQty"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:layout_weight="0.4"
-                        android:gravity="center"
                         android:text="10"
+                        android:gravity="center"
                         android:textColor="@color/black" />
 
-                    <ImageView
-                        android:id="@+id/ivAdd"
-                        android:layout_width="0dp"
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:src="@drawable/add_icon" />
-                </LinearLayout>
+                        android:layout_marginLeft="5dp"
+                        android:layout_alignParentRight="true"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/ivSubrtact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:padding="3dp"
+                            android:src="@drawable/subtract_icon" />
+
+                        <TextView
+                            android:id="@+id/tvQty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.4"
+                            android:gravity="center"
+                            android:layout_toRightOf="@id/ivSubrtact"
+                            android:padding="5dp"
+                            android:text="1"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:id="@+id/ivAdd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.3"
+                            android:padding="3dp"
+                            android:layout_toRightOf="@id/tvQty"
+                            android:src="@drawable/add_icon" />
+                    </RelativeLayout>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

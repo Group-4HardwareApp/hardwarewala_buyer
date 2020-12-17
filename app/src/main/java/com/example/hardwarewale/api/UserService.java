@@ -18,6 +18,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
+import static com.example.hardwarewale.utility.ServerAddress.BASE_URL;
+
 public class UserService {
     public static UserApi userApi;
 
@@ -25,11 +27,12 @@ public class UserService {
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(100, TimeUnit.SECONDS)
                 .readTimeout(100, TimeUnit.SECONDS).build();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ServerAddress.BASE_URL)
+                .baseUrl(BASE_URL).client(client)
                 .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
                 .build();
+
         if (userApi == null)
             userApi = retrofit.create(UserApi.class);
         return userApi;
@@ -54,8 +57,9 @@ public class UserService {
                               @Part("email") RequestBody email,
                               @Part("address") RequestBody address,
                               @Part("token") RequestBody token);
+
         @POST("/user/update/withoutImage")
-        Call<User> updateUserWithoutImage(User user);
+        Call<User> updateUserWithoutImage(@Body User user);
 
         @GET("/user/{currentUserId}")
         Call<User> getUserDetails(@Path("currentUserId")String currentUserId);

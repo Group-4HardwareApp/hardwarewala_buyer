@@ -1,12 +1,13 @@
 package com.example.hardwarewale.bean;
 
-import java.io.Serializable;
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.util.List;
+
 public class
-Order implements Serializable {
+OrderCart implements Serializable {
 
     @SerializedName("orderId")
     @Expose
@@ -37,15 +38,16 @@ Order implements Serializable {
     private String shippingStatus;
     @SerializedName("itemList")
     @Expose
-    private List<OrderItems> orderItems = null;
+    private List<Cart> orderItems = null;
     @SerializedName("timestamp")
     @Expose
     private Long timestamp;
 
-    public Order(){
+    public OrderCart(){
     }
 
-    public Order(String orderId, String userId, String name, String date, String deliveryAddress, Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<OrderItems> orderItems, Long timestamp) {
+    public OrderCart(String orderId, String userId, String name, String date, String deliveryAddress, Double totalAmount,
+                     String contactNumber, String deliveryOption, String shippingStatus, List<Cart> orderItems, Long timestamp) {
         this.orderId = orderId;
         this.userId = userId;
         this.name = name;
@@ -59,7 +61,8 @@ Order implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public Order( String userId, String name, String date, String deliveryAddress, Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<OrderItems> orderItems, Long timestamp) {
+    public OrderCart(String userId, String name, String date, String deliveryAddress, Double totalAmount, String contactNumber,
+                     String deliveryOption, String shippingStatus, List<Cart> orderItems, Long timestamp) {
         this.userId = userId;
         this.name = name;
         this.date = date;
@@ -144,11 +147,11 @@ Order implements Serializable {
         this.shippingStatus = shippingStatus;
     }
 
-    public List<OrderItems> getOrderItems() {
+    public List<Cart> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<OrderItems> orderItems) {
+    public void setOrderItems(List<Cart> orderItems) {
         this.orderItems = orderItems;
     }
 

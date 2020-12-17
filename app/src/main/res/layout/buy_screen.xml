@@ -51,44 +51,9 @@
         android:id="@+id/rvBuy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvBuy"
-        android:layout_margin="10dp" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/btnbuy"
-        android:layout_width="140dp"
-        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBuy"
         android:layout_above="@+id/ll1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal"
-        app:cardBackgroundColor="@color/yellow"
-        app:cardElevation="10dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/ivBuy"
-                android:paddingLeft="5dp"
-                android:text="Continue"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:id="@+id/ivBuy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:src="@drawable/arrow_right_icon" />
-
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        android:layout_margin="10dp" />
 
     <LinearLayout
         android:id="@+id/ll1"
@@ -100,10 +65,11 @@
         android:weightSum="1">
 
         <ImageView
-            android:layout_width="0dp"
+            android:id="@+id/ivBill"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_weight="0.1"
             android:paddingLeft="10dp"
             android:src="@drawable/arrow_up_icon" />
@@ -112,10 +78,10 @@
             android:id="@+id/tvTotal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="0.2"
+            android:layout_margin="10dp"
+            android:layout_weight="0.4"
             android:gravity="center_vertical"
-            android:paddingLeft="10dp"
+            android:paddingLeft="20dp"
             android:text="Total"
             android:textColor="@color/black"
             android:textSize="15sp"
@@ -123,14 +89,22 @@
 
         <TextView
             android:id="@+id/tvAmt"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
+            android:layout_margin="10dp"
             android:layout_weight="0.3"
             android:gravity="center_vertical"
             android:text="1000"
             android:textColor="@color/black"
            />
 
+        <ImageView
+            android:id="@+id/ivContinue"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+
+            android:src="@drawable/arrow_right_icon" />
     </LinearLayout>
 </RelativeLayout>

@@ -16,8 +16,8 @@ public class OrderItems implements Serializable {
 
     }
 
-    public OrderItems(String productId, int quantity, String productName, double amount, String imageUrl, double price,
-                      String shopkeeperId, String orderItemId) {
+    public OrderItems(String productId, int quantity, String productName, double amount, String imageUrl,
+                      double price, String shopkeeperId) {
         super();
         this.productId = productId;
         this.quantity = quantity;
@@ -26,9 +26,7 @@ public class OrderItems implements Serializable {
         this.imageUrl = imageUrl;
         this.price = price;
         this.shopkeeperId = shopkeeperId;
-        this.orderItemId = orderItemId;
     }
-
 
     public String getOrderItemId() {
         return orderItemId;

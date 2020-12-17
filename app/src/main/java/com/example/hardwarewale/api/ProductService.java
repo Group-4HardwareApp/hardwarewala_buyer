@@ -46,5 +46,7 @@ public class ProductService {
         @GET("/product/name/{name}")
         public Call<ArrayList<Product>> searchProductByName(@Path("name") String name);
 
+        @GET("/product/view/{id}")
+        public Call<Product> viewProduct(@Path("id") String id);
     }
 }
