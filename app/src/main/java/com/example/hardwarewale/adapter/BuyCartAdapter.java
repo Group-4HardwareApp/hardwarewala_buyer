@@ -8,12 +8,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hardwarewale.PlaceOrderActivity;
 import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.bean.Cart;
@@ -34,11 +36,13 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
     ArrayList<Cart> cartList;
     InternetConnectivity connectivity = new InternetConnectivity();
     ProgressDialog pd;
-    double price, tot;
+    TextView tvAmt;
+    double price, tot, total;
 
-    public BuyCartAdapter(Context context, ArrayList<Cart> cartList) {
+    public BuyCartAdapter(Context context, ArrayList<Cart> cartList, TextView tvAmt) {
         this.context = context;
         this.cartList = cartList;
+        this.tvAmt = tvAmt;
     }
 
     @NonNull
@@ -52,7 +56,6 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
     public void onBindViewHolder(@NonNull final BuyCartViewHolder holder, final int position) {
         final Cart cart = cartList.get(position);
         final double qtyInStock = cart.getQtyInStock();
-        price = cart.getPrice();
         int quantity = (int) qtyInStock;
         int qty = 1;
         holder.binding.tvQty.setText("" + qty);
@@ -60,23 +63,24 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
 
         holder.binding.tvProductName.setText("" + cart.getName());
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
-        holder.binding.tvProductQty.setText("Available : "+quantity);
+        holder.binding.tvProductQty.setText("Available : " + quantity);
 
         holder.binding.ivAdd.setColorFilter(context.getResources().getColor(R.color.dark_green));
         holder.binding.ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                price = cart.getPrice();
                 holder.binding.tvQty.getText().toString();
                 int q = Integer.parseInt(holder.binding.tvQty.getText().toString());
-                if(q<qtyInStock){
+                if (q < qtyInStock) {
                     q++;
-                    holder.binding.tvQty.setText(""+q);
-                    //double qun = (double) q;
+                    holder.binding.tvQty.setText("" + q);
                     cart.setQty(q);
+                    total = Double.parseDouble(tvAmt.getText().toString());
+                    total = total + (price);
+                    tvAmt.setText("" + total);
                 }
-                tot = price * q;
-                cart.setTotalAmt(tot);
-                //Toast.makeText(context, ""+price, Toast.LENGTH_SHORT).show();
+                //tot = price * q;
             }
         });
 
@@ -87,14 +91,15 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
                 price = cart.getPrice();
                 holder.binding.tvQty.getText().toString();
                 int q = Integer.parseInt(holder.binding.tvQty.getText().toString());
-                if(q>1){
+                if (q > 1) {
                     q--;
-                    holder.binding.tvQty.setText(""+q);
-                    //double qun = (double) q;
+                    holder.binding.tvQty.setText("" + q);
                     cart.setQty(q);
+                    double total = Double.parseDouble(tvAmt.getText().toString());
+                    total = total - (price);
+                    tvAmt.setText("" + total);
                 }
-                tot = price * q;
-                cart.setTotalAmt(tot);
+                //tot = price * q;
             }
         });
 
@@ -151,6 +156,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
 
     public class BuyCartViewHolder extends RecyclerView.ViewHolder {
         CartItemListBinding binding;
+
         public BuyCartViewHolder(CartItemListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

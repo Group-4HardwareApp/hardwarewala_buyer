@@ -1,13 +1,18 @@
 package com.example.hardwarewale;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hardwarewale.api.OrderService;
@@ -36,12 +41,13 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
     List<Cart> cartList;
     BuyCart buyCart;
     User user;
-    String productName, date, id, brand, imageUrl, cartId, description, userId, categoryId, productId, shopkeeperId,
-            userName, userAddress, mobile, email;
-    long timestamp, total;
-    double qtyInStock, qty, price, discount, totalAmt, tot=0;
+    ArrayList<String> deliveryOptions, paymentMode;
+    String productName, date,deliveryOption,paymentOption,id,brand,imageUrl,cartId,description,userId,categoryId,productId,
+            shopkeeperId, userName, userAddress, userMobile, userEmail, name,email,mobile,address;
+    long timestamp;
+    double qtyInStock, qty, price, discount, totalAmt, total;
     OrderItems items;
-    int quantity;
+    int quantity, fastCharges = 100, regularCharges = 50 ;
     InternetConnectivity connectivity;
     ArrayList<Cart> itemList = new ArrayList<Cart>();
 
@@ -52,8 +58,10 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent in = getIntent();
         cartList = (List<Cart>) in.getSerializableExtra("updatedCartList");
+        //total = (double) in.getSerializableExtra("total");
+        //binding.tvTotal.setText(""+total);
+
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        //buyCart = (BuyCart) in.getSerializableExtra("buyCart");
 
         Calendar cdate = Calendar.getInstance();
         SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
@@ -68,9 +76,9 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     user = response.body();
                     userName = user.getName();
-                    mobile = user.getMobile();
+                    userMobile= user.getMobile();
                     userAddress = user.getAddress();
-                    email = user.getEmail();
+                    userEmail = user.getEmail();
 
                     binding.tvEmail.setText("" + user.getEmail());
                     binding.tvAddress.setText("" + user.getAddress());
@@ -85,93 +93,128 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
             }
         });
 
-        for (Cart c: cartList){
-            Log.e("CartList","==> "+c.getName());
-            Log.e("Product","==>"+c.getProductId());
-            Log.e("Price","==>"+c.getPrice()) ;
-            Log.e("Des","==>"+c.getDescription()) ;
-            Log.e("Total","==>"+c.getTotalAmt()) ;
-            Log.e("Brand","==>"+c.getBrand());
-            Log.e("qty","==>"+c.getQty()) ;
-            Log.e("Shop","==>"+c.getShopKeeperId()) ;
-            Log.e("Price","==>"+c.getPrice()) ;
-            Log.e("category","==>"+c.getCategoryId()) ;
-            Log.e("Image","==>"+c.getImageUrl()) ;
+        binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final AlertDialog.Builder ab = new AlertDialog.Builder(PlaceOrderActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                final View view = inflater.inflate(R.layout.change_details, null);
+                ab.setView(view);
+                final EditText etName = view.findViewById(R.id.etName);
+                final EditText etAddress = view.findViewById(R.id.etAddress);
+                final EditText etEmail = view.findViewById(R.id.etEmail);
+                final EditText etMobile = view.findViewById(R.id.etMobile);
 
-            tot = tot + c.getPrice();
-           /*
-            productId = c.getProductId();
-            price = c.getPrice();
-            shopkeeperId = (String) c.getShopKeeperId();
-            categoryId = c.getCategoryId();
-            description = c.getDescription();
-            imageUrl = c.getImageUrl();
-            brand = c.getBrand();
-            productName = c.getName();
-            quantity = c.getQty();
-            totalAmt = c.getTotalAmt();
-            //OrderItems items = new OrderItems(productId, quantity, productName, totalAmt, imageUrl, price, shopkeeperId);
-             */
-            //double quantity = c.getQty();
-            //int qty = (int) quantity;
-            //items = new OrderItems(c.getProductId(),c.getQty(),c.getName(),c.getTotalAmt(),c.getImageUrl(),c.getPrice(), (String) c.getShopKeeperId());
-            //itemList = new ArrayList<OrderItems>();
+                etAddress.setText("" + userAddress);
+                etEmail.setText("" + userEmail);
+                etMobile.setText("" + userMobile);
+                etName.setText("" + userName);
+
+                ab.setPositiveButton("Change", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        userMobile = etEmail.getText().toString();
+                        userName = etName.getText().toString();
+                        userAddress = etAddress.getText().toString();
+                        userMobile = etMobile.getText().toString();
+
+                        binding.tvEmail.setText("" + userEmail);
+                        binding.tvAddress.setText("" + userAddress);
+                        binding.tvName.setText("" + userName);
+                        binding.tvContact.setText("" + userMobile);
+                    }
+                });
+                ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                ab.show();
+            }
+        });
+
+        deliveryOptions = new ArrayList<>();
+        deliveryOptions.add("Fast");
+        deliveryOptions.add("Regular");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,deliveryOptions);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.deliveryOption.setAdapter(arrayAdapter);
+        binding.deliveryOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                deliveryOption = parent.getItemAtPosition(position).toString();
+                if(deliveryOption.equals("Fast")){
+                    binding.tvDeliveryOption.setText("Delivered within 2 days & charges = 100 ₹");
+                    total = total + fastCharges;
+                }else {
+                    binding.tvDeliveryOption.setText("Delivered within 5 days & charges = 50 ₹");
+                    total = total + regularCharges;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView <?> parent) {
+            }
+        });
+
+        paymentMode = new ArrayList<>();
+        paymentMode.add("Cash on delivery");
+        paymentMode.add("Other");
+        ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,paymentMode);
+        arrayAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.paymentOption.setAdapter(arrayAdapter1);
+        binding.paymentOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                paymentOption = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView <?> parent) {
+            }
+        });
+
+        for (Cart c : cartList) {
+            Log.e("CartList", "==> " + c.getName());
+            Log.e("Product", "==>" + c.getProductId());
+            Log.e("Price", "==>" + c.getPrice());
+            Log.e("Des", "==>" + c.getDescription());
+            Log.e("Total", "==>" + c.getTotalAmt());
+            Log.e("Brand", "==>" + c.getBrand());
+            Log.e("qty", "==>" + c.getQty());
+            Log.e("Shop", "==>" + c.getShopKeeperId());
+            Log.e("Price", "==>" + c.getPrice());
+            Log.e("category", "==>" + c.getCategoryId());
+            Log.e("Image", "==>" + c.getImageUrl());
+
+            total = total +c.getPrice();
         }
-        Log.e("TotaL","==>"+tot);
-        binding.tvTotal.setText(""+tot);
-        //itemList.add(cartList);
-
-        //for(OrderItems i : itemList)
-          // Log.e("List","==>"+itemList);
-        //ArrayList<Cart> list = buyCart.getCartList();
-        //Log.e("items","==>"+items);
-
+       // Log.e("TotaL", "==>" + tot);
+        binding.tvTotal.setText("" + total);
 
         binding.btnPalceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // if (connectivity.isConnectedToInternet(PlaceOrderActivity.this)) {
-                    OrderCart orderCart = new OrderCart(userId, userName, date, userAddress, tot, mobile, "fast",
-                            "Onway", cartList, timestamp);
-                    OrderService.OrderApi orderApi = OrderService.getOrderApiInstance();
-                    Call<OrderCart> call = orderApi.placeCartOrder(orderCart);
-                    call.enqueue(new Callback<OrderCart>() {
-                        @Override
-                        public void onResponse(Call<OrderCart> call, Response<OrderCart> response) {
-                            if (response.isSuccessful()) {
-                                OrderCart o = response.body();
-                                Toast.makeText(PlaceOrderActivity.this, "Order palced", Toast.LENGTH_SHORT).show();
-                                Log.e("Success","");
-                            }
+                OrderCart orderCart = new OrderCart(userId, userName, date, userAddress, total, userMobile,
+                        deliveryOption, "Onway",paymentOption, cartList, timestamp);
+                OrderService.OrderApi orderApi = OrderService.getOrderApiInstance();
+                Call<OrderCart> call = orderApi.placeCartOrder(orderCart);
+                call.enqueue(new Callback<OrderCart>() {
+                    @Override
+                    public void onResponse(Call<OrderCart> call, Response<OrderCart> response) {
+                        if (response.isSuccessful()) {
+                            OrderCart o = response.body();
+                            Toast.makeText(PlaceOrderActivity.this, "Order palced", Toast.LENGTH_SHORT).show();
+                            Log.e("Success", "");
                         }
+                    }
 
-                        @Override
-                        public void onFailure(Call<OrderCart> call, Throwable t) {
-                            Log.e("Error","==>"+t);
-                            Toast.makeText(PlaceOrderActivity.this, ""+t, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                //}
+                    @Override
+                    public void onFailure(Call<OrderCart> call, Throwable t) {
+                        Log.e("Error", "==>" + t);
+                        Toast.makeText(PlaceOrderActivity.this, "" + t, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
-/*
-        if (connectivity.isConnectedToInternet(this)) {
-            CartService.CartApi cartApi = CartService.getCartApiInstance();
-            Call<BuyCart> call = cartApi.getCartProductWithQty(buyCart);
-            call.enqueue(new Callback<BuyCart>() {
-                @Override
-                public void onResponse(Call<BuyCart> call, Response<BuyCart> response) {
-                    if (response.code() == 200) {
-                        buyCart = response.body();
-                        final ArrayList<Cart> updatedCartList = buyCart.getCartList();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<BuyCart> call, Throwable t) {
-
-                }
-            });
-        }*/
     }
 }

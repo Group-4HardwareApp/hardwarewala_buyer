@@ -70,7 +70,6 @@ public class CartActivity extends AppCompatActivity {
                         adapter = new CartAdapter(CartActivity.this, cartList);
                         binding.rvCartScreen.setAdapter(adapter);
                         binding.rvCartScreen.setLayoutManager(new LinearLayoutManager(CartActivity.this));
-                       // adapter.notifyDataSetChanged();
                         al = cartList;
                     }
                 }

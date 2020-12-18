@@ -31,9 +31,8 @@ public class BuyActivity extends AppCompatActivity {
     BuyCart buyCart;
     ViewBillAdapter billAdapter;
     BuyCartAdapter adapter;
-    double tot = 0, total;
-    double qty, price;
-    //ArrayList<BuyCart>buyList;
+    double total=0, price,tot;
+    int qty;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,30 +54,14 @@ public class BuyActivity extends AppCompatActivity {
                     buyCart = response.body();
                     updatedCartList = buyCart.getCartList();
                     Log.e("Error", "==>" + updatedCartList);
-                    adapter = new BuyCartAdapter(BuyActivity.this, updatedCartList);
+                    adapter = new BuyCartAdapter(BuyActivity.this, updatedCartList, binding.tvAmt);
                     binding.rvBuy.setLayoutManager(new LinearLayoutManager(BuyActivity.this));
                     binding.rvBuy.setAdapter(adapter);
-                   /* for(Cart c : updatedCartList ){
-                         qty = c.getQty();
-                        Log.e("",""+qty);
-                         price = c.getPrice();
-                         tot = qty * price;
-                         total = c.getTotalAmt();
-                        binding.tvTotal.setText(""+total);
+
+                    for(Cart c : updatedCartList){
+                        total = total + c.getPrice();
+                        binding.tvAmt.setText(""+total);
                     }
-*/
-                    /*for (Cart c : updatedCartList) {
-                        double buy = buyCart.getTotalmt();
-                        tot = tot + buy;
-                    }
-                    Log.e("Total : ", "==> " +tot);
-                    binding.tvAmt.setText("" + tot);
-                    *///try {
-                    /*} catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(BuyActivity.this, "" + e, Toast.LENGTH_SHORT).show();
-                        Log.e("e == ", "==> " + e);
-                    }*/
                 }
             }
 
@@ -94,9 +77,7 @@ public class BuyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent in = new Intent(BuyActivity.this, PlaceOrderActivity.class);
                 in.putExtra("updatedCartList", updatedCartList);
-                //in.putExtra("buyCart",buyCart);
                 startActivity(in);
-                //Log.e("Error", "==>" + updatedCartList);
             }
         });
 

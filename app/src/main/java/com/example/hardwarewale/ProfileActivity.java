@@ -243,7 +243,8 @@ public class ProfileActivity extends AppCompatActivity {
                         String email = binding.etEmail.getText().toString().trim();
                         String name = binding.etName.getText().toString().trim();
                         String mobile = binding.etMobile.getText().toString().trim();
-                        String token = "tok_qe2k3";
+                        String token = FirebaseInstanceId.getInstance().getToken();
+                        //String token = "tok_qe2k3";
                         if (imageUri != null) {
                             File file = FileUtils.getFile(ProfileActivity.this, imageUri);
                             RequestBody requestFile = RequestBody.create(MediaType.parse(getContentResolver()
@@ -257,7 +258,8 @@ public class ProfileActivity extends AppCompatActivity {
                             RequestBody usertoken = RequestBody.create(okhttp3.MultipartBody.FORM, token);
                             RequestBody userId = RequestBody.create(okhttp3.MultipartBody.FORM, id);
                             UserService.UserApi userApi = UserService.getUserApiInstance();
-                            Call<User> call = userApi.saveUser(body, username, usermobile, useraddress, useremail, usertoken,userId);
+
+                            Call<User> call = userApi.saveUser(body, username, useraddress,usermobile, useremail, usertoken,userId);
                             call.enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {

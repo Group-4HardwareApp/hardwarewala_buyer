@@ -35,6 +35,9 @@ Order implements Serializable {
     @SerializedName("shippingStatus")
     @Expose
     private String shippingStatus;
+    @SerializedName("paymentOption")
+    @Expose
+    private String paymentOption;
     @SerializedName("itemList")
     @Expose
     private List<OrderItems> orderItems = null;
@@ -45,7 +48,9 @@ Order implements Serializable {
     public Order(){
     }
 
-    public Order(String orderId, String userId, String name, String date, String deliveryAddress, Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<OrderItems> orderItems, Long timestamp) {
+    public Order(String orderId, String userId, String name, String date, String deliveryAddress,
+                 Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus,
+                 String paymentOption, List<OrderItems> orderItems, Long timestamp) {
         this.orderId = orderId;
         this.userId = userId;
         this.name = name;
@@ -55,11 +60,14 @@ Order implements Serializable {
         this.contactNumber = contactNumber;
         this.deliveryOption = deliveryOption;
         this.shippingStatus = shippingStatus;
+        this.paymentOption = paymentOption;
         this.orderItems = orderItems;
         this.timestamp = timestamp;
     }
 
-    public Order( String userId, String name, String date, String deliveryAddress, Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus, List<OrderItems> orderItems, Long timestamp) {
+    public Order( String userId, String name, String date, String deliveryAddress, Double totalAmount,
+                  String contactNumber, String deliveryOption, String shippingStatus,
+                  String paymentOption,List<OrderItems> orderItems, Long timestamp) {
         this.userId = userId;
         this.name = name;
         this.date = date;
@@ -68,9 +76,14 @@ Order implements Serializable {
         this.contactNumber = contactNumber;
         this.deliveryOption = deliveryOption;
         this.shippingStatus = shippingStatus;
+        this.paymentOption = paymentOption;
         this.orderItems = orderItems;
         this.timestamp = timestamp;
     }
+
+    public String getPaymentOption() { return paymentOption; }
+
+    public void setPaymentOption(String paymentOption) { this.paymentOption = paymentOption; }
 
     public String getOrderId() {
         return orderId;

@@ -75,10 +75,8 @@ public class HomeActivity extends AppCompatActivity {
         sp = getSharedPreferences("user", MODE_PRIVATE);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        getNavigationDrawer();
-        checkUserProfile();
 
-        //if(TextUtils.isEmpty(homeBinding.etSearch.getText())){
+        getNavigationDrawer();
         showDiscountedProducts();
         showRecentUpdates();
         showCategories();
@@ -106,18 +104,18 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                homeBinding.tvCategories.setVisibility(View.VISIBLE);
-                homeBinding.tvCategory1.setVisibility(View.VISIBLE);
-                homeBinding.tvDiscounts.setVisibility(View.VISIBLE);
-                homeBinding.HomeDiscount.setVisibility(View.VISIBLE);
-                homeBinding.tvRecentUpdates.setVisibility(View.VISIBLE);
-                homeBinding.rvHomeCategory1.setVisibility(View.VISIBLE);
-                homeBinding.rvHomeCategory.setVisibility(View.VISIBLE);
-                homeBinding.rvHomeRecentUpdates.setVisibility(View.VISIBLE);
-                homeBinding.rvSearch.setVisibility(View.GONE);
 
             }
         });
+        homeBinding.tvCategories.setVisibility(View.VISIBLE);
+        homeBinding.tvCategory1.setVisibility(View.VISIBLE);
+        homeBinding.tvDiscounts.setVisibility(View.VISIBLE);
+        homeBinding.HomeDiscount.setVisibility(View.VISIBLE);
+        homeBinding.tvRecentUpdates.setVisibility(View.VISIBLE);
+        homeBinding.rvHomeCategory1.setVisibility(View.VISIBLE);
+        homeBinding.rvHomeCategory.setVisibility(View.VISIBLE);
+        homeBinding.rvHomeRecentUpdates.setVisibility(View.VISIBLE);
+        homeBinding.rvSearch.setVisibility(View.GONE);
 
         homeBinding.ivCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,9 +135,14 @@ public class HomeActivity extends AppCompatActivity {
 
     }//eOf onCreate
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkUserProfile();
+    }
+
     private void checkUserProfile() {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final SharedPreferences sp = getSharedPreferences("MyStore", MODE_PRIVATE);
         String id = sp.getString("userId", "Not found");
         Log.e("status : ", "=====>" + id);
         if (!id.equals("Not found")) {
