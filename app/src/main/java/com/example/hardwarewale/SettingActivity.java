@@ -71,11 +71,11 @@ public class SettingActivity extends AppCompatActivity {
         awesomeValidation = new AwesomeValidation(BASIC);
         //SharedPreferences mPref = getSharedPreferences("MyStore", MODE_PRIVATE);
 
-        binding.etMobile.setText(sp.getString("address", "Contact number"));
+        binding.etMobile.setText(sp.getString("mobile", "Contact number"));
         binding.etEmail.setText(sp.getString("email", "email"));
         Picasso.get().load(sp.getString("imageUrl", "")).into(binding.civImage);
         binding.etName.setText(sp.getString("name", "name"));
-        binding.etAddress.setText(sp.getString("mobile", "Address"));
+        binding.etAddress.setText(sp.getString("address", "Address"));
         binding.btnSave.setText("Update");
         binding.etbtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,21 +135,19 @@ public class SettingActivity extends AppCompatActivity {
                             pd.setMessage("Please wait");
                             pd.show();
                             File file = FileUtils.getFile(SettingActivity.this, imageUri);
-                            RequestBody requestFile = RequestBody
-                                    .create(MediaType.parse(Objects.requireNonNull(getContentResolver().getType(imageUri)))
-                                            , file);
+                            RequestBody requestFile = RequestBody.create(MediaType.parse(Objects.
+                                            requireNonNull(getContentResolver().getType(imageUri))), file);
 
                             MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-                            RequestBody storeName = RequestBody.create(okhttp3.MultipartBody.FORM, name);
-                            RequestBody storeNumber = RequestBody.create(okhttp3.MultipartBody.FORM, number);
-                            RequestBody storeEmail = RequestBody.create(okhttp3.MultipartBody.FORM, email);
-                            RequestBody storeAddress = RequestBody.create(okhttp3.MultipartBody.FORM, address);
-                            RequestBody storeToken = RequestBody.create(okhttp3.MultipartBody.FORM, token);
-                            RequestBody shopkeeperId = RequestBody.create(okhttp3.MultipartBody.FORM, userId);
+                            RequestBody userName = RequestBody.create(okhttp3.MultipartBody.FORM, name);
+                            RequestBody userNumber = RequestBody.create(okhttp3.MultipartBody.FORM, number);
+                            RequestBody userEmail = RequestBody.create(okhttp3.MultipartBody.FORM, email);
+                            RequestBody userAddress = RequestBody.create(okhttp3.MultipartBody.FORM, address);
+                            RequestBody userToken = RequestBody.create(okhttp3.MultipartBody.FORM, token);
+                            RequestBody userID = RequestBody.create(okhttp3.MultipartBody.FORM, userId);
 
                             UserService.UserApi serviceApi = UserService.getUserApiInstance();
-                            Call<User> call = serviceApi.updateUser(body, storeName, storeNumber, storeAddress, storeEmail, shopkeeperId, storeToken);
-
+                            Call<User> call = serviceApi.updateUser(body, userID, userName, userNumber, userEmail, userAddress, userToken);
                             call.enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
@@ -177,19 +175,19 @@ public class SettingActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            final ProgressDialog progressDialog = new ProgressDialog(SettingActivity.this);
-                            progressDialog.setTitle("Updating");
-                            progressDialog.setMessage("Please wait...");
-                            progressDialog.show();
+                            pd = new ProgressDialog(SettingActivity.this);
+                            pd.setTitle("Updating");
+                            pd.setMessage("Please wait...");
+                            pd.show();
 
-                            User s = new User(userId, name, number, address, sp.getString("imageUrl", ""), email, token);
+                            User s = new User(userId, name, address,number, email, token);
                             UserService.UserApi serviceApi = UserService.getUserApiInstance();
                             Call<User> call = serviceApi.updateUserWithoutImage(s);
                             call.enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
                                     if (response.code() == 200) {
-                                        progressDialog.dismiss();
+                                        pd.dismiss();
                                         User user = response.body();
                                         SharedPreferences.Editor editor = sp.edit();
                                         Gson gson = new Gson();
@@ -229,7 +227,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initComponent() {
-        binding.toolbar.setTitle("Store");
+        binding.toolbar.setTitle("User");
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

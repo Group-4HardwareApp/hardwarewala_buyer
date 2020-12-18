@@ -36,6 +36,9 @@ OrderCart implements Serializable {
     @SerializedName("shippingStatus")
     @Expose
     private String shippingStatus;
+    @SerializedName("paymentOption")
+    @Expose
+    private String paymentOption;
     @SerializedName("itemList")
     @Expose
     private List<Cart> orderItems = null;
@@ -46,8 +49,9 @@ OrderCart implements Serializable {
     public OrderCart(){
     }
 
-    public OrderCart(String orderId, String userId, String name, String date, String deliveryAddress, Double totalAmount,
-                     String contactNumber, String deliveryOption, String shippingStatus, List<Cart> orderItems, Long timestamp) {
+    public OrderCart(String orderId, String userId, String name, String date, String deliveryAddress,
+                     Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus,
+                     String paymentOption,List<Cart> orderItems, Long timestamp) {
         this.orderId = orderId;
         this.userId = userId;
         this.name = name;
@@ -57,12 +61,14 @@ OrderCart implements Serializable {
         this.contactNumber = contactNumber;
         this.deliveryOption = deliveryOption;
         this.shippingStatus = shippingStatus;
+        this.paymentOption = paymentOption;
         this.orderItems = orderItems;
         this.timestamp = timestamp;
     }
 
-    public OrderCart(String userId, String name, String date, String deliveryAddress, Double totalAmount, String contactNumber,
-                     String deliveryOption, String shippingStatus, List<Cart> orderItems, Long timestamp) {
+    public OrderCart(String userId, String name, String date, String deliveryAddress, Double totalAmount,
+                     String contactNumber, String deliveryOption, String shippingStatus,
+                     String paymentOption,List<Cart> orderItems, Long timestamp) {
         this.userId = userId;
         this.name = name;
         this.date = date;
@@ -71,9 +77,14 @@ OrderCart implements Serializable {
         this.contactNumber = contactNumber;
         this.deliveryOption = deliveryOption;
         this.shippingStatus = shippingStatus;
+        this.paymentOption = paymentOption;
         this.orderItems = orderItems;
         this.timestamp = timestamp;
     }
+
+    public String getPaymentOption() { return paymentOption; }
+
+    public void setPaymentOption(String paymentOption) { this.paymentOption = paymentOption; }
 
     public String getOrderId() {
         return orderId;

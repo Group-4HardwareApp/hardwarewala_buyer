@@ -40,6 +40,14 @@ public class User {
         this.imageUrl = imageUrl;
         this.token = token;
     }
+    public User(String userId, String name, String address, String mobile, String email, String token) {
+        this.userId = userId;
+        this.name = name;
+        this.address = address;
+        this.mobile = mobile;
+        this.email = email;
+        this.token = token;
+    }
 
     public String getUserId() {
         return userId;

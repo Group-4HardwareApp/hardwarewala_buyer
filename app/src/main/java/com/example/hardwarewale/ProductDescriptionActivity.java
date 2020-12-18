@@ -41,9 +41,9 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     ActivityProductDescriptionBinding binding;
     RecentUpdateAdapter adapter;
     Product product, p;
-    Favorite favorite;
+    Favorite favorite, fav;
     FirebaseUser currentUser;
-    String userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand, productName;
+    String userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand, productName, favId, pID;
     Double price;
     ArrayList<Cart> cartList;
     List<Favorite> favoriteList;
@@ -61,7 +61,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
 
         Intent in = getIntent();
         product = (Product) in.getSerializableExtra("product");
-        // favorite = (Favorite) in.getSerializableExtra("favorite");
 
         productData();
         setProductDetails();
@@ -87,19 +86,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         });
     }
 
-    /*
-        private void showFavoriteProductDetail() {
-            favorite = (Favorite) in.getSerializableExtra("favorite");
-            name = favorite.getName();
-            brand = favorite.getBrand();
-            productId = favorite.getProductId();
-            categoryId = favorite.getCategoryId();
-            shopkeeperId = favorite.getShopKeeperId();
-            imageUrl = favorite.getImageUrl();
-            price = favorite.getPrice();
-            description = favorite.getDescription();
-        }
-        */
     private void productData() {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = currentUser.getUid();
@@ -208,18 +194,22 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                     if (flag1 == 1) {
                         binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
                         Toast.makeText(ProductDescriptionActivity.this, "Already added", Toast.LENGTH_SHORT).show();
+                        removeFavorite();
+                         addProductToFvorite();
                     } else {
-                        Favorite f = new Favorite(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
+                        final Favorite f = new Favorite(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
                         final FavoriteService.FavoriteApi favoriteApi = FavoriteService.getFavoriteApiInstance();
                         Call<Favorite> call = favoriteApi.addFavorite(f);
                         call.enqueue(new Callback<Favorite>() {
                             @Override
                             public void onResponse(Call<Favorite> call, Response<Favorite> response) {
                                 if (response.code() == 200) {
-                                    Favorite fav = response.body();
+                                    fav = response.body();
                                     binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_border_icon));
                                     binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
                                     Toast.makeText(ProductDescriptionActivity.this, "Product added successfully", Toast.LENGTH_SHORT).show();
+                                     removeFavorite();
+                                     addProductToFvorite();
                                 }
                             }
 
@@ -230,10 +220,42 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                             }
                         });
                     }
-                } else
-                    Toast.makeText(ProductDescriptionActivity.this, "Internet not available ", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    private void removeFavorite(){
+        if(connectivity.isConnectedToInternet(this)) {
+            binding.ivAddtoFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    for(Favorite f : favoriteList){
+                        favId = f.getFavoriteId();
+                        pID = f.getProductId();
+                        pID.equals(product.getProductId());
+                        break;
+                    }
+
+                    FavoriteService.FavoriteApi api = FavoriteService.getFavoriteApiInstance();
+                    Call<Favorite> call = api.removeFavorite(favId);
+                    call.enqueue(new Callback<Favorite>() {
+                        @Override
+                        public void onResponse(Call<Favorite> call, Response<Favorite> response) {
+                            if (response.isSuccessful()) {
+                                Favorite favorite = response.body();
+                                binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_border_icon));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Favorite> call, Throwable t) {
+
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private void setProductDetails() {
@@ -267,7 +289,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                             binding.tvNoSimilarProducts.setVisibility(View.VISIBLE);
                         else {
                             adapter = new RecentUpdateAdapter(ProductDescriptionActivity.this, productList);
-                            // binding.rvSimilarProducts.setVisibility(View.VISIBLE);
                             binding.rvSimilarProducts.setAdapter(adapter);
                             binding.rvSimilarProducts.setLayoutManager(new LinearLayoutManager(ProductDescriptionActivity.this, RecyclerView.HORIZONTAL, false));
                         }
