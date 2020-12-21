@@ -241,8 +241,8 @@ public class PlaceProductActivity extends AppCompatActivity {
             manager.createNotificationChannel(channel);
         }
         NotificationCompat.Builder nb = new NotificationCompat.Builder(PlaceProductActivity.this, channelId);
-        nb.setContentTitle("Test");
-        nb.setContentText("First Notification");
+        nb.setContentTitle("Order Placed");
+        nb.setContentText("Product Purchased");
         nb.setSmallIcon(R.mipmap.app_logo);
 
         Intent in = new Intent(Intent.ACTION_DIAL);
