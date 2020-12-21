@@ -29,7 +29,6 @@ public class BuyActivity extends AppCompatActivity {
     BuyScreenBinding binding;
     ArrayList<Cart> cartList, updatedCartList;
     BuyCart buyCart;
-    ViewBillAdapter billAdapter;
     BuyCartAdapter adapter;
     double total=0, price,tot;
     int qty;
@@ -85,7 +84,6 @@ public class BuyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(BuyActivity.this, "show bill", Toast.LENGTH_SHORT).show();
-                //  ArrayList<BuyCart> cart = new ArrayList<>();
                 ViewBill bill = new ViewBill(updatedCartList);
                 bill.show(getSupportFragmentManager(), "show bill");
             }

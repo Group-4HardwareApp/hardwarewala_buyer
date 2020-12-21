@@ -79,6 +79,14 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
                     total = Double.parseDouble(tvAmt.getText().toString());
                     total = total + (price);
                     tvAmt.setText("" + total);
+                    cart.setTotalAmt(total);
+                    /*try {
+                        Intent in = new Intent(context, PlaceOrderActivity.class);
+                        in.putExtra("total", total);
+                        context.getApplicationContext().startActivity(in);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }*/
                 }
                 //tot = price * q;
             }
@@ -98,6 +106,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
                     double total = Double.parseDouble(tvAmt.getText().toString());
                     total = total - (price);
                     tvAmt.setText("" + total);
+                    cart.setTotalAmt(total);
                 }
                 //tot = price * q;
             }

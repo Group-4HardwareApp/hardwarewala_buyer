@@ -39,15 +39,12 @@ import retrofit2.Response;
 public class PlaceOrderActivity<list> extends AppCompatActivity {
     DeliveryDetailsBinding binding;
     List<Cart> cartList;
-    BuyCart buyCart;
     User user;
     ArrayList<String> deliveryOptions, paymentMode;
-    String productName, date,deliveryOption,paymentOption,id,brand,imageUrl,cartId,description,userId,categoryId,productId,
-            shopkeeperId, userName, userAddress, userMobile, userEmail, name,email,mobile,address;
+    String date,deliveryOption,paymentOption,userId, userName, userAddress, userMobile, userEmail;
     long timestamp;
-    double qtyInStock, qty, price, discount, totalAmt, total;
-    OrderItems items;
-    int quantity, fastCharges = 100, regularCharges = 50 ;
+    double total, tot;
+    int fastCharges = 100, regularCharges = 50, flag=0, flag1=0 ;
     InternetConnectivity connectivity;
     ArrayList<Cart> itemList = new ArrayList<Cart>();
 
@@ -58,10 +55,25 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent in = getIntent();
         cartList = (List<Cart>) in.getSerializableExtra("updatedCartList");
-        //total = (double) in.getSerializableExtra("total");
-        //binding.tvTotal.setText(""+total);
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        for (Cart c : cartList) {
+           /* Log.e("CartList", "==> " + c.getName());
+            Log.e("Product", "==>" + c.getProductId());
+            Log.e("Price", "==>" + c.getPrice());
+            Log.e("Des", "==>" + c.getDescription());
+            Log.e("Total", "==>" + c.getTotalAmt());
+            Log.e("Brand", "==>" + c.getBrand());
+            Log.e("qty", "==>" + c.getQty());
+            Log.e("Shop", "==>" + c.getShopKeeperId());
+            Log.e("Price", "==>" + c.getPrice());
+            Log.e("category", "==>" + c.getCategoryId());
+            Log.e("Image", "==>" + c.getImageUrl());
+*/
+            total = c.getTotalAmt();
+        }
+        Log.e("TotaL", "==>" + total);
 
         Calendar cdate = Calendar.getInstance();
         SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
@@ -146,10 +158,17 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
                 deliveryOption = parent.getItemAtPosition(position).toString();
                 if(deliveryOption.equals("Fast")){
                     binding.tvDeliveryOption.setText("Delivered within 2 days & charges = 100 ₹");
-                    total = total + fastCharges;
+                    flag = 1;
+                    if(flag == 1){
+                        total = total+ 100;
+                    }
+                    binding.tvTotal.setText("" + total);
                 }else {
                     binding.tvDeliveryOption.setText("Delivered within 5 days & charges = 50 ₹");
-                    total = total + regularCharges;
+                    if(flag == 1){
+                        total = total - 100;
+                    }
+                    binding.tvTotal.setText("" + total);
                 }
             }
             @Override
@@ -172,24 +191,6 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
             public void onNothingSelected(AdapterView <?> parent) {
             }
         });
-
-        for (Cart c : cartList) {
-            Log.e("CartList", "==> " + c.getName());
-            Log.e("Product", "==>" + c.getProductId());
-            Log.e("Price", "==>" + c.getPrice());
-            Log.e("Des", "==>" + c.getDescription());
-            Log.e("Total", "==>" + c.getTotalAmt());
-            Log.e("Brand", "==>" + c.getBrand());
-            Log.e("qty", "==>" + c.getQty());
-            Log.e("Shop", "==>" + c.getShopKeeperId());
-            Log.e("Price", "==>" + c.getPrice());
-            Log.e("category", "==>" + c.getCategoryId());
-            Log.e("Image", "==>" + c.getImageUrl());
-
-            total = total +c.getPrice();
-        }
-       // Log.e("TotaL", "==>" + tot);
-        binding.tvTotal.setText("" + total);
 
         binding.btnPalceOrder.setOnClickListener(new View.OnClickListener() {
             @Override

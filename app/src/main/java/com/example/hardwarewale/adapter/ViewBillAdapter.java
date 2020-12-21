@@ -27,26 +27,20 @@ public class ViewBillAdapter extends RecyclerView.Adapter<ViewBillAdapter.ViewBi
     @NonNull
     @Override
     public ViewBillViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.bill,parent,false);
-        //return new ViewBillViewHolder(view);
          BillItemListBinding binding = BillItemListBinding.inflate(LayoutInflater.from(context),parent,false);
          return new ViewBillViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewBillViewHolder holder, int position) {
-       // BuyCart cart = buyList.get(position);
         Cart c = cart.get(position);
         holder.binding.tvProductName.setText(""+c.getName());
         holder.binding.tvProductQty.setText(""+c.getQty());
         double qty = c.getQty();
         double price = c.getPrice();
         holder.binding.tvProductPrice.setText(""+qty*price);
-       // double total = 0;
-        //total = total + c.getTotalmt();
-        //holder.binding.tvTotalPrice.setText(""+total);
-        //Log.e("total amount : ", "==> " + total);
-
+        double total = 0;
+       // holder.binding.tvTotalPrice.setText(""+c.getTotalAmt());
     }
 
     @Override
