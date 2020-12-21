@@ -40,8 +40,7 @@ public class ViewBillAdapter extends RecyclerView.Adapter<ViewBillAdapter.ViewBi
         double price = c.getPrice();
         holder.binding.tvProductPrice.setText(""+qty*price);
         double total = 0;
-       // holder.binding.tvTotalPrice.setText(""+c.getTotalAmt());
-    }
+       }
 
     @Override
     public int getItemCount() {

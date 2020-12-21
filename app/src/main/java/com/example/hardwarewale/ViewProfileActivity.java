@@ -13,6 +13,7 @@ import com.example.hardwarewale.api.OrderService;
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.bean.User;
+import com.example.hardwarewale.databinding.ActivityViewProfile2Binding;
 import com.example.hardwarewale.databinding.ActivityViewProfileBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ViewProfileActivity extends AppCompatActivity {
-    ActivityViewProfileBinding binding;
+    ActivityViewProfile2Binding binding;
     String userId;
     SharedPreferences sp = null;
     InternetConnectivity connectivity;
@@ -35,7 +36,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityViewProfileBinding.inflate(LayoutInflater.from(this));
+        binding = ActivityViewProfile2Binding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         Log.e("UserID : ", "==>" + userId);
@@ -57,7 +58,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     ArrayList<Order> orderList = response.body();
                     int way = orderList.size();
-                    binding.tvOnway.setText("" + way + " Onway");
+                    binding.tvOnway.setText("" + way );
                     Log.e("onWay : ", "==> " + way);
                 } else
                     Toast.makeText(ViewProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -78,7 +79,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     ArrayList<Order> orders = response.body();
                     int cancelled = orders.size();
-                    binding.tvCancelled.setText("" + cancelled + " Cancel");
+                    binding.tvCancelled.setText("" + cancelled );
                     Log.e("Cancelled : ", "==> " + cancelled);
                 } else
                     Toast.makeText(ViewProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -101,7 +102,8 @@ public class ViewProfileActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     ArrayList<Order> orders = response.body();
                     int delivered = orders.size();
-                    binding.tvDelivered.setText("" + delivered + " Deliver");
+                    binding.tvDelivered.setText("" + delivered );
+
                     Log.e("Deivered : ", "==> " + delivered);
                 } else
                     Toast.makeText(ViewProfileActivity.this, "Error", Toast.LENGTH_SHORT).show();
