@@ -47,7 +47,6 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
     int fastCharges = 100, regularCharges = 50, flag=0, flag1=0 ;
     InternetConnectivity connectivity;
     ArrayList<Cart> itemList = new ArrayList<Cart>();
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +54,9 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent in = getIntent();
         cartList = (List<Cart>) in.getSerializableExtra("updatedCartList");
-
+        total = in.getDoubleExtra("total",0.0);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+        /*
         for (Cart c : cartList) {
            /* Log.e("CartList", "==> " + c.getName());
             Log.e("Product", "==>" + c.getProductId());
@@ -70,9 +69,10 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
             Log.e("Price", "==>" + c.getPrice());
             Log.e("category", "==>" + c.getCategoryId());
             Log.e("Image", "==>" + c.getImageUrl());
-*/
+
             total = c.getTotalAmt();
         }
+        */
         Log.e("TotaL", "==>" + total);
 
         Calendar cdate = Calendar.getInstance();

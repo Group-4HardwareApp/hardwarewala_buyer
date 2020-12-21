@@ -74,9 +74,14 @@ public class BuyActivity extends AppCompatActivity {
         binding.ivContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(BuyActivity.this, PlaceOrderActivity.class);
-                in.putExtra("updatedCartList", updatedCartList);
-                startActivity(in);
+                if(updatedCartList.size()!=0) {
+                    Intent in = new Intent(BuyActivity.this, PlaceOrderActivity.class);
+                    in.putExtra("updatedCartList", updatedCartList);
+                    String total = binding.tvAmt.getText().toString();
+                    double amount = Double.parseDouble(total);
+                    in.putExtra("total",amount);
+                    startActivity(in);
+                }
             }
         });
 
