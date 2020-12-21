@@ -29,7 +29,6 @@ public class BuyActivity extends AppCompatActivity {
     BuyScreenBinding binding;
     ArrayList<Cart> cartList, updatedCartList;
     BuyCart buyCart;
-    ViewBillAdapter billAdapter;
     BuyCartAdapter adapter;
     double total=0, price,tot;
     int qty;
@@ -75,9 +74,14 @@ public class BuyActivity extends AppCompatActivity {
         binding.ivContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(BuyActivity.this, PlaceOrderActivity.class);
-                in.putExtra("updatedCartList", updatedCartList);
-                startActivity(in);
+                if(updatedCartList.size()!=0) {
+                    Intent in = new Intent(BuyActivity.this, PlaceOrderActivity.class);
+                    in.putExtra("updatedCartList", updatedCartList);
+                    String total = binding.tvAmt.getText().toString();
+                    double amount = Double.parseDouble(total);
+                    in.putExtra("total",amount);
+                    startActivity(in);
+                }
             }
         });
 
@@ -85,7 +89,6 @@ public class BuyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(BuyActivity.this, "show bill", Toast.LENGTH_SHORT).show();
-                //  ArrayList<BuyCart> cart = new ArrayList<>();
                 ViewBill bill = new ViewBill(updatedCartList);
                 bill.show(getSupportFragmentManager(), "show bill");
             }

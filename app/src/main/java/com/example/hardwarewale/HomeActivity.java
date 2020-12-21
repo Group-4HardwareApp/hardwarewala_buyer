@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -193,6 +194,7 @@ public class HomeActivity extends AppCompatActivity {
                         editor.commit();
                     } else if (response.code() == 404) {
                         sendUserToProfileActivity();
+
                     }
                 }
 
@@ -433,4 +435,17 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(in);
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Toast.makeText(this, "Back Button Clicked", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
+        startActivity(intent);
+        finish();
+        System.exit(0);
+    }
+
 }

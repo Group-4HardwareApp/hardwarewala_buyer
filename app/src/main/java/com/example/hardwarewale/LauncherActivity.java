@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -27,7 +28,6 @@ public class LauncherActivity extends AppCompatActivity {
         View v= binding.getRoot();
         setContentView(v);
         binding.tvVersion.setText("Version 1.0");
-
         if(!isConnectedToInternet(this)){
             AlertDialog.Builder builder= new AlertDialog.Builder(LauncherActivity.this);
             builder.setMessage("Please check the Internet connection").setCancelable(false);
@@ -63,12 +63,14 @@ public class LauncherActivity extends AppCompatActivity {
        Intent in = new Intent(this,HomeActivity.class);
        in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
        startActivity(in);
+       finish();
     }
 
     private void sendUserToLogInActivity() {
         Intent in = new Intent(LauncherActivity.this, LogInActivity.class);
         in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(in);
+        finish();
     }
 
     public boolean isConnectedToInternet(Context context){

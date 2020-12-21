@@ -46,7 +46,7 @@ import retrofit2.Response;
 public class PlaceProductActivity extends AppCompatActivity {
     DeliveryDetailsBinding binding;
     Product product;
-    Order order;
+    int flag = 0;
     String productName, userName, date, userEmail, userAddress, userMobile, userId, brand, categoryId,
             productId, shopkeeperId, imageUrl, description, email,name,address,mobile, paymentOption, deliveryOption;
     Integer qty, qtyInStock, regularCharges = 50, fastCharges = 100;
@@ -69,6 +69,21 @@ public class PlaceProductActivity extends AppCompatActivity {
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         connectivity = new InternetConnectivity();
+
+        productName = product.getName();
+        brand = product.getBrand();
+        productId = product.getProductId();
+        categoryId = product.getCategoryId();
+        shopkeeperId = product.getShopKeeperId();
+        qty = product.getQty();
+        Log.e("qty", "==>" + qty);
+        qtyInStock = product.getQtyInStock();
+        discount = product.getDiscount();
+        description = product.getDescription();
+        imageUrl = product.getImageUrl();
+        double price = product.getPrice();
+        price1 = (long) price;
+        total = qty * price;
 
         UserService.UserApi userApi = UserService.getUserApiInstance();
         Call<User> call = userApi.getUserDetails(userId);
@@ -149,10 +164,17 @@ public class PlaceProductActivity extends AppCompatActivity {
                 deliveryOption = parent.getItemAtPosition(position).toString();
                 if(deliveryOption.equals("Fast")){
                     binding.tvDeliveryOption.setText("Delivered within 2 days & charges = 100 ₹");
-                    //    total = total + fastCharges;
+                    flag = 1;
+                    if(flag == 1){
+                        total = total+ 100;
+                    }
+                    binding.tvTotal.setText("" + total);
                 }else {
-                    binding.tvDeliveryOption.setText("Delivered within 5 days & charges = 50 ₹");
-                    //  total = total + regularCharges;
+                    binding.tvDeliveryOption.setText("Delivered within 5 days");
+                    if(flag == 1){
+                        total = total - 100;
+                    }
+                    binding.tvTotal.setText("" + total);
                 }
             }
             @Override
@@ -175,23 +197,6 @@ public class PlaceProductActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView <?> parent) {
             }
         });
-
-        productName = product.getName();
-        brand = product.getBrand();
-        productId = product.getProductId();
-        categoryId = product.getCategoryId();
-        shopkeeperId = product.getShopKeeperId();
-        qty = product.getQty();
-        Log.e("qty", "==>" + qty);
-        qtyInStock = product.getQtyInStock();
-        discount = product.getDiscount();
-        description = product.getDescription();
-        imageUrl = product.getImageUrl();
-        double price = product.getPrice();
-        price1 = (long) price;
-        total = qty * price;
-        binding.tvTotal.setText("" + total);
-        Log.e("Total ", "== " + total);
 
         Calendar cdate = Calendar.getInstance();
         SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
@@ -241,9 +246,9 @@ public class PlaceProductActivity extends AppCompatActivity {
             manager.createNotificationChannel(channel);
         }
         NotificationCompat.Builder nb = new NotificationCompat.Builder(PlaceProductActivity.this, channelId);
-        nb.setContentTitle("Order Placed");
-        nb.setContentText("Product Purchased");
-        nb.setSmallIcon(R.mipmap.app_logo);
+        nb.setContentTitle("Test");
+        nb.setContentText("Test notification");
+        nb.setSmallIcon(R.drawable.shopping_bag_icon);
 
         Intent in = new Intent(Intent.ACTION_DIAL);
         PendingIntent pin = PendingIntent.getActivity(PlaceProductActivity.this, 111, in, PendingIntent.FLAG_UPDATE_CURRENT);
