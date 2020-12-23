@@ -42,13 +42,10 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ProductsScreenBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
-
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         Intent in = getIntent();
         category = (Category) in.getSerializableExtra("category");
-
         showProducts();
     }
 

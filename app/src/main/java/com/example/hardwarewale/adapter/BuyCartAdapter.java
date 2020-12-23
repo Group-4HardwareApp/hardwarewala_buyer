@@ -3,23 +3,18 @@ package com.example.hardwarewale.adapter;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.hardwarewale.PlaceOrderActivity;
 import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.bean.Cart;
-import com.example.hardwarewale.databinding.ActivityCartItemBinding;
 import com.example.hardwarewale.databinding.CartItemListBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.squareup.picasso.Picasso;
@@ -59,8 +54,9 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
         int quantity = (int) qtyInStock;
         int qty = 1;
         holder.binding.tvQty.setText("" + qty);
-        Picasso.get().load(cart.getImageUrl()).into(holder.binding.productImage);
+        cart.setQty(qty);
 
+        Picasso.get().load(cart.getImageUrl()).into(holder.binding.productImage);
         holder.binding.tvProductName.setText("" + cart.getName());
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
         holder.binding.tvProductQty.setText("Available : " + quantity);
@@ -79,16 +75,8 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
                     total = Double.parseDouble(tvAmt.getText().toString());
                     total = total + (price);
                     tvAmt.setText("" + total);
-                    cart.setTotalAmt(total);
-                    /*try {
-                        Intent in = new Intent(context, PlaceOrderActivity.class);
-                        in.putExtra("total", total);
-                        context.getApplicationContext().startActivity(in);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }*/
+                    cart.setTotalAmt(q*price);
                 }
-                //tot = price * q;
             }
         });
 
@@ -106,9 +94,8 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
                     double total = Double.parseDouble(tvAmt.getText().toString());
                     total = total - (price);
                     tvAmt.setText("" + total);
-                    cart.setTotalAmt(total);
+                    cart.setTotalAmt(q*price);
                 }
-                //tot = price * q;
             }
         });
 

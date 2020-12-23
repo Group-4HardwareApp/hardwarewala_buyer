@@ -131,7 +131,6 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
 
     public class ManageOrderViewHolder extends RecyclerView.ViewHolder {
         ManageOrderItemListBinding binding;
-
         public ManageOrderViewHolder(ManageOrderItemListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
@@ -149,7 +148,6 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
 
     public interface OnRecyclerViewClick {
         void onItemClick(Order order, int posotion);
-
     }
 
     public void setOnItemClickListener(OnRecyclerViewClick listener) {

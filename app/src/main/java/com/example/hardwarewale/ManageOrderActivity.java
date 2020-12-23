@@ -11,14 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.hardwarewale.adapter.ManageOrderAdapter;
 import com.example.hardwarewale.api.OrderService;
-import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.databinding.ManageOrderBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -43,10 +43,10 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
     ArrayList<String> deliveryOptions, paymentMode;
     String date,deliveryOption,paymentOption,userId, userName, userAddress, userMobile, userEmail;
     long timestamp;
-    double total, tot;
-    int fastCharges = 100, regularCharges = 50, flag=0, flag1=0 ;
+    double total;
+    int flag=0 ;
     InternetConnectivity connectivity;
-    ArrayList<Cart> itemList = new ArrayList<Cart>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,24 +56,12 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         cartList = (List<Cart>) in.getSerializableExtra("updatedCartList");
         total = in.getDoubleExtra("total",0.0);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        /*
-        for (Cart c : cartList) {
-           /* Log.e("CartList", "==> " + c.getName());
-            Log.e("Product", "==>" + c.getProductId());
-            Log.e("Price", "==>" + c.getPrice());
-            Log.e("Des", "==>" + c.getDescription());
-            Log.e("Total", "==>" + c.getTotalAmt());
-            Log.e("Brand", "==>" + c.getBrand());
-            Log.e("qty", "==>" + c.getQty());
-            Log.e("Shop", "==>" + c.getShopKeeperId());
-            Log.e("Price", "==>" + c.getPrice());
-            Log.e("category", "==>" + c.getCategoryId());
-            Log.e("Image", "==>" + c.getImageUrl());
 
-            total = c.getTotalAmt();
+        for(Cart c : cartList){
+            c.setTotalAmt((c.getQty()*c.getPrice()));
+            Log.e("total amt","==>"+(c.getQty()*c.getPrice()));
+            //Log.e("total","==>"+c.getTotalAmt());
         }
-        */
-        Log.e("TotaL", "==>" + total);
 
         Calendar cdate = Calendar.getInstance();
         SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");

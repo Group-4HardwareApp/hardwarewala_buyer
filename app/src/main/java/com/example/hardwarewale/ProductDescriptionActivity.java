@@ -50,7 +50,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     int flag = 0, flag1 = 0;
     InternetConnectivity connectivity = new InternetConnectivity();
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,10 +57,8 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         Intent in = getIntent();
         product = (Product) in.getSerializableExtra("product");
-
         productData();
         setProductDetails();
         getFavoriteList();
@@ -74,7 +71,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    Toast.makeText(ProductDescriptionActivity.this, "Buy clicked", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ProductDescriptionActivity.this, BuyProductActivity.class);
                     intent.putExtra("product", product);
                     startActivity(intent);
@@ -193,9 +189,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                 if (connectivity.isConnectedToInternet(ProductDescriptionActivity.this)) {
                     if (flag1 == 1) {
                         binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
-                        Toast.makeText(ProductDescriptionActivity.this, "Already added", Toast.LENGTH_SHORT).show();
-                        removeFavorite();
-                         addProductToFvorite();
+                        Toast.makeText(ProductDescriptionActivity.this, "Already added", Toast.LENGTH_SHORT).show();                         addProductToFvorite();
                     } else {
                         final Favorite f = new Favorite(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
                         final FavoriteService.FavoriteApi favoriteApi = FavoriteService.getFavoriteApiInstance();
@@ -208,8 +202,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                                     binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_border_icon));
                                     binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
                                     Toast.makeText(ProductDescriptionActivity.this, "Product added successfully", Toast.LENGTH_SHORT).show();
-                                     removeFavorite();
-                                     addProductToFvorite();
                                 }
                             }
 
@@ -223,39 +215,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void removeFavorite(){
-        if(connectivity.isConnectedToInternet(this)) {
-            binding.ivAddtoFavorite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    for(Favorite f : favoriteList){
-                        favId = f.getFavoriteId();
-                        pID = f.getProductId();
-                        pID.equals(product.getProductId());
-                        break;
-                    }
-
-                    FavoriteService.FavoriteApi api = FavoriteService.getFavoriteApiInstance();
-                    Call<Favorite> call = api.removeFavorite(favId);
-                    call.enqueue(new Callback<Favorite>() {
-                        @Override
-                        public void onResponse(Call<Favorite> call, Response<Favorite> response) {
-                            if (response.isSuccessful()) {
-                                Favorite favorite = response.body();
-                                binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_border_icon));
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Favorite> call, Throwable t) {
-
-                        }
-                    });
-                }
-            });
-        }
     }
 
     private void setProductDetails() {

@@ -30,7 +30,6 @@ public class BuyProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = BuyProductScreenBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
-
         Intent in = getIntent();
         product = (Product) in.getSerializableExtra("product");
 
@@ -87,7 +86,6 @@ public class BuyProductActivity extends AppCompatActivity {
         binding.btnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BuyProductActivity.this, "Buy product clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(BuyProductActivity.this, PlaceProductActivity.class);
                 intent.putExtra("p", product);
                 startActivity(intent);
