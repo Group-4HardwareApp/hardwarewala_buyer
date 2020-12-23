@@ -88,11 +88,9 @@ public class BuyActivity extends AppCompatActivity {
         binding.ivBill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BuyActivity.this, "show bill", Toast.LENGTH_SHORT).show();
                 ViewBill bill = new ViewBill(updatedCartList);
                 bill.show(getSupportFragmentManager(), "show bill");
             }
         });
-
     }
 }

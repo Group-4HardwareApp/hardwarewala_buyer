@@ -51,7 +51,7 @@ public class PlaceProductActivity extends AppCompatActivity {
             productId, shopkeeperId, imageUrl, description, email,name,address,mobile, paymentOption, deliveryOption;
     Integer qty, qtyInStock, regularCharges = 50, fastCharges = 100;
     Double discount, total;
-    Long timestamp, tot, price1;
+    Long timestamp, price1;
     List<OrderItems> orderItemsList;
     OrderItems items;
     NotificationManager manager;

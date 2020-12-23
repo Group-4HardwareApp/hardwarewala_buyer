@@ -1,5 +1,6 @@
 package com.example.hardwarewale;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +26,6 @@ import java.util.ArrayList;
 
 public class ViewBill extends BottomSheetDialogFragment {
     BillBinding binding;
-    String name;
-    double price, qty;
     ViewBillAdapter billAdapter;
     ArrayList<Cart> cart;
 

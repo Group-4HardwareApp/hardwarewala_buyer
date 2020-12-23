@@ -32,11 +32,11 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @Override
     public void onBindViewHolder(@NonNull OrderDetailViewHolder holder, int position) {
          OrderItems item = itemList.get(position);
-         holder.binding.tvProductName.setText("" + item.getProductName());
+         holder.binding.tvProductName.setText("" + item.getName());
          holder.binding.tvProductName.setTextColor(context.getResources().getColor(R.color.black));
          holder.binding.tvProductPrice.setText("₹ " + item.getPrice());
          holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.black));
-         holder.binding.tvProductQty.setText("Qty : " + item.getQuantity());
+         holder.binding.tvProductQty.setText("Qty : " + item.getQty());
          holder.binding.tvProductQty.setTextColor(context.getResources().getColor(R.color.black));
          Picasso.get().load(item.getImageUrl()).into(holder.binding.ivProductImage);
     }

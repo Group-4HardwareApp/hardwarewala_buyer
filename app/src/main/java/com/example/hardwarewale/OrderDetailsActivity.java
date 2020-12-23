@@ -8,17 +8,13 @@ import android.view.LayoutInflater;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.adapter.OrderDetailAdapter;
-import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.bean.OrderItems;
 import com.example.hardwarewale.databinding.OrderDetailItemListBinding;
 import com.example.hardwarewale.databinding.OrderDetailScreenBinding;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class OrderDetailsActivity extends AppCompatActivity {
     OrderDetailScreenBinding binding;

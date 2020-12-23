@@ -14,7 +14,6 @@ import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.ActivityViewProfile2Binding;
-import com.example.hardwarewale.databinding.ActivityViewProfileBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;

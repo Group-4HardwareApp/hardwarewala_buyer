@@ -30,6 +30,7 @@ public class CategoryActivity extends AppCompatActivity {
     ProductsScreenBinding binding;
     CategoryAdapter adapter;
     Intent in = getIntent();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

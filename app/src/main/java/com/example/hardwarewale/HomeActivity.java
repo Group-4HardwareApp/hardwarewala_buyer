@@ -76,7 +76,6 @@ public class HomeActivity extends AppCompatActivity {
         sp = getSharedPreferences("user", MODE_PRIVATE);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-
         getNavigationDrawer();
         showDiscountedProducts();
         showRecentUpdates();
@@ -275,7 +274,6 @@ public class HomeActivity extends AppCompatActivity {
                             startActivity(in);
                         }
                     });
-
                     categoryAdapter1 = new CategoryAdapter(HomeActivity.this, al2);
                     homeBinding.rvHomeCategory1.setAdapter(categoryAdapter1);
                     homeBinding.rvHomeCategory1.setLayoutManager(new GridLayoutManager(HomeActivity.this, 2));
@@ -366,33 +364,27 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 if (id == R.id.menuHome) {
-                    Toast.makeText(HomeActivity.this, "Home clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, HomeActivity.class);
+                    startActivity(in);
                 } else if (id == R.id.menuCart) {
-                    Toast.makeText(HomeActivity.this, "Cart clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, CartActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuSetting) {
-                    Toast.makeText(HomeActivity.this, "Setting clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, SettingActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuFavorites) {
-                    Toast.makeText(HomeActivity.this, "Favorites clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, FavoriteActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuShopByCategoty) {
                     Intent in = new Intent(HomeActivity.this, CategoryActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuManageOrders) {
-                    Toast.makeText(HomeActivity.this, "Manage Order clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, ManageOrderActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuOrderHistory) {
-                    Toast.makeText(HomeActivity.this, "Order History clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, OrderHistoryActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuProfile) {
-                    Toast.makeText(HomeActivity.this, "View profile clicked", Toast.LENGTH_SHORT).show();
                     Intent in = new Intent(HomeActivity.this, ViewProfileActivity.class);
                     startActivity(in);
                 } else if (id == R.id.menuLogout) {
@@ -404,9 +396,7 @@ public class HomeActivity extends AppCompatActivity {
                             final ProgressDialog pd = new ProgressDialog(HomeActivity.this);
                             pd.setTitle("Please wait...");
                             pd.show();
-                            //SharedPreferences.Editor editor = sp.edit();
-                            //editor.clear();
-                            //editor.commit();
+                            //SharedPreferences.Editor editor = sp.edit();editor.clear();editor.commit();
                             mAuth.signOut();
                             pd.dismiss();
                             navivateUserToLoginActivity();
@@ -439,13 +429,11 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Toast.makeText(this, "Back Button Clicked", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
         System.exit(0);
     }
-
 }

@@ -19,6 +19,8 @@ import java.util.ArrayList;
 public class ViewBillAdapter extends RecyclerView.Adapter<ViewBillAdapter.ViewBillViewHolder> {
     ArrayList<Cart> cart;
     Context context;
+    int qty = 1;
+
     public ViewBillAdapter(Context context, ArrayList<Cart> cart){
         this.context = context;
         this.cart = cart;
@@ -36,10 +38,8 @@ public class ViewBillAdapter extends RecyclerView.Adapter<ViewBillAdapter.ViewBi
         Cart c = cart.get(position);
         holder.binding.tvProductName.setText(""+c.getName());
         holder.binding.tvProductQty.setText(""+c.getQty());
-        double qty = c.getQty();
-        double price = c.getPrice();
-        holder.binding.tvProductPrice.setText(""+qty*price);
-        double total = 0;
+        holder.binding.tvProductPrice.setText(""+(c.getQty()*c.getPrice()));
+        c.setTotalAmt(c.getQty()*c.getPrice());
        }
 
     @Override

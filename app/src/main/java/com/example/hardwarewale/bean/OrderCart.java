@@ -9,6 +9,9 @@ import java.util.List;
 public class
 OrderCart implements Serializable {
 
+    @SerializedName("shopkeeperId")
+    @Expose
+    private String shopkeeperId;
     @SerializedName("orderId")
     @Expose
     private String orderId;
@@ -46,12 +49,13 @@ OrderCart implements Serializable {
     @Expose
     private Long timestamp;
 
-    public OrderCart(){
+    public OrderCart() {
     }
 
-    public OrderCart(String orderId, String userId, String name, String date, String deliveryAddress,
+    public OrderCart(String shopkeeperId, String orderId, String userId, String name, String date, String deliveryAddress,
                      Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus,
-                     String paymentOption,List<Cart> orderItems, Long timestamp) {
+                     String paymentOption, List<Cart> orderItems, Long timestamp) {
+        this.shopkeeperId = shopkeeperId;
         this.orderId = orderId;
         this.userId = userId;
         this.name = name;
@@ -68,7 +72,7 @@ OrderCart implements Serializable {
 
     public OrderCart(String userId, String name, String date, String deliveryAddress, Double totalAmount,
                      String contactNumber, String deliveryOption, String shippingStatus,
-                     String paymentOption,List<Cart> orderItems, Long timestamp) {
+                     String paymentOption, List<Cart> orderItems, Long timestamp) {
         this.userId = userId;
         this.name = name;
         this.date = date;
@@ -81,6 +85,10 @@ OrderCart implements Serializable {
         this.orderItems = orderItems;
         this.timestamp = timestamp;
     }
+
+    public String getShopkeeperId() { return shopkeeperId; }
+
+    public void setShopkeeperId(String shopkeeperId) { this.shopkeeperId = shopkeeperId; }
 
     public String getPaymentOption() { return paymentOption; }
 
