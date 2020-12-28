@@ -24,8 +24,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.6"
-            android:padding="5dp"
-            android:layout_marginLeft="20dp"
+            android:paddingLeft="5dp"
+            android:layout_marginLeft="15dp"
             android:orientation="vertical">
 
             <TextView
@@ -49,6 +49,21 @@
                 android:layout_height="wrap_content"
                 android:text="10"
                 android:layout_marginTop="5dp"
+                />
+
+            <TextView
+                android:id="@+id/tvAddComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add comment"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:drawablePadding="3dp"
+                android:drawableRight="@drawable/add_comment_icon"
+                android:layout_gravity="end"
+                android:layout_marginTop="5dp"
+                android:visibility="visible"
                 />
         </LinearLayout>
     </LinearLayout>

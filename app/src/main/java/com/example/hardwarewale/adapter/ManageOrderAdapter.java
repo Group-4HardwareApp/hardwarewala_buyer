@@ -16,6 +16,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.OrderDetailsActivity;
+import com.example.hardwarewale.OrderHistoryDetailsActivity;
 import com.example.hardwarewale.api.OrderService;
 import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.bean.Order;
@@ -34,7 +35,6 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
     Context context;
     ArrayList<Order> orderList;
     ProgressDialog pd;
-    AlertDialog ab;
     OnRecyclerViewClick listener;
     InternetConnectivity connectivity = new InternetConnectivity();
 

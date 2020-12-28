@@ -1,19 +1,14 @@
 package com.example.hardwarewale;
 
-import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -21,10 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.PermissionChecker;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.ActivityCreateProfileBinding;
@@ -33,10 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.io.FileDescriptor;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -46,16 +35,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.basgeekball.awesomevalidation.ValidationStyle.BASIC;
-
 public class SettingActivity extends AppCompatActivity {
     ActivityCreateProfileBinding binding;
     SharedPreferences sp = null;
-    Uri imageUri;
-    ProgressDialog pd;
-    AwesomeValidation awesomeValidation;
     String currentUserId, userId, token;
     InternetConnectivity connectivity;
+    Uri imageUri;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +60,7 @@ public class SettingActivity extends AppCompatActivity {
         binding.etName.setText(sp.getString("name", "name"));
         binding.etAddress.setText(sp.getString("address", "Address"));
         binding.btnSave.setText("Update");
+
         binding.etbtnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +69,7 @@ public class SettingActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(in, "Select image"), 111);
             }
         });
+
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

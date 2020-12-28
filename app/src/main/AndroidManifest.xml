@@ -96,5 +96,10 @@
             android:name=".PlaceProductActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".OrderHistoryDetailsActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".AddCommentActivity"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>
