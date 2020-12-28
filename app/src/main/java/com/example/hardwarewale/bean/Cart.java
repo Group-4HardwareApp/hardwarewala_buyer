@@ -1,4 +1,3 @@
-
 package com.example.hardwarewale.bean;
 
 import com.google.gson.annotations.Expose;
@@ -41,9 +40,9 @@ public class Cart implements Serializable {
     @SerializedName("qtyInStock")
     @Expose
     private Double qtyInStock;
-    @SerializedName("totalAmt")
+    @SerializedName("total")
     @Expose
-    private Double totalAmt;
+    private Double total;
     @SerializedName("qty")
     @Expose
     private Integer qty;
@@ -68,12 +67,12 @@ public class Cart implements Serializable {
         this.qtyInStock = qtyInStock;
     }
 
-    public Double getTotalAmt() {
-        return totalAmt;
+    public Double getTotal() {
+        return total;
     }
 
-    public void setTotalAmt(Double totalAmt) {
-        this.totalAmt = totalAmt;
+    public void setTotal(Double total) {
+        this.total = total;
     }
 
     public Cart(String cartId, String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl,
@@ -89,7 +88,7 @@ public class Cart implements Serializable {
         this.description = description;
         this.shopKeeperId = shopKeeperId;
         this.qtyInStock = qtyInStock;
-        this.totalAmt = totalAmt;
+        this.total = totalAmt;
         this.qty = qty;
     }
 
@@ -106,7 +105,6 @@ public class Cart implements Serializable {
         this.description = description;
         this.shopKeeperId = shopKeeperId;
     }
-
 
     public String getCartId() {
         return cartId;

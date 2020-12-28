@@ -39,7 +39,7 @@ public class ViewBillAdapter extends RecyclerView.Adapter<ViewBillAdapter.ViewBi
         holder.binding.tvProductName.setText(""+c.getName());
         holder.binding.tvProductQty.setText(""+c.getQty());
         holder.binding.tvProductPrice.setText(""+(c.getQty()*c.getPrice()));
-        c.setTotalAmt(c.getQty()*c.getPrice());
+        c.setTotal(c.getQty()*c.getPrice());
        }
 
     @Override

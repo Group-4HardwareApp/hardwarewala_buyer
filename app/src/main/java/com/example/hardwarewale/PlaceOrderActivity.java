@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +27,11 @@ import com.example.hardwarewale.bean.OrderItems;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.DeliveryDetailsBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +51,8 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
     long timestamp;
     double total;
     int flag=0 ;
+    public static final String TAG = "MyTag";
+    private TextView mOutputText;
     InternetConnectivity connectivity;
 
     @Override
@@ -58,7 +66,7 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         for(Cart c : cartList){
-            c.setTotalAmt((c.getQty()*c.getPrice()));
+            c.setTotal((c.getQty()*c.getPrice()));
             Log.e("total amt","==>"+(c.getQty()*c.getPrice()));
             //Log.e("total","==>"+c.getTotalAmt());
         }

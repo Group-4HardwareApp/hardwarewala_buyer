@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.OrderDetailsActivity;
+import com.example.hardwarewale.OrderHistoryDetailsActivity;
 import com.example.hardwarewale.R;
 import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.bean.OrderItems;
@@ -55,7 +56,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
           holder.binding.btnViewMore.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                  Intent in = new Intent(context, OrderDetailsActivity.class);
+                  Intent in = new Intent(context, OrderHistoryDetailsActivity.class);
                   in.putExtra("item", (Serializable) items);
                   in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                   context.getApplicationContext().startActivity(in);

@@ -1,9 +1,6 @@
 package com.example.hardwarewale;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,13 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hardwarewale.adapter.DiscountAdapter;
-import com.example.hardwarewale.adapter.ProductAdapter;
 import com.example.hardwarewale.adapter.RecentUpdateAdapter;
+import com.example.hardwarewale.adapter.ShowCommentAdapter;
 import com.example.hardwarewale.api.CartService;
+import com.example.hardwarewale.api.CommentService;
 import com.example.hardwarewale.api.FavoriteService;
 import com.example.hardwarewale.api.ProductService;
 import com.example.hardwarewale.bean.Cart;
+import com.example.hardwarewale.bean.Comment;
 import com.example.hardwarewale.bean.Favorite;
 import com.example.hardwarewale.bean.Product;
 import com.example.hardwarewale.databinding.ActivityProductDescriptionBinding;
@@ -48,6 +46,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     ArrayList<Cart> cartList;
     List<Favorite> favoriteList;
     int flag = 0, flag1 = 0;
+    ShowCommentAdapter showCommentAdapter;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -74,9 +73,9 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                     Intent intent = new Intent(ProductDescriptionActivity.this, BuyProductActivity.class);
                     intent.putExtra("product", product);
                     startActivity(intent);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e("Error","==>"+e);
+                    Log.e("Error", "==>" + e);
                 }
             }
         });
@@ -85,9 +84,9 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     private void productData() {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = currentUser.getUid();
+        productId = product.getProductId();
         name = product.getName();
         brand = product.getBrand();
-        productId = product.getProductId();
         categoryId = product.getCategoryId();
         price = product.getPrice();
         shopkeeperId = product.getShopKeeperId();
@@ -189,7 +188,8 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                 if (connectivity.isConnectedToInternet(ProductDescriptionActivity.this)) {
                     if (flag1 == 1) {
                         binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
-                        Toast.makeText(ProductDescriptionActivity.this, "Already added", Toast.LENGTH_SHORT).show();                         addProductToFvorite();
+                        Toast.makeText(ProductDescriptionActivity.this, "Already added", Toast.LENGTH_SHORT).show();
+                        addProductToFvorite();
                     } else {
                         final Favorite f = new Favorite(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
                         final FavoriteService.FavoriteApi favoriteApi = FavoriteService.getFavoriteApiInstance();
