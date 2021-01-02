@@ -97,9 +97,6 @@
         <activity
             android:name=".PlaceProductActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".LauncherActivity"
-            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".OrderHistoryDetailsActivity"
