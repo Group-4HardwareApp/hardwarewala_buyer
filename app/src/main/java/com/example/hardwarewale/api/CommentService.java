@@ -33,7 +33,7 @@ public class CommentService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        if (commentApi != null)
+        if (commentApi == null)
             commentApi = retrofit.create(CommentService.CommentApi.class);
         return commentApi;
     }
