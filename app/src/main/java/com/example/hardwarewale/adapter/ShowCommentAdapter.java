@@ -1,14 +1,18 @@
 package com.example.hardwarewale.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.bean.Comment;
 import com.example.hardwarewale.databinding.ProductItemListBinding;
+import com.example.hardwarewale.databinding.ShowCommentItemListBinding;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,7 @@ import retrofit2.Callback;
 
 public class ShowCommentAdapter extends RecyclerView.Adapter<ShowCommentAdapter.ShowCommentViewHolder> {
 
+    Float rate, avgRate = 0f;
     Context context;
     ArrayList<Comment> commentList;
 
@@ -28,15 +33,19 @@ public class ShowCommentAdapter extends RecyclerView.Adapter<ShowCommentAdapter.
     @NonNull
     @Override
     public ShowCommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ProductItemListBinding binding = ProductItemListBinding.inflate(LayoutInflater.from(context), parent, false);
+        ShowCommentItemListBinding binding = ShowCommentItemListBinding.inflate(LayoutInflater.from(context), parent, false);
         return new ShowCommentViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ShowCommentViewHolder holder, int position) {
         Comment comment = commentList.get(position);
-        holder.binding.tvProductPrice.setText("" + comment.getComment());
-        holder.binding.tvProductPrice.setText("" + comment.getRating());
+        holder.binding.tvComment.setText("" + comment.getComment());
+        holder.binding.tvUserName.setText("" + comment.getUserName());
+        Picasso.get().load(comment.getUserImg()).placeholder(R.drawable.app_logo).into(holder.binding.ivUserImg);
+        rate = Float.valueOf(comment.getRating()).floatValue();
+        holder.binding.ratingBar.setRating(rate);
+        //holder.binding.tvRate.setText("" + rate + " Out of 5 ");
     }
 
     @Override
@@ -45,9 +54,8 @@ public class ShowCommentAdapter extends RecyclerView.Adapter<ShowCommentAdapter.
     }
 
     public class ShowCommentViewHolder extends RecyclerView.ViewHolder {
-        ProductItemListBinding binding;
-
-        public ShowCommentViewHolder(ProductItemListBinding binding) {
+        ShowCommentItemListBinding binding;
+        public ShowCommentViewHolder(ShowCommentItemListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

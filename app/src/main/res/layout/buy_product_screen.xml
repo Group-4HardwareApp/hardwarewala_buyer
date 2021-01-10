@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -24,30 +24,19 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.8"
                 android:gravity="center_vertical"
-                android:text="HardwareWale"
+                android:text="Buy product"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/tvBuy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Buy product"
-        android:paddingLeft="20dp"
-        android:layout_below="@id/toolbar"
-        android:textColor="@color/black"
-        android:textStyle="bold"/>
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvBuy"
-        android:orientation="vertical"
-        android:id="@+id/rl">
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -104,15 +93,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="10"
                             android:gravity="center"
+                            android:text="10"
                             android:textColor="@color/black" />
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
                             android:layout_alignParentRight="true"
+                            android:layout_marginLeft="5dp"
                             android:orientation="horizontal"
                             android:weightSum="1">
 
@@ -128,9 +117,9 @@
                                 android:id="@+id/tvQty"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/ivSubrtact"
                                 android:layout_weight="0.4"
                                 android:gravity="center"
-                                android:layout_toRightOf="@id/ivSubrtact"
                                 android:padding="5dp"
                                 android:text="1"
                                 android:textColor="@color/black" />
@@ -139,9 +128,9 @@
                                 android:id="@+id/ivAdd"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_toRightOf="@id/tvQty"
                                 android:layout_weight="0.3"
                                 android:padding="3dp"
-                                android:layout_toRightOf="@id/tvQty"
                                 android:src="@drawable/add_icon" />
                         </RelativeLayout>
                     </RelativeLayout>
@@ -154,10 +143,10 @@
         android:id="@+id/btnBuy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
         android:layout_below="@id/rl"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
         app:cardBackgroundColor="@color/yellow"
         app:cardElevation="10dp">
 

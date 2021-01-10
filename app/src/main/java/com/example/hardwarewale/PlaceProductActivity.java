@@ -1,12 +1,8 @@
 package com.example.hardwarewale;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import com.example.hardwarewale.api.NotificationService;
 import com.example.hardwarewale.api.OrderService;
@@ -33,11 +28,9 @@ import com.example.hardwarewale.bean.OrderItems;
 import com.example.hardwarewale.bean.Product;
 import com.example.hardwarewale.bean.Shopkeeper;
 import com.example.hardwarewale.bean.User;
-import com.example.hardwarewale.databinding.ChangeDetailsBinding;
 import com.example.hardwarewale.databinding.DeliveryDetailsBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,7 +52,6 @@ public class PlaceProductActivity extends AppCompatActivity {
     Long timestamp, price1;
     List<OrderItems> orderItemsList;
     OrderItems items;
-    NotificationManager manager;
     InternetConnectivity connectivity;
     ArrayList<String> deliveryMode, paymentMode;
 
@@ -79,7 +71,7 @@ public class PlaceProductActivity extends AppCompatActivity {
         brand = product.getBrand();
         productId = product.getProductId();
         categoryId = product.getCategoryId();
-        shopkeeperId = product.getShopKeeperId();
+        shopkeeperId = product.getShopkeeperId();
         Log.e("shopkeeperId", "==>" + shopkeeperId);
         qty = product.getQty();
         Log.e("qty", "==>" + qty);
@@ -103,6 +95,7 @@ public class PlaceProductActivity extends AppCompatActivity {
                     userEmail = user.getEmail();
                     userName = user.getName();
                     userToken = user.getToken();
+                    Log.e("user token","===>"+userToken);
                     binding.tvEmail.setText("" + user.getEmail());
                     binding.tvAddress.setText("" + user.getAddress());
                     binding.tvName.setText("" + user.getName());

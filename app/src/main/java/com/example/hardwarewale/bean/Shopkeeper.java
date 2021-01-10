@@ -8,9 +8,9 @@ public class Shopkeeper {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("shopKeeperId")
+    @SerializedName("shopkeeperId")
     @Expose
-    private String shopKeeperId;
+    private String shopkeeperId;
     @SerializedName("shopName")
     @Expose
     private String shopName;
@@ -36,7 +36,7 @@ public class Shopkeeper {
     public Shopkeeper(String name, String shopKeeperId, String shopName, String contactNumber, String address, String imageUrl, String email, String token) {
         super();
         this.name = name;
-        this.shopKeeperId = shopKeeperId;
+        this.shopkeeperId = shopKeeperId;
         this.shopName = shopName;
         this.contactNumber = contactNumber;
         this.address = address;
@@ -53,12 +53,12 @@ public class Shopkeeper {
         this.name = name;
     }
 
-    public String getShopKeeperId() {
-        return shopKeeperId;
+    public String getShopkeeperId() {
+        return shopkeeperId;
     }
 
     public void setShopKeeperId(String shopKeeperId) {
-        this.shopKeeperId = shopKeeperId;
+        this.shopkeeperId = shopKeeperId;
     }
 
     public String getShopName() {

@@ -60,10 +60,10 @@
                 android:textStyle="bold"
                 android:textSize="12sp"
                 android:drawablePadding="3dp"
-                android:drawableRight="@drawable/add_comment_icon"
+                android:drawableRight="@drawable/comment_icon"
                 android:layout_gravity="end"
                 android:layout_marginTop="5dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 />
         </LinearLayout>
     </LinearLayout>

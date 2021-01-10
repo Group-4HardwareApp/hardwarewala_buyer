@@ -7,15 +7,23 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/yellow"
-            />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/yellow">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Create profile"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="visible"/>
+        </androidx.appcompat.widget.Toolbar>
 
         <View
             android:id="@+id/view"
@@ -30,9 +38,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="80dp"
             android:src="@drawable/profile_logo"
-            app:civ_border_color="@color/black"
-
-            />
+            app:civ_border_color="@color/black" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/etbtnEdit"
@@ -40,17 +46,18 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/civImage"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-30dp"
+            android:layout_marginTop="-15dp"
             android:backgroundTint="@color/yellow"
             android:src="@drawable/edit" />
-
 
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etbtnEdit"
-            android:layout_margin="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
             android:hint="Name"
             android:inputType="text"
@@ -62,7 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etName"
-            android:layout_margin="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
             android:hint="Mobile"
             android:inputType="number"
@@ -74,7 +83,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etMobile"
-            android:layout_margin="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
             android:hint="Email"
             android:inputType="textEmailAddress"
@@ -86,7 +97,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etEmail"
-            android:layout_margin="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
             android:hint="Address"
             android:inputType="text"
@@ -98,12 +111,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etAddress"
-            android:layout_margin="15dp"
-            android:background="@drawable/button_decoration"
-            android:text="Saved"
+            android:layout_margin="20dp"
+            android:background="@drawable/login_button"
+            android:text="Save"
             android:textColor="@color/black"
             android:textSize="17sp" />
-
 
     </RelativeLayout>
 </ScrollView>

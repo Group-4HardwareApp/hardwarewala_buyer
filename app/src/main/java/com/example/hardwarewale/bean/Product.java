@@ -13,9 +13,9 @@ public class Product implements Serializable {
     @SerializedName("categoryId")
     @Expose
     private String categoryId;
-    @SerializedName("shopKeeperId")
+    @SerializedName("shopkeeperId")
     @Expose
-    private String shopKeeperId;
+    private String shopkeeperId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -61,7 +61,7 @@ public class Product implements Serializable {
                    String brand, Double totalAmt,Integer qtyInStock, String imageUrl, String secondImageUrl,String thirdImageurl,String description, Long timestamp, Integer qty) {
         this.productId = productId;
         this.categoryId = categoryId;
-        this.shopKeeperId = shopKeeperId;
+        this.shopkeeperId = shopKeeperId;
         this.totalAmt = totalAmt;
         this.name = name;
         this.price = price;
@@ -124,12 +124,12 @@ public class Product implements Serializable {
         this.categoryId = categoryId;
     }
 
-    public String getShopKeeperId() {
-        return shopKeeperId;
+    public String getShopkeeperId() {
+        return shopkeeperId;
     }
 
-    public void setShopKeeperId(String shopKeeperId) {
-        this.shopKeeperId = shopKeeperId;
+    public void setShopkeeperId(String shopKeeperId) {
+        this.shopkeeperId = shopKeeperId;
     }
 
     public String getName() {

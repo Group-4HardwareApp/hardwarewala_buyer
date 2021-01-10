@@ -26,7 +26,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
                         android:gravity="center_vertical"
-                        android:text="HardwareWale"
+                        android:text="Products"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
@@ -57,7 +57,7 @@
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
-        <TextView
+        <!--TextView
             android:id="@+id/tvProducts"
             android:layout_below="@+id/toolbar"
             android:layout_height="wrap_content"
@@ -66,11 +66,11 @@
             android:paddingLeft="15dp"
             android:text="Products"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold" /-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProduct"
-            android:layout_below="@+id/tvProducts"
+            android:layout_below="@+id/toolbar"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_width="match_parent" />

@@ -35,9 +35,9 @@ public class Favorite implements Serializable {
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("shopKeeperId")
+    @SerializedName("shopkeeperId")
     @Expose
-    private String shopKeeperId;
+    private String shopkeeperId;
 
     public Favorite() {
     }
@@ -51,7 +51,7 @@ public class Favorite implements Serializable {
         this.brand = brand;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.shopKeeperId = shopKeeperId;
+        this.shopkeeperId = shopKeeperId;
     }
 
     public Favorite(String favoriteId, String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl, String description, String shopKeeperId) {
@@ -64,7 +64,7 @@ public class Favorite implements Serializable {
         this.brand = brand;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.shopKeeperId = shopKeeperId;
+        this.shopkeeperId = shopKeeperId;
     }
 
     public String getFavoriteId() {
@@ -140,11 +140,11 @@ public class Favorite implements Serializable {
     }
 
     public String getShopKeeperId() {
-        return shopKeeperId;
+        return shopkeeperId;
     }
 
-    public void setShopKeeperId(String shopKeeperId) {
-        this.shopKeeperId = shopKeeperId;
+    public void setShopkeeperId(String shopKeeperId) {
+        this.shopkeeperId = shopKeeperId;
     }
 
 }
