@@ -1,6 +1,7 @@
 package com.example.hardwarewale;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.adapter.RecentUpdateAdapter;
 import com.example.hardwarewale.adapter.ShowCommentAdapter;
+import com.example.hardwarewale.adapter.SliderAdapterExample;
 import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.api.CommentService;
 import com.example.hardwarewale.api.FavoriteService;
@@ -22,10 +24,15 @@ import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.bean.Comment;
 import com.example.hardwarewale.bean.Favorite;
 import com.example.hardwarewale.bean.Product;
+import com.example.hardwarewale.bean.SliderItem;
 import com.example.hardwarewale.databinding.ActivityProductDescriptionBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.IndicatorView.draw.controller.DrawController;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,7 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductDescriptionActivity extends AppCompatActivity {
-    ActivityProductDescriptionBinding binding;
+   ActivityProductDescriptionBinding binding;
     RecentUpdateAdapter adapter;
     Product product;
     Favorite fav;
@@ -47,6 +54,8 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     ArrayList<Cart> cartList;
     List<Favorite> favoriteList;
     int flag = 0, flag1 = 0;
+    ShowCommentAdapter showCommentAdapter;
+    private SliderAdapterExample sliderAdapterExample;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -260,11 +269,27 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         binding.tvProductDiscount.setText("" + off + "% Off");
         binding.tvProductDescription.setText("" + product.getDescription());
         binding.tvQuantity.setText("" + product.getQtyInStock());
-        Picasso.get().load(product.getImageUrl()).placeholder(R.mipmap.app_logo).into(binding.ivProductImage);
+
+        sliderAdapterExample = new SliderAdapterExample(this);
+        binding.iv.setSliderAdapter(sliderAdapterExample);
+        binding.iv.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        binding.iv.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        binding.iv.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+        binding.iv.setIndicatorSelectedColor(Color.YELLOW);
+        binding.iv.setIndicatorMargin(1);
+        binding.iv.setIndicatorUnselectedColor(Color.GRAY);
+        binding.iv.setScrollTimeInSec(2);
+        binding.iv.setOnIndicatorClickListener(new DrawController.ClickListener() {
+            @Override
+            public void onIndicatorClicked(int position) {
+
+            }
+        });
         double price = product.getPrice();
         double dis = price * (discount / 100);
         double offerPrice = price - dis;
         binding.tvDiscountedPrice.setText("₹ " + offerPrice);
+        renewItems(binding.getRoot());
     }
 
     private void showSimilarProducts() {
@@ -294,5 +319,21 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void renewItems(View view) {
+        List<SliderItem> sliderItemList = new ArrayList<>();
+        for (int i = 1; i < 4; i++) {
+            SliderItem sliderItem = new SliderItem();
+            if (i == 1) {
+                sliderItem.setImageUrl(product.getImageUrl());
+            } else if (i == 2) {
+                sliderItem.setImageUrl(product.getSecondImageUrl());
+            } else if (i == 3) {
+                sliderItem.setImageUrl(product.getThirdImageurl());
+            }
+            sliderItemList.add(sliderItem);
+        }
+        sliderAdapterExample.renewItems(sliderItemList);
     }
 }
