@@ -27,16 +27,15 @@ import android.view.View;
 
 import android.widget.Toast;
 
-
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.ActivityCreateProfileBinding;
+import com.example.hardwarewale.databinding.TestLayoutBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
-
 
 import java.io.File;
 import java.util.Objects;
@@ -54,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     Uri imageUri;
     ActivityCreateProfileBinding binding;
+    //TestLayoutBinding binding;
     SharedPreferences sp = null;
     AwesomeValidation awesomeValidation;
     InternetConnectivity connectivity;
@@ -62,8 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = LayoutInflater.from(ProfileActivity.this);
-        binding = binding.inflate(inflater);
+      //  binding = TestLayoutBinding.inflate(LayoutInflater.from(ProfileActivity.this));
+      binding = ActivityCreateProfileBinding.inflate(LayoutInflater.from(this));
         sp = getSharedPreferences("user", MODE_PRIVATE);
         View view = binding.getRoot();
         setContentView(view);
@@ -97,10 +97,10 @@ public class ProfileActivity extends AppCompatActivity {
 
                     if (awesomeValidation.validate()) {
                         String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        String address = binding.etAddress.getText().toString().trim();
-                        String email = binding.etEmail.getText().toString().trim();
-                        String name = binding.etName.getText().toString().trim();
-                        String mobile = binding.etMobile.getText().toString().trim();
+                        String address = binding.etAddress.getEditableText().toString().trim();
+                        String email = binding.etEmail.getEditableText().toString().trim();
+                        String name = binding.etName.getEditableText().toString().trim();
+                        String mobile = binding.etMobile.getEditableText().toString().trim();
                         String token = FirebaseInstanceId.getInstance().getToken();
                         if (imageUri != null) {
                             File file = FileUtils.getFile(ProfileActivity.this, imageUri);
@@ -135,6 +135,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         finish();
                                     } else
                                         Toast.makeText(ProfileActivity.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
+                                    Log.e("Response codee","==>"+response.code());
                                 }
 
                                 @Override
@@ -156,7 +157,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

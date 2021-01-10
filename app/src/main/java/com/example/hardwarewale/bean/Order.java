@@ -8,9 +8,6 @@ import com.google.gson.annotations.SerializedName;
 public class
 Order implements Serializable {
 
-    @SerializedName("shopkeeperId")
-    @Expose
-    private String shopkeeperId;
     @SerializedName("orderId")
     @Expose
     private String orderId;
@@ -51,10 +48,9 @@ Order implements Serializable {
     public Order(){
     }
 
-    public Order(String shopkeeperId, String orderId, String userId, String name, String date, String deliveryAddress,
+    public Order( String orderId, String userId, String name, String date, String deliveryAddress,
                  Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus,
                  String paymentOption, List<OrderItems> orderItems, Long timestamp) {
-        this.shopkeeperId = shopkeeperId;
         this.orderId = orderId;
         this.userId = userId;
         this.name = name;
@@ -84,10 +80,6 @@ Order implements Serializable {
         this.orderItems = orderItems;
         this.timestamp = timestamp;
     }
-
-    public String getShopkeeperId() { return shopkeeperId; }
-
-    public void setShopkeeperId(String shopkeeperId) { this.shopkeeperId = shopkeeperId; }
 
     public String getPaymentOption() { return paymentOption; }
 

@@ -1,55 +1,151 @@
 package com.example.hardwarewale.adapter;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.R;
+import com.example.hardwarewale.api.CommentService;
+import com.example.hardwarewale.api.UserService;
+import com.example.hardwarewale.bean.Comment;
 import com.example.hardwarewale.bean.OrderItems;
+import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.OrderDetailItemListBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDetailAddCommentAdapter.OrderDetailViewHolder> {
-     ArrayList<OrderItems> itemList;
-     Context context;
-     public OrderDetailAddCommentAdapter(Context context, ArrayList<OrderItems> itemList){
-         this.context = context;
-         this.itemList = itemList;
-     }
+    ArrayList<OrderItems> itemList;
+    Context context;
+    String userId, rating, date, text, productId, userName, userImag;
+    long timestamp;
+
+    public OrderDetailAddCommentAdapter(Context context, ArrayList<OrderItems> itemList) {
+        this.context = context;
+        this.itemList = itemList;
+    }
 
     @NonNull
     @Override
     public OrderDetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-         OrderDetailItemListBinding binding = OrderDetailItemListBinding.inflate(LayoutInflater.from(context),parent,false);
-         return new OrderDetailViewHolder(binding);
+        OrderDetailItemListBinding binding = OrderDetailItemListBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new OrderDetailViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull OrderDetailViewHolder holder, int position) {
-         OrderItems item = itemList.get(position);
-         holder.binding.tvProductName.setText("" + item.getName());
-         holder.binding.tvProductName.setTextColor(context.getResources().getColor(R.color.black));
-         holder.binding.tvProductPrice.setText("₹ " + item.getPrice());
-         holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.black));
-         holder.binding.tvProductQty.setText("Qty : " + item.getQty());
-         holder.binding.tvProductQty.setTextColor(context.getResources().getColor(R.color.black));
-         Picasso.get().load(item.getImageUrl()).into(holder.binding.ivProductImage);
+        final OrderItems item = itemList.get(position);
+        holder.binding.tvProductName.setText("" + item.getName());
+        holder.binding.tvProductName.setTextColor(context.getResources().getColor(R.color.black));
+        holder.binding.tvProductPrice.setText("₹ " + item.getPrice());
+        holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.black));
+        holder.binding.tvProductQty.setText("Qty : " + item.getQty());
+        holder.binding.tvProductQty.setTextColor(context.getResources().getColor(R.color.black));
+        Picasso.get().load(item.getImageUrl()).into(holder.binding.ivProductImage);
 
-         holder.binding.tvAddComment.setVisibility(View.VISIBLE);
-         holder.binding.tvAddComment.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 //Intent in = new Intent(context,);
-             }
-         });
+        holder.binding.tvAddComment.setVisibility(View.VISIBLE);
+        holder.binding.tvAddComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog ab = new AlertDialog.Builder(context).create();
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                final View view = inflater.inflate(R.layout.activity_rating, null);
+                ab.setView(view);
+                final EditText etComment = view.findViewById(R.id.etComment);
+                final RatingBar ratingBar = view.findViewById(R.id.ratingBar);
+                final ImageView ivCancel = view.findViewById(R.id.ivCancel);
+                final CardView btnComment = view.findViewById(R.id.btnAddComment);
 
+                userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                productId = item.getProductId();
+
+                Calendar cDate = Calendar.getInstance();
+                SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+                date = sd.format(cDate.getTime());
+                timestamp = Calendar.getInstance().getTimeInMillis();
+
+                UserService.UserApi userApi = UserService.getUserApiInstance();
+                Call<User> call = userApi.getUserDetails(userId);
+                call.enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.code() == 200) {
+                            User user = response.body();
+                            userName = user.getName();
+                            userImag = user.getImageUrl();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(context, "" + t, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                ivCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ab.dismiss();
+                    }
+                });
+
+                btnComment.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Comment comment = new Comment();
+                        comment.setProductId(item.getProductId());
+                        comment.setTimestamp(timestamp);
+                        comment.setComment(etComment.getText().toString());
+                        comment.setDate(date);
+                        comment.setRating(String.valueOf(ratingBar.getRating()));
+                        comment.setUserId(userId);
+                        comment.setUserImg(userImag);
+                        comment.setUserName(userName);
+
+                        CommentService.CommentApi commentApi = CommentService.getCommentApiInstance();
+                        Call<Comment> call = commentApi.commentProduct(comment);
+                        call.enqueue(new Callback<Comment>() {
+                            @Override
+                            public void onResponse(Call<Comment> call, Response<Comment> response) {
+                                if (response.code() == 200) {
+                                    Comment comment = response.body();
+                                    Log.e("rating", "==>" + rating);
+                                    Log.e("text", "==>" + text);
+                                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Comment> call, Throwable t) {
+                                Log.e("Failure", "==>" + t);
+                            }
+                        });
+                    }
+                });
+                ab.show();
+            }
+        });
     }
 
     @Override
@@ -58,10 +154,11 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
     }
 
     public class OrderDetailViewHolder extends RecyclerView.ViewHolder {
-       OrderDetailItemListBinding binding;
-       public OrderDetailViewHolder(OrderDetailItemListBinding binding){
-           super(binding.getRoot());
-           this.binding = binding;
-       }
-   }
+        OrderDetailItemListBinding binding;
+
+        public OrderDetailViewHolder(OrderDetailItemListBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+    }
 }

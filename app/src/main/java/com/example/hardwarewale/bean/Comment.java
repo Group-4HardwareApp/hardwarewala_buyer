@@ -3,7 +3,9 @@ package com.example.hardwarewale.bean;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
 
     @SerializedName("commentId")
     @Expose
@@ -17,9 +19,6 @@ public class Comment {
     @SerializedName("userId")
     @Expose
     private String userId;
-    @SerializedName("orderId")
-    @Expose
-    private String orderId;
     @SerializedName("comment")
     @Expose
     private String comment;
@@ -29,7 +28,7 @@ public class Comment {
     @SerializedName("rating")
     @Expose
     private String rating;
-    @SerializedName("userImg")
+    @SerializedName("userName")
     @Expose
     private String userName;
     @SerializedName("userImg")
@@ -39,14 +38,12 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String commentId, String date, Long timestamp, String userId, String orderId, String comment,
+    public Comment(String date, Long timestamp, String userId, String comment,
                    String productId, String rating, String userName, String userImg) {
         super();
-        this.commentId = commentId;
         this.date = date;
         this.timestamp = timestamp;
         this.userId = userId;
-        this.orderId = orderId;
         this.comment = comment;
         this.productId = productId;
         this.rating = rating;
@@ -92,14 +89,6 @@ public class Comment {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
     }
 
     public String getComment() {

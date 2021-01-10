@@ -4,17 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import com.example.hardwarewale.adapter.OrderDetailAdapter;
 import com.example.hardwarewale.adapter.OrderDetailAddCommentAdapter;
 import com.example.hardwarewale.bean.OrderItems;
-import com.example.hardwarewale.databinding.OrderDetailItemListBinding;
 import com.example.hardwarewale.databinding.OrderDetailScreenBinding;
-
 import java.util.ArrayList;
 
 public class OrderHistoryDetailsActivity extends AppCompatActivity {

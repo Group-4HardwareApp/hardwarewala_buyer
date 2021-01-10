@@ -50,15 +50,15 @@
                             android:id="@+id/etSearch"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="0.7"
-                            android:visibility="gone"
-                            android:textSize="12sp"
-                            android:paddingLeft="10dp"
                             android:layout_margin="10dp"
+                            android:layout_weight="0.7"
                             android:background="@drawable/search_decorator"
                             android:hint="Search Product"
+                            android:paddingLeft="10dp"
                             android:textColor="@color/black"
-                            android:textColorHint="@color/black" />
+                            android:textColorHint="@color/black"
+                            android:textSize="12sp"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/ivSearch"
@@ -72,8 +72,8 @@
                             android:id="@+id/ivCart"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:padding="2dp"
                             android:layout_weight="0.1"
+                            android:padding="2dp"
                             android:src="@drawable/cart_icon" />
 
                     </LinearLayout>
@@ -93,10 +93,15 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/HomeDiscount"
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvDiscounts"/>
+                android:layout_below="@+id/tvDiscounts"
+                android:layout_margin="10dp"
+                android:isScrollContainer="false"
+                android:orientation="horizontal"
+                android:scrollbarSize="5dp"
+                android:scrollbars="horizontal"
+                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/tvCategories"
@@ -113,9 +118,14 @@
                 android:id="@+id/rvHomeCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_below="@id/tvCategories"
-                 />
+                android:layout_margin="10dp"
+                android:isScrollContainer="false"
+                android:orientation="horizontal"
+                android:scrollbarSize="10dp"
+                android:scrollbars="horizontal"
+                android:visibility="visible"/>
+
             <TextView
                 android:id="@+id/tvRecentUpdates"
                 android:layout_width="match_parent"
@@ -131,8 +141,13 @@
                 android:id="@+id/rvHomeRecentUpdates"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/tvRecentUpdates"
                 android:layout_margin="10dp"
-                android:layout_below="@id/tvRecentUpdates" />
+                android:isScrollContainer="false"
+                android:orientation="horizontal"
+                android:scrollbarSize="10dp"
+                android:scrollbars="horizontal"
+                android:visibility="visible"/>
 
             <TextView
                 android:id="@+id/tvCategory1"
@@ -148,19 +163,18 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHomeCategory1"
                 android:layout_width="match_parent"
-                android:layout_margin="10dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvCategory1"
-                />
+                android:layout_margin="10dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSearch"
                 android:layout_width="match_parent"
-                android:layout_margin="10dp"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rvHomeCategory1"
-                />
+                android:layout_margin="10dp"
+                android:foregroundGravity="center_horizontal"
+                android:visibility="gone" />
         </RelativeLayout>
     </ScrollView>
 
@@ -172,6 +186,5 @@
         android:fitsSystemWindows="true"
         android:isScrollContainer="true"
         app:headerLayout="@layout/naviagtion_header"
-        app:menu="@menu/naviagtion_menu_item"
-        />
+        app:menu="@menu/naviagtion_menu_item" />
 </androidx.drawerlayout.widget.DrawerLayout>

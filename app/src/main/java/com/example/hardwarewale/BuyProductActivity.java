@@ -36,7 +36,7 @@ public class BuyProductActivity extends AppCompatActivity {
         name = product.getName();
         imageUrl = product.getImageUrl();
         description = product.getDescription();
-        shopkeeperId = product.getShopKeeperId();
+        shopkeeperId = product.getShopkeeperId();
         productId = product.getProductId();
         categoryId = product.getCategoryId();
         brand = product.getBrand();

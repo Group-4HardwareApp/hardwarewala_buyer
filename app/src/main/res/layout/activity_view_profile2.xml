@@ -28,21 +28,12 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
                     android:gravity="center_vertical"
-                    android:text="HardwareWale"
+                    android:text="View profile"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="View profile"
-            android:paddingLeft="20dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
 
         <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -59,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:src="@drawable/j5" />
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -155,60 +147,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Order status"
             android:paddingLeft="20dp"
+            android:text="Order status"
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_margin="7dp"
+            android:gravity="center"
 
             android:weightSum="1">
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="22dp"
-                android:layout_weight="0.33"
-                android:layout_marginLeft="3dp"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                >
+                android:layout_margin="22dp"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="0.33"
+                android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rrDilevered"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/dileverd_circle"
-                    android:id="@+id/rrDilevered"
                     android:padding="8.5dp">
 
                     <TextView
                         android:id="@+id/tvDelivered"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignRight="@+id/ivAddToCart"
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="4dp"
-                        android:layout_alignRight="@+id/ivAddToCart"
-                        android:textColor="@color/black"
                         android:text="Deliver "
-                        android:textSize="20sp"
-                        />
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
-                     </RelativeLayout>
+                </RelativeLayout>
+
                 <TextView
                     android:id="@+id/tvDeliveredp"
-                    android:layout_below="@id/rrDilevered"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/rrDilevered"
                     android:layout_alignRight="@+id/ivAddToCart"
                     android:layout_marginTop="4dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
                     android:text="Delivered "
-                    />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
 
             </RelativeLayout>
@@ -216,61 +206,60 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="22dp"
-                android:layout_weight="0.33"
-                android:orientation="vertical"
-                android:layout_marginLeft="3dp"
                 android:layout_gravity="center"
-                >
+                android:layout_margin="22dp"
+                android:layout_marginLeft="3dp"
+                android:layout_weight="0.33"
+                android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rrCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/cancel_circle"
-                    android:padding="8.5dp"
-                    android:id="@+id/rrCancel">
+                    android:padding="8.5dp">
 
                     <TextView
                         android:id="@+id/tvCancelled"
                         android:layout_width="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_height="wrap_content"
                         android:layout_alignRight="@+id/ivBuy"
                         android:layout_marginLeft="14dp"
+                        android:layout_marginTop="4dp"
                         android:text="Cancel"
-                        android:textSize="20sp"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
                 </RelativeLayout>
 
                 <TextView
                     android:id="@+id/tvCancelledp"
-                    android:layout_below="@id/rrCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:layout_below="@id/rrCancel"
+                    android:layout_alignRight="@+id/ivBuy"
 
                     android:layout_marginTop="4dp"
-                    android:layout_alignRight="@+id/ivBuy"
                     android:text="Cancelled"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33"
-                android:layout_margin="22dp"
                 android:layout_gravity="center"
+                android:layout_margin="22dp"
                 android:layout_marginLeft="3dp"
-                android:orientation="vertical"
-                >
+                android:layout_weight="0.33"
+                android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rrOnway"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/onway_circle"
-                    android:id="@+id/rrOnway"
                     android:padding="8.5dp">
 
                     <TextView
@@ -278,26 +267,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignRight="@+id/ivBuy"
-                        android:layout_marginTop="4dp"
                         android:layout_marginLeft="14dp"
-                        android:textSize="20sp"
+                        android:layout_marginTop="4dp"
                         android:text="Onway"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:textSize="20sp" />
 
                 </RelativeLayout>
+
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/rrOnway"
                     android:layout_alignRight="@+id/ivBuy"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="4dp"
-                    android:textSize="14sp"
                     android:text="Onway"
                     android:textColor="@color/black"
-                    android:layout_below="@id/rrOnway"/>
+                    android:textSize="14sp" />
 
             </RelativeLayout>
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

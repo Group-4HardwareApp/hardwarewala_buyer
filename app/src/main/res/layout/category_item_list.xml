@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/CategoryImage"
-            android:layout_width="140dp"
-            android:layout_height="95dp"
+            android:layout_width="130dp"
+            android:layout_height="100dp"
             android:src="@drawable/j5" />
 
         <TextView

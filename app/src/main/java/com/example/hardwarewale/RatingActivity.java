@@ -1,65 +1,36 @@
- package com.example.hardwarewale;
+package com.example.hardwarewale;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.RatingBar;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.hardwarewale.api.CommentService;
+import com.example.hardwarewale.adapter.ShowCommentAdapter;
 import com.example.hardwarewale.bean.Comment;
-import com.example.hardwarewale.databinding.ActivityRatingBinding;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.hardwarewale.databinding.ShowReviewsActivityBinding;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.ArrayList;
 
-public class RatingActivity  extends AppCompatActivity {
-     ActivityRatingBinding binding;
-     RatingBar ratingbar;
-     Comment comment;
-     String userId;
-         @Override
-             protected void onCreate(@Nullable Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                binding = ActivityRatingBinding.inflate(LayoutInflater.from(this));
-                setContentView(binding.getRoot());
-                userId = FirebaseAuth.getInstance().getUid().toString();
-                addListenerOnButtonClick();
-    }
-    public void addListenerOnButtonClick(){
+public class RatingActivity extends AppCompatActivity {
+    ShowReviewsActivityBinding binding;
+    ShowCommentAdapter adapter;
+    ArrayList<Comment> commentList;
 
-        //Performing action on Button Click
-        binding.btnSend.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-       //     String rating=String.valueOf(ratingbar.getRating());
-         //   Toast.makeText(getApplicationContext(), rating, Toast.LENGTH_LONG).show();
-            CommentService.CommentApi commentApi = CommentService.getCommentApiInstance();
-            Call<Comment> call = commentApi.commentProduct(comment);
-            call.enqueue(new Callback<Comment>() {
-                @Override
-                public void onResponse(Call<Comment> call, Response<Comment> response) {
-                    if(response.code()==200){
-                        Comment comment  = response.body();
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ShowReviewsActivityBinding.inflate(LayoutInflater.from(this));
+        setContentView(binding.getRoot());
+        Intent in = getIntent();
+        commentList = (ArrayList<Comment>) in.getSerializableExtra("commentList");
 
-                        binding.content.setText(comment.getComment());
-                        binding.ratingBar.setRating(Float.parseFloat(comment.getRating()));
-                        Toast.makeText(RatingActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Comment> call, Throwable t) {
-
-                }
-            });
-
+        for(Comment comment : commentList) {
+            adapter = new ShowCommentAdapter(this, commentList);
+            binding.rvComment.setLayoutManager(new LinearLayoutManager(RatingActivity.this));
+            binding.rvComment.setAdapter(adapter);
         }
-    });
     }
 }

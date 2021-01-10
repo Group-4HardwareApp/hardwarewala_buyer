@@ -29,9 +29,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
                     android:gravity="center_vertical"
-                    android:text="HardwareWale"
+                    android:text="Order details"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -43,15 +43,6 @@
                     android:src="@drawable/cart_icon" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Order Details"
-            android:paddingLeft="22dp"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/black"
-            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvOrderDetails"

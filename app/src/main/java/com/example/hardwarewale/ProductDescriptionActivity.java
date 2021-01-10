@@ -38,15 +38,15 @@ import retrofit2.Response;
 public class ProductDescriptionActivity extends AppCompatActivity {
     ActivityProductDescriptionBinding binding;
     RecentUpdateAdapter adapter;
-    Product product, p;
-    Favorite favorite, fav;
+    Product product;
+    Favorite fav;
     FirebaseUser currentUser;
-    String userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand, productName, favId, pID;
+    String userId, name, categoryId, shopkeeperId, productId, imageUrl, description, brand, productName;
     Double price;
+    Float rate, avgRate = 0f, avg;
     ArrayList<Cart> cartList;
     List<Favorite> favoriteList;
     int flag = 0, flag1 = 0;
-    ShowCommentAdapter showCommentAdapter;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -65,20 +65,53 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         getCartList();
         addProductToCart();
         showSimilarProducts();
+        viewRating();
 
         binding.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Intent intent = new Intent(ProductDescriptionActivity.this, BuyProductActivity.class);
-                    intent.putExtra("product", product);
-                    startActivity(intent);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e("Error", "==>" + e);
-                }
+                Intent intent = new Intent(ProductDescriptionActivity.this, BuyProductActivity.class);
+                intent.putExtra("product", product);
+                startActivity(intent);
             }
         });
+    }
+
+    private void viewRating() {
+        if (connectivity.isConnectedToInternet(this)) {
+            CommentService.CommentApi commentApi = CommentService.getCommentApiInstance();
+            Call<ArrayList<Comment>> call = commentApi.getCommentOfProduct(productId);
+            call.enqueue(new Callback<ArrayList<Comment>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
+                    if (response.code() == 200) {
+                        final ArrayList<Comment> commentList = response.body();
+                        for (Comment c : commentList) {
+                            rate = Float.valueOf(c.getRating()).floatValue();
+                            avgRate = avgRate + rate;
+                            avg = avgRate / 5;
+                            binding.ratingBar.setRating(avg);
+                            binding.tvRate.setText("" + avg + " Out of 5");
+                        }
+                        binding.tvViewReview.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                               Intent in = new Intent(ProductDescriptionActivity.this,RatingActivity.class);
+                               in.putExtra("commentList",commentList);
+                               startActivity(in);
+                            }
+                        });
+                    } else
+                        Toast.makeText(ProductDescriptionActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
+
+                }
+            });
+        } else
+            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
     }
 
     private void productData() {
@@ -89,7 +122,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         brand = product.getBrand();
         categoryId = product.getCategoryId();
         price = product.getPrice();
-        shopkeeperId = product.getShopKeeperId();
+        shopkeeperId = product.getShopkeeperId();
         imageUrl = product.getImageUrl();
         description = product.getDescription();
     }

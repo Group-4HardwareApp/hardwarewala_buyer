@@ -102,9 +102,8 @@
             android:name=".OrderHistoryDetailsActivity"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".AddCommentActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".RatingActivity"
+            android:screenOrientation="portrait"/>
 
         <service
             android:name=".MyFirebaseMessagingService"

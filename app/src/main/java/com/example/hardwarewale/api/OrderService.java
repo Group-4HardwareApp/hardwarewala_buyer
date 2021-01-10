@@ -51,7 +51,7 @@ public class OrderService {
         @GET("/order/deliver/{userId}")
         Call<ArrayList<Order>> getDeliveredOrders(@Path("userId") String userId);
 
-        @DELETE("/order/delete/{orderId}")
+        @POST("/order/cancel/{orderId}")
         Call<Order> cancelOrder(@Path("orderId") String orderId);
 
         @POST("/order/placeOrder")

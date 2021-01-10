@@ -15,7 +15,7 @@
     <item
         android:id="@+id/menuFavorites"
         android:icon="@drawable/favorite_icon"
-        android:title="Favorites" />
+        android:title="Favourites" />
     <item
         android:id="@+id/menuManageOrders"
         android:title="Manage Orders"
