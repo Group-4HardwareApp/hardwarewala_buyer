@@ -31,7 +31,6 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.ActivityCreateProfileBinding;
-import com.example.hardwarewale.databinding.TestLayoutBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
