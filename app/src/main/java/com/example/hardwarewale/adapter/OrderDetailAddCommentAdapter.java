@@ -2,6 +2,7 @@ package com.example.hardwarewale.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDetailAddCommentAdapter.OrderDetailViewHolder> {
     ArrayList<OrderItems> itemList;
     Context context;
-    String userId, rating, date, text, productId, userName, userImag;
+    String userId, rating, date, text, productId, userName, userImag, coment;
     long timestamp;
 
     public OrderDetailAddCommentAdapter(Context context, ArrayList<OrderItems> itemList) {
@@ -72,6 +73,7 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View view = inflater.inflate(R.layout.activity_rating, null);
                 ab.setView(view);
+
                 final EditText etComment = view.findViewById(R.id.etComment);
                 final RatingBar ratingBar = view.findViewById(R.id.ratingBar);
                 final ImageView ivCancel = view.findViewById(R.id.ivCancel);
@@ -113,16 +115,20 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
                 btnComment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        coment = etComment.getText().toString().trim();
+                        if(TextUtils.isEmpty(coment)){
+                            etComment.setError("Enter comment");
+                            return;
+                        }
                         Comment comment = new Comment();
                         comment.setProductId(item.getProductId());
                         comment.setTimestamp(timestamp);
-                        comment.setComment(etComment.getText().toString());
+                        comment.setComment(coment);
                         comment.setDate(date);
                         comment.setRating(String.valueOf(ratingBar.getRating()));
                         comment.setUserId(userId);
                         comment.setUserImg(userImag);
                         comment.setUserName(userName);
-
                         CommentService.CommentApi commentApi = CommentService.getCommentApiInstance();
                         Call<Comment> call = commentApi.commentProduct(comment);
                         call.enqueue(new Callback<Comment>() {

@@ -52,6 +52,8 @@ public class SettingActivity extends AppCompatActivity {
         binding = ActivityCreateProfileBinding.inflate(inflater);
         View v = binding.getRoot();
         setContentView(v);
+        binding.tvActivityName.setText("Update profile" );
+
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         binding.etMobile.setText(sp.getString("mobile", "Contact number"));
@@ -61,7 +63,7 @@ public class SettingActivity extends AppCompatActivity {
         binding.etAddress.setText(sp.getString("address", "Address"));
         binding.btnSave.setText("Update");
 
-        binding.etbtnEdit.setOnClickListener(new View.OnClickListener() {
+        binding.civImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent in = new Intent(Intent.ACTION_GET_CONTENT);

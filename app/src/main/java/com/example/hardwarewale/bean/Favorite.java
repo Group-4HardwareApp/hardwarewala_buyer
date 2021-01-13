@@ -42,7 +42,7 @@ public class Favorite implements Serializable {
     public Favorite() {
     }
 
-    public Favorite(String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl, String description, String shopKeeperId) {
+    public Favorite(String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl, String description, String shopkeeperId) {
         this.userId = userId;
         this.categoryId = categoryId;
         this.productId = productId;
@@ -51,7 +51,7 @@ public class Favorite implements Serializable {
         this.brand = brand;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.shopkeeperId = shopKeeperId;
+        this.shopkeeperId = shopkeeperId;
     }
 
     public Favorite(String favoriteId, String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl, String description, String shopKeeperId) {
@@ -139,12 +139,12 @@ public class Favorite implements Serializable {
         this.description = description;
     }
 
-    public String getShopKeeperId() {
+    public String getShopkeeperId() {
         return shopkeeperId;
     }
 
     public void setShopkeeperId(String shopKeeperId) {
-        this.shopkeeperId = shopKeeperId;
+        this.shopkeeperId = shopkeeperId;
     }
 
 }

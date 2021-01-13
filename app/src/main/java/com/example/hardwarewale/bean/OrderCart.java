@@ -52,7 +52,6 @@ OrderCart implements Serializable {
     public OrderCart(String orderId, String userId, String name, String date, String deliveryAddress,
                      Double totalAmount, String contactNumber, String deliveryOption, String shippingStatus,
                      String paymentOption, List<Cart> orderItems, Long timestamp) {
-       // this.shopkeeperId = shopkeeperId;
         this.orderId = orderId;
         this.userId = userId;
         this.name = name;

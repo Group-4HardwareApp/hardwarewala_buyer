@@ -41,14 +41,13 @@
             android:layout_width="match_parent"
             android:layout_height="220dp"
             android:layout_alignParentTop="true"
-            android:layout_margin="30dp"
-            android:padding="10dp"
-            app:cardCornerRadius="8dp">
+            android:layout_margin="10dp"
+            android:padding="10dp">
 
             <com.smarteist.autoimageslider.SliderView
                 android:id="@+id/iv"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="210dp"
                 android:background="@drawable/ic_launcher_background"
                 app:sliderAnimationDuration="600"
                 app:sliderAutoCycleDirection="back_and_forth"

@@ -154,7 +154,7 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
                     }
                     binding.tvTotal.setText("" + total);
                 } else {
-                    binding.tvDeliveryOption.setText("Delivered within 5 days & charges = 50 ₹");
+                    binding.tvDeliveryOption.setText("Delivered within 5 days");
                     if (flag == 1) {
                         total = total - 100;
                     }
@@ -215,7 +215,7 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         for (Cart cart : cartList) {
             try {
                 ShopkeeperService.ShopkeeperApi shopkeeperApi = ShopkeeperService.getShopkeeperApiInstance();
-                Call<Shopkeeper> shopkeeperCall = shopkeeperApi.viewShopkeeper((String) cart.getShopKeeperId());
+                Call<Shopkeeper> shopkeeperCall = shopkeeperApi.viewShopkeeper(cart.getShopkeeperId());
                 shopkeeperCall.enqueue(new Callback<Shopkeeper>() {
                     @Override
                     public void onResponse(Call<Shopkeeper> call, Response<Shopkeeper> response) {

@@ -52,7 +52,7 @@
                             android:layout_height="match_parent"
                             android:layout_margin="10dp"
                             android:layout_weight="0.7"
-                            android:background="@drawable/search_decorator"
+                            android:background="@drawable/button_decoration"
                             android:hint="Search Product"
                             android:paddingLeft="10dp"
                             android:textColor="@color/black"
@@ -172,8 +172,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rvHomeCategory1"
-                android:layout_margin="10dp"
-                android:foregroundGravity="center_horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:visibility="gone" />
         </RelativeLayout>
     </ScrollView>

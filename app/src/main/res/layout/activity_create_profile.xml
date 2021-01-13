@@ -16,20 +16,15 @@
             android:background="@color/yellow">
 
             <TextView
+                android:id="@+id/tvActivityName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Create profile"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </androidx.appcompat.widget.Toolbar>
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/yellow" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/civImage"
@@ -40,29 +35,59 @@
             android:src="@drawable/profile_logo"
             app:civ_border_color="@color/black" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/etbtnEdit"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/civImage"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Name"
+            android:textColor="@color/black"
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/civImage"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="-15dp"
-            android:backgroundTint="@color/yellow"
-            android:src="@drawable/edit" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/name"
+            android:text="*"
+            android:textColor="@color/red" />
 
         <EditText
             android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/etbtnEdit"
+            android:layout_below="@+id/name"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="0dp"
             android:backgroundTint="@color/yellow"
-            android:hint="Name"
             android:inputType="text"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/Email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etName"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Mobile"
             android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etName"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/Mobile"
+            android:text="*"
+            android:textColor="@color/red" />
 
         <EditText
             android:id="@+id/etMobile"
@@ -70,13 +95,31 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/etName"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
-            android:hint="Mobile"
             android:inputType="number"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/Mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etMobile"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Email"
             android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etMobile"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/Mobile"
+            android:text="*"
+            android:textColor="@color/red" />
 
         <EditText
             android:id="@+id/etEmail"
@@ -84,13 +127,31 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/etMobile"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
-            android:hint="Email"
             android:inputType="textEmailAddress"
+            android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/Address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etEmail"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Address"
             android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textSize="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etEmail"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/Address"
+            android:text="*"
+            android:textColor="@color/red" />
 
         <EditText
             android:id="@+id/etAddress"
@@ -98,21 +159,21 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/etEmail"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
-            android:hint="Address"
             android:inputType="text"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black" />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/etAddress"
-            android:layout_margin="20dp"
-            android:background="@drawable/login_button"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/button_decoration"
             android:text="Save"
             android:textColor="@color/black"
             android:textSize="17sp" />

@@ -60,6 +60,7 @@ public class BuyActivity extends AppCompatActivity {
                     for(Cart c : updatedCartList){
                         total = total + c.getPrice();
                         binding.tvAmt.setText(""+total);
+                        //Log.e()
                     }
                 }
             }
