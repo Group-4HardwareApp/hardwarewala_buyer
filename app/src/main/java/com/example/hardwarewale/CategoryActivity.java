@@ -36,6 +36,7 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ProductsScreenBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
+        binding.tvAppName.setText("Categories");
         showCategory();
     }
 

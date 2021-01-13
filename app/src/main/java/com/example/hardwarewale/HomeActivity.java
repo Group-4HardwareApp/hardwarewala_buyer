@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                name = s.toString();
+                name = s.toString().trim();
                 homeBinding.tvCategories.setVisibility(View.GONE);
                 homeBinding.tvCategory1.setVisibility(View.GONE);
                 homeBinding.tvDiscounts.setVisibility(View.GONE);
@@ -93,7 +93,20 @@ public class HomeActivity extends AppCompatActivity {
                 homeBinding.rvHomeCategory.setVisibility(View.GONE);
                 homeBinding.rvHomeRecentUpdates.setVisibility(View.GONE);
                 homeBinding.rvSearch.setVisibility(View.VISIBLE);
+
                 searchProduct();
+
+                if(name.isEmpty()){
+                    homeBinding.tvCategories.setVisibility(View.VISIBLE);
+                    homeBinding.tvCategory1.setVisibility(View.VISIBLE);
+                    homeBinding.tvDiscounts.setVisibility(View.VISIBLE);
+                    homeBinding.HomeDiscount.setVisibility(View.VISIBLE);
+                    homeBinding.tvRecentUpdates.setVisibility(View.VISIBLE);
+                    homeBinding.rvHomeCategory1.setVisibility(View.VISIBLE);
+                    homeBinding.rvHomeCategory.setVisibility(View.VISIBLE);
+                    homeBinding.rvHomeRecentUpdates.setVisibility(View.VISIBLE);
+                    homeBinding.rvSearch.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -101,15 +114,6 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-        homeBinding.tvCategories.setVisibility(View.VISIBLE);
-        homeBinding.tvCategory1.setVisibility(View.VISIBLE);
-        homeBinding.tvDiscounts.setVisibility(View.VISIBLE);
-        homeBinding.HomeDiscount.setVisibility(View.VISIBLE);
-        homeBinding.tvRecentUpdates.setVisibility(View.VISIBLE);
-        homeBinding.rvHomeCategory1.setVisibility(View.VISIBLE);
-        homeBinding.rvHomeCategory.setVisibility(View.VISIBLE);
-        homeBinding.rvHomeRecentUpdates.setVisibility(View.VISIBLE);
-        homeBinding.rvSearch.setVisibility(View.GONE);
 
         homeBinding.ivCart.setOnClickListener(new View.OnClickListener() {
             @Override

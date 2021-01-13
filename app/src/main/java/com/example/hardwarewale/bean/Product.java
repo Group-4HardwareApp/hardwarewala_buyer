@@ -57,11 +57,12 @@ public class Product implements Serializable {
 
     }
 
-    public Product(String productId, String categoryId, String shopKeeperId, String name, Double price, Double discount,
-                   String brand, Double totalAmt,Integer qtyInStock, String imageUrl, String secondImageUrl,String thirdImageurl,String description, Long timestamp, Integer qty) {
+    public Product(String productId, String categoryId, String shopkeeperId, String name, Double price,
+                   Double discount, String brand, Double totalAmt,Integer qtyInStock, String imageUrl,
+                   String secondImageUrl,String thirdImageurl,String description, Long timestamp, Integer qty) {
         this.productId = productId;
         this.categoryId = categoryId;
-        this.shopkeeperId = shopKeeperId;
+        this.shopkeeperId = shopkeeperId;
         this.totalAmt = totalAmt;
         this.name = name;
         this.price = price;
@@ -128,8 +129,8 @@ public class Product implements Serializable {
         return shopkeeperId;
     }
 
-    public void setShopkeeperId(String shopKeeperId) {
-        this.shopkeeperId = shopKeeperId;
+    public void setShopkeeperId(String shopkeeperId) {
+        this.shopkeeperId = shopkeeperId;
     }
 
     public String getName() {

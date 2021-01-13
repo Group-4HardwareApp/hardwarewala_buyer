@@ -34,9 +34,9 @@ public class Cart implements Serializable {
     @SerializedName("description")
     @Expose
     private String description;
-    @SerializedName("shopKeeperId")
+    @SerializedName("shopkeeperId")
     @Expose
-    private Object shopKeeperId;
+    private String shopkeeperId;
     @SerializedName("qtyInStock")
     @Expose
     private Double qtyInStock;
@@ -76,7 +76,7 @@ public class Cart implements Serializable {
     }
 
     public Cart(String cartId, String userId, String categoryId, String productId, String name, Double price, String brand, String imageUrl,
-                String description, Object shopKeeperId, Double qtyInStock, Double totalAmt, Integer qty) {
+                String description, String shopkeeperId, Double qtyInStock, Double totalAmt, Integer qty) {
         this.cartId = cartId;
         this.userId = userId;
         this.categoryId = categoryId;
@@ -86,14 +86,14 @@ public class Cart implements Serializable {
         this.brand = brand;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.shopKeeperId = shopKeeperId;
+        this.shopkeeperId = shopkeeperId;
         this.qtyInStock = qtyInStock;
         this.total = totalAmt;
         this.qty = qty;
     }
 
     public Cart(String userId, String categoryId, String productId, String name,
-                Double price, String brand, String imageUrl, String description, Object shopKeeperId) {
+                Double price, String brand, String imageUrl, String description, String shopkeeperId) {
         super();
         this.userId = userId;
         this.categoryId = categoryId;
@@ -103,7 +103,7 @@ public class Cart implements Serializable {
         this.brand = brand;
         this.imageUrl = imageUrl;
         this.description = description;
-        this.shopKeeperId = shopKeeperId;
+        this.shopkeeperId = shopkeeperId;
     }
 
     public String getCartId() {
@@ -178,12 +178,12 @@ public class Cart implements Serializable {
         this.description = description;
     }
 
-    public Object getShopKeeperId() {
-        return shopKeeperId;
+    public String getShopkeeperId() {
+        return shopkeeperId;
     }
 
-    public void setShopKeeperId(Object shopKeeperId) {
-        this.shopKeeperId = shopKeeperId;
+    public void setShopkeeperId(String shopkeeperId) {
+        this.shopkeeperId = shopkeeperId;
     }
 
 }

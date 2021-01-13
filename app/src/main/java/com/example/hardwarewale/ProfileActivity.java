@@ -68,7 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(view);
 
         awesomeValidation = new AwesomeValidation(BASIC);
-        binding.etbtnEdit.setOnClickListener(new View.OnClickListener() {
+        binding.civImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ActivityCompat.checkSelfPermission(ProfileActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
@@ -162,7 +162,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
             imageUri = data.getData();
-            binding.etbtnEdit.setImageURI(imageUri);
+            binding.civImage.setImageURI(imageUri);
             Toast.makeText(this, "FIRST" + imageUri, Toast.LENGTH_SHORT).show();
             binding.civImage.setImageURI(imageUri);
         }

@@ -33,10 +33,10 @@ public class Shopkeeper {
     public Shopkeeper() {
     }
 
-    public Shopkeeper(String name, String shopKeeperId, String shopName, String contactNumber, String address, String imageUrl, String email, String token) {
+    public Shopkeeper(String name, String shopkeeperId, String shopName, String contactNumber, String address, String imageUrl, String email, String token) {
         super();
         this.name = name;
-        this.shopkeeperId = shopKeeperId;
+        this.shopkeeperId = shopkeeperId;
         this.shopName = shopName;
         this.contactNumber = contactNumber;
         this.address = address;
@@ -57,8 +57,8 @@ public class Shopkeeper {
         return shopkeeperId;
     }
 
-    public void setShopKeeperId(String shopKeeperId) {
-        this.shopkeeperId = shopKeeperId;
+    public void setShopkeeperId(String shopkeeperId) {
+        this.shopkeeperId = shopkeeperId;
     }
 
     public String getShopName() {
