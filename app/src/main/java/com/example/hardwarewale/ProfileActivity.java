@@ -1,15 +1,12 @@
 package com.example.hardwarewale;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -61,13 +58,13 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  binding = TestLayoutBinding.inflate(LayoutInflater.from(ProfileActivity.this));
-      binding = ActivityCreateProfileBinding.inflate(LayoutInflater.from(this));
+        binding = ActivityCreateProfileBinding.inflate(LayoutInflater.from(this));
         sp = getSharedPreferences("user", MODE_PRIVATE);
         View view = binding.getRoot();
         setContentView(view);
 
         awesomeValidation = new AwesomeValidation(BASIC);
+
         binding.civImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
                         if (imageUri != null) {
                             File file = FileUtils.getFile(ProfileActivity.this, imageUri);
                             RequestBody requestFile = RequestBody.create(MediaType.parse(getContentResolver()
-                                            .getType(imageUri)), file);
+                                    .getType(imageUri)), file);
 
                             MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
                             RequestBody username = RequestBody.create(okhttp3.MultipartBody.FORM, name);
@@ -115,7 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
                             RequestBody userId = RequestBody.create(okhttp3.MultipartBody.FORM, id);
                             UserService.UserApi userApi = UserService.getUserApiInstance();
 
-                            Call<User> call = userApi.saveUser(body, username, useraddress,usermobile, useremail, usertoken,userId);
+                            Call<User> call = userApi.saveUser(body, username, useraddress, usermobile, useremail, usertoken, userId);
                             call.enqueue(new Callback<User>() {
                                 @Override
                                 public void onResponse(Call<User> call, Response<User> response) {
@@ -134,7 +131,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         finish();
                                     } else
                                         Toast.makeText(ProfileActivity.this, "Something went wrong.", Toast.LENGTH_SHORT).show();
-                                    Log.e("Response codee","==>"+response.code());
+                                    Log.e("Response codee", "==>" + response.code());
                                 }
 
                                 @Override
