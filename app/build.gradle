@@ -46,5 +46,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.google.firebase:firebase-core:16.0.0'
     implementation 'com.basgeekball:awesome-validation:4.2'
-    implementation 'com.github.smarteist:autoimageslider:1.4.0-appcompat'
+    implementation 'com.github.smarteist:autoimageslider:1.4.0'
 }

@@ -75,6 +75,15 @@ public class HomeActivity extends AppCompatActivity {
         showRecentUpdates();
         showCategories();
 
+        homeBinding.ivSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                homeBinding.tvAppName.setVisibility(View.GONE);
+                homeBinding.etSearch.setVisibility(View.VISIBLE);
+            }
+        });
+
+
         homeBinding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,6 +115,8 @@ public class HomeActivity extends AppCompatActivity {
                     homeBinding.rvHomeCategory.setVisibility(View.VISIBLE);
                     homeBinding.rvHomeRecentUpdates.setVisibility(View.VISIBLE);
                     homeBinding.rvSearch.setVisibility(View.GONE);
+                    homeBinding.etSearch.setVisibility(View.GONE);
+                    homeBinding.tvAppName.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -123,13 +134,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        homeBinding.ivSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                homeBinding.tvAppName.setVisibility(View.GONE);
-                homeBinding.etSearch.setVisibility(View.VISIBLE);
-            }
-        });
 
     }//eOf onCreate
 

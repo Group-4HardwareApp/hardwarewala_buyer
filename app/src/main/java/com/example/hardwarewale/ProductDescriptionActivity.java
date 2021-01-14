@@ -2,6 +2,7 @@ package com.example.hardwarewale;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,6 +134,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         categoryId = product.getCategoryId();
         price = product.getPrice();
         shopkeeperId = product.getShopkeeperId();
+        Log.e("Shop","==>"+shopkeeperId);
         imageUrl = product.getImageUrl();
         description = product.getDescription();
     }
@@ -261,6 +264,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
 
     private void setProductDetails() {
         binding.tvProductName.setText("" + product.getName());
+        binding.tvProductPrice.setPaintFlags(binding.tvProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         binding.tvProductPrice.setText("₹ " + product.getPrice());
         binding.tvBrand.setText("" + product.getBrand());
 

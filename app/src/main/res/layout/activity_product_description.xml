@@ -167,14 +167,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Discount " />
+                        android:text="Discount "
+                        android:textColor="@color/red" />
 
                     <TextView
                         android:id="@+id/tvDiscountedPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="Offer price " />
+                        android:text="Offer price"
+
+                        android:textColor="@color/dark_green" />
                 </LinearLayout>
 
                 <ImageView
@@ -357,7 +360,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0.5"
                 android:orientation="horizontal"
-                app:cardBackgroundColor="@color/yellow"
+                app:cardBackgroundColor="#FDDA72"
                 app:cardElevation="10dp">
 
                 <LinearLayout
