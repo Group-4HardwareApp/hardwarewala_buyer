@@ -9,11 +9,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.hardwarewale.api.NotificationService;
 import com.example.hardwarewale.api.OrderService;
@@ -98,7 +101,7 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final AlertDialog.Builder ab = new AlertDialog.Builder(PlaceOrderActivity.this);
+                final AlertDialog ab =  new AlertDialog.Builder(PlaceOrderActivity.this).create();
                 LayoutInflater inflater = getLayoutInflater();
                 final View view = inflater.inflate(R.layout.change_details, null);
                 ab.setView(view);
@@ -111,10 +114,11 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
                 etEmail.setText("" + userEmail);
                 etMobile.setText("" + userMobile);
                 etName.setText("" + userName);
-
-                ab.setPositiveButton("Change", new DialogInterface.OnClickListener() {
+                CardView btnChange = view.findViewById(R.id.btnChangedetails);
+                ImageView ivCancel = view.findViewById(R.id.ivCancel);
+                btnChange.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onClick(View v) {
                         userMobile = etEmail.getText().toString();
                         userName = etName.getText().toString();
                         userAddress = etAddress.getText().toString();
@@ -124,18 +128,21 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
                         binding.tvAddress.setText("" + userAddress);
                         binding.tvName.setText("" + userName);
                         binding.tvContact.setText("" + userMobile);
+
                     }
+
                 });
-                ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                ivCancel.setOnClickListener(new View.OnClick                    public void onClick(View v) {
+                    Listener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                        ab.dismiss();
                     }
+
                 });
                 ab.show();
             }
         });
-
         deliveryOptions = new ArrayList<>();
         deliveryOptions.add("Fast");
         deliveryOptions.add("Regular");
