@@ -46,6 +46,7 @@ import retrofit2.Response;
 
 public class ProductDescriptionActivity extends AppCompatActivity {
    ActivityProductDescriptionBinding binding;
+   public static int count= 0;
     RecentUpdateAdapter adapter;
     Product product;
     Favorite fav;
@@ -182,6 +183,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                                     Cart c = response.body();
                                     Toast.makeText(ProductDescriptionActivity.this, "Product added", Toast.LENGTH_SHORT).show();
                                     binding.tvAddToCart.setText("Add to cart");
+
                                     flag = 1;
                                 }
                             }
