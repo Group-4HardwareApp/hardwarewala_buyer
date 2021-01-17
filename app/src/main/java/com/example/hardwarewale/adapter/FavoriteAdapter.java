@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.FavoriteActivity;
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.api.FavoriteService;
 import com.example.hardwarewale.bean.Cart;
@@ -52,7 +53,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     @Override
     public void onBindViewHolder(@NonNull FavoriteViewHolder holder, final int position) {
         final Favorite favorite = favoriteList.get(position);
-        Picasso.get().load(favorite.getImageUrl()).into(holder.binding.productImage);
+        Picasso.get().load(favorite.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.productImage);
         holder.binding.tvProductName.setText("" + favorite.getName());
         holder.binding.tvProductPrice.setText("₹" + favorite.getPrice());
         holder.binding.tvProductDescription.setText("" + favorite.getDescription());

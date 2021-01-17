@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.HomeActivity;
 import com.example.hardwarewale.ProductActivity;
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.bean.Category;
 import com.example.hardwarewale.bean.Product;
 import com.example.hardwarewale.databinding.CategoryItemListBinding;
@@ -38,7 +39,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
-        Picasso.get().load(category.getImageUrl()).into(holder.binding.CategoryImage);
+        Picasso.get().load(category.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.CategoryImage);
         holder.binding.tvCategoryName.setText(category.getCategoryName());
     }
 

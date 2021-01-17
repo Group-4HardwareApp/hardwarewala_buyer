@@ -63,7 +63,7 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
         holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.black));
         holder.binding.tvProductQty.setText("Qty : " + item.getQty());
         holder.binding.tvProductQty.setTextColor(context.getResources().getColor(R.color.black));
-        Picasso.get().load(item.getImageUrl()).into(holder.binding.ivProductImage);
+        Picasso.get().load(item.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.ivProductImage);
 
         holder.binding.tvAddComment.setVisibility(View.VISIBLE);
         holder.binding.tvAddComment.setOnClickListener(new View.OnClickListener() {

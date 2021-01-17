@@ -38,7 +38,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
          holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.black));
          holder.binding.tvProductQty.setText("Qty : " + item.getQty());
          holder.binding.tvProductQty.setTextColor(context.getResources().getColor(R.color.black));
-         Picasso.get().load(item.getImageUrl()).into(holder.binding.ivProductImage);
+         Picasso.get().load(item.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.ivProductImage);
     }
 
     @Override

@@ -11,10 +11,10 @@
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/yellow"
-            android:id="@+id/toolbar">
+            android:background="@color/yellow">
 
             <LinearLayout
                 android:id="@+id/ll"
@@ -33,14 +33,6 @@
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/ivCart"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.2"
-                    android:padding="15dp"
-                    android:src="@drawable/cart_icon" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 

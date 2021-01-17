@@ -46,8 +46,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
-    public static int count= 0;
     HomeScreenBinding homeBinding;
+    public static int count = 0;
     CategoryAdapter categoryAdapter, categoryAdapter1;
     DiscountAdapter discountAdapter;
     RecentUpdateAdapter recentUpdateAdapter;
@@ -66,12 +66,12 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        homeBinding = HomeScreenBinding.inflate(LayoutInflater.from(HomeActivity.this));
+        homeBinding = HomeScreenBinding.inflate(LayoutInflater.from(this));
         setContentView(homeBinding.getRoot());
         setSupportActionBar(homeBinding.toolbar);
         mAuth = FirebaseAuth.getInstance();
         setSupportActionBar(homeBinding.toolbar);
-         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         sp = getSharedPreferences("user", MODE_PRIVATE);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -79,7 +79,6 @@ public class HomeActivity extends AppCompatActivity {
         showDiscountedProducts();
         showRecentUpdates();
         showCategories();
-        addCart();
 
         homeBinding.ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +87,6 @@ public class HomeActivity extends AppCompatActivity {
                 homeBinding.etSearch.setVisibility(View.VISIBLE);
             }
         });
-
 
         homeBinding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -111,7 +109,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 searchProduct();
 
-                if(name.isEmpty()){
+                if (name.isEmpty()) {
                     homeBinding.tvCategories.setVisibility(View.VISIBLE);
                     homeBinding.tvCategory1.setVisibility(View.VISIBLE);
                     homeBinding.tvDiscounts.setVisibility(View.VISIBLE);
@@ -140,7 +138,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
     }//eOf onCreate
 
     private void addCart() {
@@ -149,16 +146,14 @@ public class HomeActivity extends AppCompatActivity {
         listCall.enqueue(new Callback<ArrayList<Cart>>() {
             @Override
             public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
-                if(response.code()==200){
+                if (response.code() == 200) {
                     ArrayList<Cart> cart = response.body();
-                    int Count= cart.size();
-                    homeBinding.count.setText(""+Count);
-                    homeBinding.count.setVisibility(View.VISIBLE);                                                         c
-                    }else
-                        homeBinding.count.setVisibility(View.GONE);
-
-                }
-
+                    int Count = cart.size();
+                    homeBinding.count.setText("" + Count);
+                    homeBinding.count.setVisibility(View.VISIBLE);
+                } else
+                    homeBinding.count.setVisibility(View.GONE);
+            }
 
             @Override
             public void onFailure(Call<ArrayList<Cart>> call, Throwable t) {
@@ -171,6 +166,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         checkUserProfile();
+        addCart();
     }
 
     private void checkUserProfile() {

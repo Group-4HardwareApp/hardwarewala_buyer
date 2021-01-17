@@ -56,7 +56,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
         holder.binding.tvQty.setText("" + qty);
         cart.setQty(qty);
 
-        Picasso.get().load(cart.getImageUrl()).into(holder.binding.productImage);
+        Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.productImage);
         holder.binding.tvProductName.setText("" + cart.getName());
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
         holder.binding.tvProductQty.setText("Available : " + quantity);

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.bean.Product;
 import com.example.hardwarewale.databinding.ProductItemListBinding;
 import com.squareup.picasso.Picasso;
@@ -34,7 +35,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productArrayList.get(position);
-        Picasso.get().load(product.getImageUrl()).into(holder.binding.productImage);
+        Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.productImage);
         holder.binding.tvProductName.setText(""+product.getName());
         holder.binding.tvProductPrice.setText("₹ " + product.getPrice());
     }

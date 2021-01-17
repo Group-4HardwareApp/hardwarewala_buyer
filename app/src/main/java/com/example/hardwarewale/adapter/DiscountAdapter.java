@@ -39,7 +39,7 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.Discou
         Product product = productList.get(position);
         double discount = product.getDiscount();
         int off = (int)discount;
-        Picasso.get().load(product.getImageUrl()).placeholder(R.mipmap.app_logo).into(holder.binding.ivProductImage);
+        Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.ivProductImage);
         holder.binding.tvProductName.setText(""+product.getName());
         holder.binding.tvProductPrice.setText("" + off + "% Off");
         holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.red));

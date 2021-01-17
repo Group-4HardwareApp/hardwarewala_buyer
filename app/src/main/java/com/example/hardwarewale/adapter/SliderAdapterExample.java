@@ -49,7 +49,7 @@ public class SliderAdapterExample extends SliderViewAdapter<com.example.hardware
     public void onBindViewHolder(SliderAdapterVH viewHolder, final int position) {
 
         SliderItem sliderItem = mSliderItems.get(position);
-        Picasso.get().load(sliderItem.getImageUrl()).into(viewHolder.imageViewBackground);
+        Picasso.get().load(sliderItem.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(viewHolder.imageViewBackground);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +65,6 @@ public class SliderAdapterExample extends SliderViewAdapter<com.example.hardware
     }
 
     public class SliderAdapterVH extends SliderViewAdapter.ViewHolder{
-
         View itemView;
         ImageView imageViewBackground;
         ImageView imageGifContainer;
@@ -78,5 +77,4 @@ public class SliderAdapterExample extends SliderViewAdapter<com.example.hardware
             this.itemView = itemView;
         }
     }
-
 }

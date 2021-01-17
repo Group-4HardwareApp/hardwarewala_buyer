@@ -36,7 +36,7 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
     @Override
     public void onBindViewHolder(@NonNull RecentUpdateViewHolder holder, int position) {
          Product product = recentProductList.get(position);
-         Picasso.get().load(product.getImageUrl()).placeholder(R.mipmap.app_logo).into(holder.binding.ivProductImage);
+         Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.ivProductImage);
          holder.binding.tvProductName.setText("" + product.getName());
          holder.binding.tvProductPrice.setText("₹ " + product.getPrice());
     }

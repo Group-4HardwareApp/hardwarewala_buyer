@@ -128,7 +128,7 @@ public class ViewProfileActivity extends AppCompatActivity {
                     binding.tvAddress.setText("" + user.getAddress());
                     binding.tvName.setText("" + user.getName());
                     binding.tvContact.setText("" + user.getMobile());
-                    Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.app_logo).into(binding.ivUserImage);
+                    Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(binding.ivUserImage);
                 }
             }
 
