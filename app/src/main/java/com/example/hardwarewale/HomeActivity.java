@@ -153,8 +153,9 @@ public class HomeActivity extends AppCompatActivity {
                     ArrayList<Cart> cart = response.body();
                     int Count= cart.size();
                     homeBinding.count.setText(""+Count);
-
-                    }
+                    homeBinding.count.setVisibility(View.VISIBLE);                                                         c
+                    }else
+                        homeBinding.count.setVisibility(View.GONE);
 
                 }
 
