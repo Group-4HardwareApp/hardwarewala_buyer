@@ -203,6 +203,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                                     Cart c = response.body();
                                     Toast.makeText(ProductDescriptionActivity.this, "Product added", Toast.LENGTH_SHORT).show();
                                     binding.tvAddToCart.setText("Add to cart");
+
                                     flag = 1;
                                 }
                             }
