@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.api.NotificationService;
 import com.example.hardwarewale.api.OrderService;
 import com.example.hardwarewale.api.ShopkeeperService;
@@ -120,30 +121,46 @@ binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
         ImageView ivCancel = view.findViewById(R.id.ivCancel);
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                userMobile = etEmail.getText().toString();
-                userName = etName.getText().toString();
-                userAddress = etAddress.getText().toString();
-                userMobile = etMobile.getText().toString();
+            public void onClick(final View v) {
+                final AlertDialog ab = new AlertDialog.Builder(PlaceOrderActivity.this).create();
+                LayoutInflater inflater = getLayoutInflater();
+                final View view = inflater.inflate(R.layout.change_details, null);
+                ab.setView(view);
+                final EditText etName = view.findViewById(R.id.etName);
+                final EditText etAddress = view.findViewById(R.id.etAddress);
+                final EditText etEmail = view.findViewById(R.id.etEmail);
+                final EditText etMobile = view.findViewById(R.id.etMobile);
 
-                binding.tvEmail.setText("" + userEmail);
-                binding.tvAddress.setText("" + userAddress);
-                binding.tvName.setText("" + userName);
-                binding.tvContact.setText("" + userMobile);
+                etAddress.setText("" + userAddress);
+                etEmail.setText("" + userEmail);
+                etMobile.setText("" + userMobile);
+                etName.setText("" + userName);
+                CardView btnChange = view.findViewById(R.id.btnChangedetails);
+                ImageView ivCancel = view.findViewById(R.id.ivCancel);
+                btnChange.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        userMobile = etEmail.getText().toString();
+                        userName = etName.getText().toString();
+                        userAddress = etAddress.getText().toString();
+                        userMobile = etMobile.getText().toString();
 
-            }
-
-        });
-
-        ivCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
-    }
-});
+                        binding.tvEmail.setText("" + userEmail);
+                        binding.tvAddress.setText("" + userAddress);
+                        binding.tvName.setText("" + userName);
+                        binding.tvContact.setText("" + userMobile);
+                        ab.dismiss();
+                    }
+                });
+                ivCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ab.dismiss();
+                    }
+                });
+                ab.show();l̥
+                }
+            });
         deliveryOptions = new ArrayList<>();
         deliveryOptions.add("Fast");
         deliveryOptions.add("Regular");
@@ -155,18 +172,18 @@ binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 deliveryOption = parent.getItemAtPosition(position).toString();
                 if (deliveryOption.equals("Fast")) {
-                    binding.tvDeliveryOption.setText("Delivered within 2 days & charges = 100 ₹");
+                    binding.tvDeliveryOption.setText("Delivered within 2 days & charges = ₹ 100");
                     flag = 1;
                     if (flag == 1) {
                         total = total + 100;
                     }
-                    binding.tvTotal.setText("" + total);
+                    binding.tvTotal.setText("₹ " + total);
                 } else {
                     binding.tvDeliveryOption.setText("Delivered within 5 days");
                     if (flag == 1) {
                         total = total - 100;
                     }
-                    binding.tvTotal.setText("" + total);
+                    binding.tvTotal.setText("₹ " + total);
                 }
             }
 
@@ -204,8 +221,23 @@ binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
                     public void onResponse(Call<OrderCart> call, Response<OrderCart> response) {
                         if (response.isSuccessful()) {
                             OrderCart o = response.body();
-                            Toast.makeText(PlaceOrderActivity.this, "Order palced", Toast.LENGTH_SHORT).show();
                             sendNotification();
+                            clearCart();
+                            final AlertDialog ab = new AlertDialog.Builder(PlaceOrderActivity.this).create();
+                            LayoutInflater inflater = getLayoutInflater();
+                            final View view = inflater.inflate(R.layout.order_succes_layout, null);
+                            ab.setView(view);
+                            CardView btnContinueShopping = view.findViewById(R.id.btnContinueShopping);
+                            btnContinueShopping.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ab.dismiss();
+                                    Intent in = new Intent(PlaceOrderActivity.this, HomeActivity.class);
+                                    startActivity(in);
+                                    clearCart();
+                                }
+                            });
+                            ab.show();
                         }
                     }
 
@@ -217,6 +249,28 @@ binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
                 });
             }
         });
+    }
+
+    private void clearCart() {
+        for (Cart c : cartList) {
+            CartService.CartApi cartApi = CartService.getCartApiInstance();
+            Call<Cart> call = cartApi.removeProductFormCart(c.getCartId());
+            Log.e("cart id ", "===>" + c.getCartId());
+            call.enqueue(new Callback<Cart>() {
+                @Override
+                public void onResponse(Call<Cart> call, Response<Cart> response) {
+                    Log.e("data", "========>" + response);
+                    if (response.code() == 200) {
+                        Cart c = response.body();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Cart> call, Throwable t) {
+                    Log.e("failed", "=========>" + t);
+                }
+            });
+        }
     }
 
     private void createTokenList() {

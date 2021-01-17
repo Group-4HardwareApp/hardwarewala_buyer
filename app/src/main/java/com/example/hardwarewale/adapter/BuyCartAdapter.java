@@ -94,7 +94,7 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
                     double total = Double.parseDouble(tvAmt.getText().toString());
                     total = total - (price);
                     tvAmt.setText("" + total);
-                    cart.setTotal                                                                (q*price);
+                    cart.setTotal(q*price);
                 }
             }
         });

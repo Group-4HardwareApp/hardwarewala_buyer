@@ -27,7 +27,7 @@ public class Comment implements Serializable {
     private String productId;
     @SerializedName("rating")
     @Expose
-    private String rating;
+    private long rating;
     @SerializedName("userName")
     @Expose
     private String userName;
@@ -39,7 +39,7 @@ public class Comment implements Serializable {
     }
 
     public Comment(String date, Long timestamp, String userId, String comment,
-                   String productId, String rating, String userName, String userImg) {
+                   String productId, long rating, String userName, String userImg) {
         super();
         this.date = date;
         this.timestamp = timestamp;
@@ -107,11 +107,11 @@ public class Comment implements Serializable {
         this.productId = productId;
     }
 
-    public String getRating() {
+    public long getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(long rating) {
         this.rating = rating;
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -51,6 +52,11 @@ public class FavoriteActivity extends AppCompatActivity {
                         List<Favorite> favoriteList = response.body();
                         for (Favorite f : favoriteList)
                             Log.e("======", "data" + f);
+                        if(favoriteList.size() == 0){
+                            binding.tvEmpty.setVisibility(View.VISIBLE);
+                            binding.rvFavoriteScreen.setVisibility(View.GONE);
+                            binding.btnbuy.setVisibility(View.GONE);
+                        }
                         adapter = new FavoriteAdapter(FavoriteActivity.this, favoriteList);
                         binding.rvFavoriteScreen.setAdapter(adapter);
                         binding.rvFavoriteScreen.setLayoutManager(new LinearLayoutManager(FavoriteActivity.this));

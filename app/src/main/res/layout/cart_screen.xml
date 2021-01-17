@@ -36,6 +36,15 @@
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
+        <ImageView
+            android:id="@+id/ivEmptyCart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:src="@drawable/enpty_cart"
+            android:visibility="gone" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvCartScreen"
             android:layout_width="match_parent"

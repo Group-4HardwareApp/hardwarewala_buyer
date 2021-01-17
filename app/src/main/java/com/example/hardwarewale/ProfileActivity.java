@@ -49,7 +49,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     Uri imageUri;
     ActivityCreateProfileBinding binding;
-    //TestLayoutBinding binding;
     SharedPreferences sp = null;
     AwesomeValidation awesomeValidation;
     InternetConnectivity connectivity;

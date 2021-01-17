@@ -1,33 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
     android:layout_margin="10dp"
-    app:cardElevation="10dp"
-    >
+    app:cardElevation="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/yellow">
+
+            <RelativeLayout
+                android:id="@+id/ivl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end">
+
+                <ImageView
+                    android:id="@+id/ivCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/cancel_icon"
+                    android:layout_alignParentEnd="true"/>
+
+                <TextView
+                    android:id="@+id/tvAppName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Change Details "
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/ivl"
-            android:gravity="end">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cancel_icon"
-            android:id="@+id/ivCancel"
-/></LinearLayout>
+            android:gravity="center"
+            android:text="Change delivery details"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivl"
+            android:layout_below="@+id/toolbar"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:text="Name"
@@ -37,7 +68,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ivl"
+            android:layout_below="@id/toolbar"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/name"
@@ -50,8 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/name"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="0dp"
+            android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
             android:inputType="text"
             android:textColor="@color/black" />
@@ -63,7 +94,7 @@
             android:layout_below="@+id/etName"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:text="Mobile"
+            android:text="Mobile "
             android:textColor="@color/black"
             android:textSize="10dp" />
 
@@ -74,7 +105,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/Mobile"
-            android:text="*"
+            android:text=" *"
             android:textColor="@color/red" />
 
         <EditText
@@ -87,7 +118,8 @@
             android:layout_marginRight="20dp"
             android:backgroundTint="@color/yellow"
             android:inputType="number"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/Mobile"
             android:layout_width="wrap_content"
@@ -120,6 +152,7 @@
             android:backgroundTint="@color/yellow"
             android:inputType="textEmailAddress"
             android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/Address"
             android:layout_width="wrap_content"
@@ -158,12 +191,12 @@
             android:id="@+id/btnChangedetails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
             android:layout_below="@id/etAddress"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:layout_marginEnd="20dp"
+            android:orientation="horizontal"
             app:cardBackgroundColor="@color/yellow"
             app:cardElevation="10dp">
 

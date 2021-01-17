@@ -36,6 +36,7 @@ public class CartActivity extends AppCompatActivity {
     String currentUserId;
     InternetConnectivity connectivity = new InternetConnectivity();
     ArrayList<Cart> al;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +49,10 @@ public class CartActivity extends AppCompatActivity {
         binding.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(al!=null ){
-                   Intent in = new Intent(CartActivity.this,BuyActivity.class);
-                   in.putExtra("cartlist",al);
-                   startActivity(in);
+                if (al != null) {
+                    Intent in = new Intent(CartActivity.this, BuyActivity.class);
+                    in.putExtra("cartlist", al);
+                    startActivity(in);
                 }
             }
         });
@@ -67,6 +68,11 @@ public class CartActivity extends AppCompatActivity {
                     if (response.code() == 200) {
                         al = new ArrayList<Cart>();
                         ArrayList<Cart> cartList = response.body();
+                        if (cartList.size() == 0) {
+                           binding.ivEmptyCart.setVisibility(View.VISIBLE);
+                           binding.rvCartScreen.setVisibility(View.INVISIBLE);
+                           binding.btnbuy.setVisibility(View.GONE);
+                        }
                         adapter = new CartAdapter(CartActivity.this, cartList);
                         binding.rvCartScreen.setAdapter(adapter);
                         binding.rvCartScreen.setLayoutManager(new LinearLayoutManager(CartActivity.this));
@@ -77,7 +83,7 @@ public class CartActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<ArrayList<Cart>> call, Throwable t) {
                     Toast.makeText(CartActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                    Log.e(" : ","==>"+t);
+                    Log.e(" : ", "==>" + t);
                 }
             });
         } else

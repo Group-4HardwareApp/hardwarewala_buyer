@@ -1,5 +1,6 @@
 package com.example.hardwarewale;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.PermissionChecker;
 
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.User;
@@ -52,23 +55,44 @@ public class SettingActivity extends AppCompatActivity {
         binding = ActivityCreateProfileBinding.inflate(inflater);
         View v = binding.getRoot();
         setContentView(v);
-        binding.tvActivityName.setText("Update profile" );
+        binding.tvActivityName.setText("Update profile");
 
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        binding.etMobile.setText(sp.getString("mobile", "Contact number"));
-        binding.etEmail.setText(sp.getString("email", "email"));
-        Picasso.get().load(sp.getString("imageUrl", "")).into(binding.civImage);
-        binding.etName.setText(sp.getString("name", "name"));
-        binding.etAddress.setText(sp.getString("address", "Address"));
+        UserService.UserApi userApi = UserService.getUserApiInstance();
+        Call<User> call = userApi.getUserDetails(currentUserId);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.code() == 200) {
+                    User user = response.body();
+                    binding.etMobile.setText("" + user.getMobile());
+                    binding.etName.setText("" + user.getName());
+                    binding.etAddress.setText("" + user.getAddress());
+                    binding.etEmail.setText("" + user.getEmail());
+                    Picasso.get().load(user.getImageUrl()).into(binding.civImage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+
+            }
+        });
+
         binding.btnSave.setText("Update");
 
         binding.civImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent in = new Intent(Intent.ACTION_GET_CONTENT);
-                in.setType("image/*");
-                startActivityForResult(Intent.createChooser(in, "Select image"), 111);
+                if (ActivityCompat.checkSelfPermission(SettingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(SettingActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 11);
+                } else {
+                    Intent in = new Intent();
+                    in.setAction(Intent.ACTION_GET_CONTENT);
+                    in.setType("image/*");
+                    startActivityForResult(Intent.createChooser(in, "Select image"), 111);
+                }
             }
         });
 
@@ -123,7 +147,7 @@ public class SettingActivity extends AppCompatActivity {
                             pd.show();
                             File file = FileUtils.getFile(SettingActivity.this, imageUri);
                             RequestBody requestFile = RequestBody.create(MediaType.parse(Objects.
-                                            requireNonNull(getContentResolver().getType(imageUri))), file);
+                                    requireNonNull(getContentResolver().getType(imageUri))), file);
 
                             MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
                             RequestBody userName = RequestBody.create(okhttp3.MultipartBody.FORM, name);
@@ -165,7 +189,7 @@ public class SettingActivity extends AppCompatActivity {
                             pd.setTitle("Updating");
                             pd.setMessage("Please wait...");
                             pd.show();
-                            User s = new User(userId, name, address,number, email, token);
+                            User s = new User(userId, name, address, number, email, token);
                             UserService.UserApi serviceApi = UserService.getUserApiInstance();
                             Call<User> call = serviceApi.updateUserWithoutImage(s);
                             call.enqueue(new Callback<User>() {
