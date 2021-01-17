@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.hardwarewale.api.NotificationService;
 import com.example.hardwarewale.api.OrderService;
@@ -31,6 +33,7 @@ import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.DeliveryDetailsBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -131,7 +134,7 @@ public class PlaceProductActivity extends AppCompatActivity {
         binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final AlertDialog.Builder ab = new AlertDialog.Builder(PlaceProductActivity.this);
+                final AlertDialog ab = new AlertDialog.Builder(PlaceProductActivity.this).create();
                 LayoutInflater inflater = getLayoutInflater();
                 final View view = inflater.inflate(R.layout.change_details, null);
                 ab.setView(view);
@@ -144,26 +147,29 @@ public class PlaceProductActivity extends AppCompatActivity {
                 etEmail.setText("" + userEmail);
                 etMobile.setText("" + userMobile);
                 etName.setText("" + userName);
-
-                ab.setPositiveButton("Change", new DialogInterface.OnClickListener() {
+                CardView btnChange = view.findViewById(R.id.btnChangedetails);
+                ImageView ivCancel = view.findViewById(R.id.ivCancel);
+                btnChange.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        userEmail = etEmail.getText().toString();
+                    public void onClick(View v) {
+                        userMobile = etEmail.getText().toString();
                         userName = etName.getText().toString();
                         userAddress = etAddress.getText().toString();
-                        userAddress = etMobile.getText().toString();
+                        userMobile = etMobile.getText().toString();
 
                         binding.tvEmail.setText("" + userEmail);
                         binding.tvAddress.setText("" + userAddress);
                         binding.tvName.setText("" + userName);
                         binding.tvContact.setText("" + userMobile);
 
+                        ab.dismiss();
                     }
+
                 });
-                ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                ivCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void onClick(View v) {
+                        ab.dismiss();
                     }
                 });
                 ab.show();
@@ -181,18 +187,18 @@ public class PlaceProductActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 deliveryOption = parent.getItemAtPosition(position).toString();
                 if (deliveryOption.equals("Fast")) {
-                    binding.tvDeliveryOption.setText("Delivered within 2 days & charges = 100 ₹");
+                    binding.tvDeliveryOption.setText("Delivered within 2 days & charges = ₹ 100");
                     flag = 1;
                     if (flag == 1) {
                         total = total + 100;
                     }
-                    binding.tvTotal.setText("" + total);
+                    binding.tvTotal.setText("₹ " + total);
                 } else {
                     binding.tvDeliveryOption.setText("Delivered within 5 days");
                     if (flag == 1) {
                         total = total - 100;
                     }
-                    binding.tvTotal.setText("" + total);
+                    binding.tvTotal.setText("₹ " + total);
                 }
             }
 
@@ -240,8 +246,21 @@ public class PlaceProductActivity extends AppCompatActivity {
                             public void onResponse(Call<Order> call, Response<Order> response) {
                                 if (response.code() == 200) {
                                     Order o = response.body();
-                                    Toast.makeText(PlaceProductActivity.this, "Order placed", Toast.LENGTH_SHORT).show();
                                     sendNotification();
+                                    final AlertDialog ab = new AlertDialog.Builder(PlaceProductActivity.this).create();
+                                    LayoutInflater inflater = getLayoutInflater();
+                                    final View view = inflater.inflate(R.layout.order_succes_layout, null);
+                                    ab.setView(view);
+                                    CardView btnContinueShopping = view.findViewById(R.id.btnContinueShopping);
+                                    btnContinueShopping.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            ab.dismiss();
+                                            Intent in = new Intent(PlaceProductActivity.this, HomeActivity.class);
+                                            startActivity(in);
+                                        }
+                                    });
+                                    ab.show();
                                 }
                             }
 

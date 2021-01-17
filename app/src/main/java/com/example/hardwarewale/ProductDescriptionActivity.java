@@ -45,7 +45,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductDescriptionActivity extends AppCompatActivity {
-   ActivityProductDescriptionBinding binding;
+    ActivityProductDescriptionBinding binding;
     RecentUpdateAdapter adapter;
     Product product;
     Favorite fav;
@@ -97,19 +97,17 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
                     if (response.code() == 200) {
                         final ArrayList<Comment> commentList = response.body();
-                        for (Comment c : commentList) {
-                            rate = Float.valueOf(c.getRating()).floatValue();
-                            avgRate = avgRate + rate;
-                            avg = avgRate / 5;
-                            binding.ratingBar.setRating(avg);
-                            binding.tvRate.setText("" + avg + " Out of 5");
+                        if (commentList.size() == 0) {
+                            binding.tvRating.setVisibility(View.GONE);
+                            binding.rl.setVisibility(View.GONE);
                         }
+                        calculateAverageRating(commentList);
                         binding.tvViewReview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                               Intent in = new Intent(ProductDescriptionActivity.this,RatingActivity.class);
-                               in.putExtra("commentList",commentList);
-                               startActivity(in);
+                                Intent in = new Intent(ProductDescriptionActivity.this, RatingActivity.class);
+                                in.putExtra("commentList", commentList);
+                                startActivity(in);
                             }
                         });
                     } else
@@ -125,6 +123,29 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
     }
 
+    private void calculateAverageRating(ArrayList<Comment> list) {
+        Long average, user1 = 0L, user2 = 0L, user3 = 0L, user4 = 0L, user5 = 0L;
+        for (Comment comment : list) {
+            if (comment.getRating() == 5) {
+                user5++;
+            }
+            if (comment.getRating() == 4) {
+                user4++;
+            }
+            if (comment.getRating() == 3) {
+                user3++;
+            }
+            if (comment.getRating() == 2) {
+                user2++;
+            }
+            if (comment.getRating() == 1) {
+                user1++;
+            }
+            average = ((user1 * 1) + (user2 * 2) + (user3 * 3) + (user4 * 4) + (user5 * 5)) / (user1 + user2 + user3 + user4 + user5);
+            binding.ratingBar.setRating(average);
+        }
+    }
+
     private void productData() {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         userId = currentUser.getUid();
@@ -134,7 +155,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         categoryId = product.getCategoryId();
         price = product.getPrice();
         shopkeeperId = product.getShopkeeperId();
-        Log.e("Shop","==>"+shopkeeperId);
+        Log.e("Shop", "==>" + shopkeeperId);
         imageUrl = product.getImageUrl();
         description = product.getDescription();
     }

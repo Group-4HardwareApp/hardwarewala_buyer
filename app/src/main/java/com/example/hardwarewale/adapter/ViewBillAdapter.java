@@ -21,7 +21,7 @@ public class ViewBillAdapter extends RecyclerView.Adapter<ViewBillAdapter.ViewBi
     Context context;
     int qty = 1;
 
-    public ViewBillAdapter(Context context, ArrayList<Cart> cart){
+    public ViewBillAdapter(Context context, ArrayList<Cart> cart) {
         this.context = context;
         this.cart = cart;
     }
@@ -29,18 +29,18 @@ public class ViewBillAdapter extends RecyclerView.Adapter<ViewBillAdapter.ViewBi
     @NonNull
     @Override
     public ViewBillViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-         BillItemListBinding binding = BillItemListBinding.inflate(LayoutInflater.from(context),parent,false);
-         return new ViewBillViewHolder(binding);
+        BillItemListBinding binding = BillItemListBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new ViewBillViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewBillViewHolder holder, int position) {
         Cart c = cart.get(position);
-        holder.binding.tvProductName.setText(""+c.getName());
-        holder.binding.tvProductQty.setText(""+c.getQty());
-        holder.binding.tvProductPrice.setText(""+(c.getQty()*c.getPrice()));
-        c.setTotal(c.getQty()*c.getPrice());
-       }
+        holder.binding.tvProductName.setText("" + c.getName());
+        holder.binding.tvProductQty.setText("" + c.getQty());
+        holder.binding.tvProductPrice.setText("₹ " + (c.getQty() * c.getPrice()));
+        c.setTotal(c.getQty() * c.getPrice());
+    }
 
     @Override
     public int getItemCount() {
@@ -49,7 +49,8 @@ public class ViewBillAdapter extends RecyclerView.Adapter<ViewBillAdapter.ViewBi
 
     public class ViewBillViewHolder extends RecyclerView.ViewHolder {
         BillItemListBinding binding;
-        public ViewBillViewHolder(BillItemListBinding binding){
+
+        public ViewBillViewHolder(BillItemListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

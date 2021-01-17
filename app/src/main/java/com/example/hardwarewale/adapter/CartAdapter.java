@@ -49,7 +49,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         Picasso.get().load(cart.getImageUrl()).into(holder.binding.productImage);
         holder.binding.tvProductName.setText("" + cart.getName());
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
-        holder.binding.tvProductDescription.setText(""+cart.getDescription());
+        holder.binding.tvProductDescription.setText("" + cart.getDescription());
         holder.binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +63,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                             pd.setTitle("Removing");
                             pd.setMessage("Please wait...");
                             pd.show();
+
                             CartService.CartApi cartApi = CartService.getCartApiInstance();
                             Call<Cart> call = cartApi.removeProductFormCart(cart.getCartId());
                             call.enqueue(new Callback<Cart>() {

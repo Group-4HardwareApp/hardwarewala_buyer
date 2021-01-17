@@ -125,7 +125,7 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
                         comment.setTimestamp(timestamp);
                         comment.setComment(coment);
                         comment.setDate(date);
-                        comment.setRating(String.valueOf(ratingBar.getRating()));
+                        comment.setRating(comment.getRating());
                         comment.setUserId(userId);
                         comment.setUserImg(userImag);
                         comment.setUserName(userName);
@@ -136,6 +136,7 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
                             public void onResponse(Call<Comment> call, Response<Comment> response) {
                                 if (response.code() == 200) {
                                     Comment comment = response.body();
+                                    ab.dismiss();
                                     Log.e("rating", "==>" + rating);
                                     Log.e("text", "==>" + text);
                                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();

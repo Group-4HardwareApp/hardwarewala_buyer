@@ -12,12 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.hardwarewale.adapter.BuyCartAdapter;
-import com.example.hardwarewale.adapter.ViewBillAdapter;
 import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.bean.BuyCart;
 import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.databinding.BuyScreenBinding;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
@@ -29,6 +29,7 @@ public class BuyActivity extends AppCompatActivity {
     BuyScreenBinding binding;
     ArrayList<Cart> cartList, updatedCartList;
     BuyCart buyCart;
+    String currentUserId;
     BuyCartAdapter adapter;
     double total=0, price,tot;
     int qty;
@@ -39,6 +40,7 @@ public class BuyActivity extends AppCompatActivity {
         binding = BuyScreenBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
         Intent in = getIntent();
+        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         cartList = (ArrayList<Cart>) in.getSerializableExtra("cartlist");
         buyCart = new BuyCart();
         buyCart.setCartList(cartList);
@@ -48,11 +50,12 @@ public class BuyActivity extends AppCompatActivity {
         call.enqueue(new Callback<BuyCart>() {
             @Override
             public void onResponse(Call<BuyCart> call, Response<BuyCart> response) {
+                Log.e("Response code","=========>"+response.code());
                 if (response.code() == 200) {
                     cartList = new ArrayList<Cart>();
                     buyCart = response.body();
                     updatedCartList = buyCart.getCartList();
-                    Log.e("Error", "==>" + updatedCartList);
+                    Log.e("cart list size", "=========>" + updatedCartList.size());
                     adapter = new BuyCartAdapter(BuyActivity.this, updatedCartList, binding.tvAmt);
                     binding.rvBuy.setLayoutManager(new LinearLayoutManager(BuyActivity.this));
                     binding.rvBuy.setAdapter(adapter);
