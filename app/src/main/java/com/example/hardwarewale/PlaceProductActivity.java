@@ -86,6 +86,11 @@ public class PlaceProductActivity extends AppCompatActivity {
         price1 = (long) price;
         total = qty * price;
 
+        Calendar cdate = Calendar.getInstance();
+        SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
+        date = sd.format(cdate.getTime());
+        timestamp = Calendar.getInstance().getTimeInMillis();
+
         UserService.UserApi userApi = UserService.getUserApiInstance();
         Call<User> call = userApi.getUserDetails(userId);
         call.enqueue(new Callback<User>() {
@@ -164,7 +169,6 @@ public class PlaceProductActivity extends AppCompatActivity {
 
                         ab.dismiss();
                     }
-
                 });
                 ivCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -223,11 +227,6 @@ public class PlaceProductActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
-        Calendar cdate = Calendar.getInstance();
-        SimpleDateFormat sd = new SimpleDateFormat("dd/MM/yyyy");
-        date = sd.format(cdate.getTime());
-        timestamp = Calendar.getInstance().getTimeInMillis();
 
         items = new OrderItems(productId, qty, productName, total, imageUrl, price, shopkeeperId);
         orderItemsList = new ArrayList<OrderItems>();

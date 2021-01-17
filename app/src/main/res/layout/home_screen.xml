@@ -21,7 +21,6 @@
                 android:id="@+id/appBarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize">
-
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
@@ -59,38 +58,47 @@
                             android:textColorHint="@color/black"
                             android:textSize="12sp"
                             android:visibility="gone" />
-
                         <ImageView
                             android:id="@+id/ivSearch"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.1"
-                            android:padding="2dp"
                             android:src="@drawable/search_icon" />
 
-                        <ImageView
-                            android:id="@+id/ivCart"
+                        <!--FrameLayout
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
                             android:layout_weight="0.1"
-                            android:padding="2dp"
-                            android:src="@drawable/cart_icon">
+                            android:layout_height="wrap_content"
+                            android:padding="3dp"-->
 
-                            <TextView
-                                android:id="@+id/count"
+                            <ImageView
+                                android:id="@+id/ivCart"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.1"
+                                android:layout_marginLeft="5dp"
+                                android:src="@drawable/cart_icon" />
+
+                            <FrameLayout
+                                android:id="@+id/counterValuePanel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:background="@drawable/rounded_corner"
-                                android:gravity="center"
-                                android:paddingLeft="1dp"
-                                android:paddingRight="1dp"
-                                android:text="0"
-                                android:textColor="#ffffff"
-                                android:textSize="20sp" />
+                                android:layout_gravity="end|top">
 
-                        </ImageView>
-
+                                <TextView
+                                    android:id="@+id/count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/rounded_corner"
+                                    android:text="1"
+                                    android:layout_marginTop="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+                            </FrameLayout>
+                        <!--/FrameLayout-->
                     </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>

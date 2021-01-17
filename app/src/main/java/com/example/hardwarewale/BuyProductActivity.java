@@ -46,7 +46,7 @@ public class BuyProductActivity extends AppCompatActivity {
         product.setQty(qty);
         timestamp = Calendar.getInstance().getTimeInMillis();
 
-        Picasso.get().load(imageUrl).placeholder(R.drawable.app_logo).into(binding.productImage);
+        Picasso.get().load(imageUrl).placeholder(R.drawable.default_photo_icon).into(binding.productImage);
         binding.tvProductName.setText("" + name);
         binding.tvProductPrice.setText("" + price);
         binding.tvProductQty.setText("Available : " + qtyInStock);

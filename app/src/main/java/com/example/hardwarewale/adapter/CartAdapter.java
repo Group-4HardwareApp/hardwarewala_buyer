@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.databinding.ActivityCartItemBinding;
@@ -46,7 +47,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartViewHolder holder, final int position) {
         final Cart cart = cartList.get(position);
-        Picasso.get().load(cart.getImageUrl()).into(holder.binding.productImage);
+        Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.productImage);
         holder.binding.tvProductName.setText("" + cart.getName());
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
         holder.binding.tvProductDescription.setText("" + cart.getDescription());

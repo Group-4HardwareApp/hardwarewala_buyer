@@ -70,7 +70,7 @@ public class SettingActivity extends AppCompatActivity {
                     binding.etName.setText("" + user.getName());
                     binding.etAddress.setText("" + user.getAddress());
                     binding.etEmail.setText("" + user.getEmail());
-                    Picasso.get().load(user.getImageUrl()).into(binding.civImage);
+                    Picasso.get().load(user.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(binding.civImage);
                 }
             }
 
