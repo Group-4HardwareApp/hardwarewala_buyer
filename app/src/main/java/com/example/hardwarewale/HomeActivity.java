@@ -25,9 +25,11 @@ import com.example.hardwarewale.adapter.CategoryAdapter;
 import com.example.hardwarewale.adapter.DiscountAdapter;
 import com.example.hardwarewale.adapter.ProductAdapter;
 import com.example.hardwarewale.adapter.RecentUpdateAdapter;
+import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.api.CategoryService;
 import com.example.hardwarewale.api.ProductService;
 import com.example.hardwarewale.api.UserService;
+import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.bean.Category;
 import com.example.hardwarewale.bean.Product;
 import com.example.hardwarewale.bean.User;
@@ -44,6 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
+    public static int count= 0;
     HomeScreenBinding homeBinding;
     CategoryAdapter categoryAdapter, categoryAdapter1;
     DiscountAdapter discountAdapter;
@@ -56,6 +59,8 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseUser currentUser;
     Product product;
     ProductAdapter adapter;
+    String userId;
+
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -66,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(homeBinding.toolbar);
         mAuth = FirebaseAuth.getInstance();
         setSupportActionBar(homeBinding.toolbar);
-
+         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         sp = getSharedPreferences("user", MODE_PRIVATE);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -74,6 +79,7 @@ public class HomeActivity extends AppCompatActivity {
         showDiscountedProducts();
         showRecentUpdates();
         showCategories();
+        addCart();
 
         homeBinding.ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +142,29 @@ public class HomeActivity extends AppCompatActivity {
 
 
     }//eOf onCreate
+
+    private void addCart() {
+        CartService.CartApi cartAPI = CartService.getCartApiInstance();
+        Call<ArrayList<Cart>> listCall = cartAPI.getCartProductList(userId);
+        listCall.enqueue(new Callback<ArrayList<Cart>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
+                if(response.code()==200){
+                    ArrayList<Cart> cart = response.body();
+                    int Count= cart.size();
+                    homeBinding.count.setText(""+Count);
+
+                    }
+
+                }
+
+
+            @Override
+            public void onFailure(Call<ArrayList<Cart>> call, Throwable t) {
+
+            }
+        });
+    }
 
     @Override
     protected void onStart() {

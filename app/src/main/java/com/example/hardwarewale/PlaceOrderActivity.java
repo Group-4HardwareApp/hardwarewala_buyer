@@ -3,6 +3,7 @@ package com.example.hardwarewale;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.example.hardwarewale.databinding.DeliveryDetailsBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,7 +60,7 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DeliveryDetailsBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
-        Intent in = getIntent();
+        final Intent in = getIntent();
         cartList = (List<Cart>) in.getSerializableExtra("updatedCartList");
         total = in.getDoubleExtra("total", 0.0);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -97,52 +99,51 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
             }
         });
         createTokenList();
+binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(PlaceOrderActivity.this).create();
+        LayoutInflater inflater = getLayoutInflater();
+      View view = inflater.inflate(R.layout.change_details,null);
+      alertDialog.setView(view);
 
-        binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
+        final EditText etName = view.findViewById(R.id.etName);
+        final EditText etAddress = view.findViewById(R.id.etAddress);
+        final EditText etEmail = view.findViewById(R.id.etEmail);
+        final EditText etMobile = view.findViewById(R.id.etMobile);
+
+        etAddress.setText("" + userAddress);
+        etEmail.setText("" + userEmail);
+        etMobile.setText("" + userMobile);
+        etName.setText("" + userName);
+        CardView btnChange = view.findViewById(R.id.btnChangedetails);
+        ImageView ivCancel = view.findViewById(R.id.ivCancel);
+        btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
-                final AlertDialog ab =  new AlertDialog.Builder(PlaceOrderActivity.this).create();
-                LayoutInflater inflater = getLayoutInflater();
-                final View view = inflater.inflate(R.layout.change_details, null);
-                ab.setView(view);
-                final EditText etName = view.findViewById(R.id.etName);
-                final EditText etAddress = view.findViewById(R.id.etAddress);
-                final EditText etEmail = view.findViewById(R.id.etEmail);
-                final EditText etMobile = view.findViewById(R.id.etMobile);
+            public void onClick(View v) {
+                userMobile = etEmail.getText().toString();
+                userName = etName.getText().toString();
+                userAddress = etAddress.getText().toString();
+                userMobile = etMobile.getText().toString();
 
-                etAddress.setText("" + userAddress);
-                etEmail.setText("" + userEmail);
-                etMobile.setText("" + userMobile);
-                etName.setText("" + userName);
-                CardView btnChange = view.findViewById(R.id.btnChangedetails);
-                ImageView ivCancel = view.findViewById(R.id.ivCancel);
-                btnChange.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        userMobile = etEmail.getText().toString();
-                        userName = etName.getText().toString();
-                        userAddress = etAddress.getText().toString();
-                        userMobile = etMobile.getText().toString();
+                binding.tvEmail.setText("" + userEmail);
+                binding.tvAddress.setText("" + userAddress);
+                binding.tvName.setText("" + userName);
+                binding.tvContact.setText("" + userMobile);
 
-                        binding.tvEmail.setText("" + userEmail);
-                        binding.tvAddress.setText("" + userAddress);
-                        binding.tvName.setText("" + userName);
-                        binding.tvContact.setText("" + userMobile);
+            }
 
-                    }
+        });
 
-                });
-
-                ivCancel.setOnClickListener(new View.OnClick                    public void onClick(View v) {
-                    Listener() {
-                    @Override
-                        ab.dismiss();
-                    }
-
-                });
-                ab.show();
+        ivCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
             }
         });
+        alertDialog.show();
+    }
+});
         deliveryOptions = new ArrayList<>();
         deliveryOptions.add("Fast");
         deliveryOptions.add("Regular");
