@@ -31,7 +31,7 @@ import com.example.hardwarewale.bean.NotificationSender;
 import com.example.hardwarewale.bean.OrderCart;
 import com.example.hardwarewale.bean.Shopkeeper;
 import com.example.hardwarewale.bean.User;
-import com.example.hardwarewale.databinding.DeliveryDetailsBinding;
+import com.example.hardwarewale.databinding.DeliveryDetailBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -46,7 +46,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlaceOrderActivity<list> extends AppCompatActivity {
-    DeliveryDetailsBinding binding;
+    com.example.hardwarewale.databinding.DeliveryDetailBinding binding;
     List<Cart> cartList;
     User user;
     ArrayList<String> deliveryOptions, paymentMode, tokenList = null;
@@ -59,12 +59,14 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DeliveryDetailsBinding.inflate(LayoutInflater.from(this));
+        binding = DeliveryDetailBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
         final Intent in = getIntent();
         cartList = (List<Cart>) in.getSerializableExtra("updatedCartList");
         total = in.getDoubleExtra("total", 0.0);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        createTokenList();
 
         for (Cart c : cartList) {
             c.setTotal((c.getQty() * c.getPrice()));
@@ -205,7 +207,6 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             OrderCart o = response.body();
                             sendNotification();
-                            clearCart();
                             final AlertDialog ab = new AlertDialog.Builder(PlaceOrderActivity.this).create();
                             LayoutInflater inflater = getLayoutInflater();
                             final View view = inflater.inflate(R.layout.order_succes_layout, null);
@@ -216,6 +217,7 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
                                 public void onClick(View v) {
                                     ab.dismiss();
                                     Intent in = new Intent(PlaceOrderActivity.this, HomeActivity.class);
+                                    in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(in);
                                     clearCart();
                                 }

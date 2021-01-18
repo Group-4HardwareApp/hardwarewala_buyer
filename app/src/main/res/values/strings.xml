@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:ns2="http://schemas.android.com/apk/res-auto">
     <string name="app_name">HardwareWale</string>
     <string name="open">open</string>
     <string name="close">close</string>
@@ -7,4 +7,9 @@
     <string name="choose_file">Select a file</string>
     <string name="error_selecting_file">Error selecting File</string>
     <string name="internal_storage">Internal storage</string>
+
+    <string name="fui_welcome_back_password_prompt_body" translation_description="Message to users that need to signin using existing email accounts">
+        Already had account with <ns2:g example="jane.doe@example.com" id="email_addr" translation_description="">%1$s</ns2:g>
+        . Enter your password .
+    </string>
 </resources>
