@@ -153,6 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/ivAddToCart"
             android:text="Buy"
+            android:layout_margin="5dp"
             android:gravity="center"
             android:textColor="@color/black" />
     </androidx.cardview.widget.CardView>

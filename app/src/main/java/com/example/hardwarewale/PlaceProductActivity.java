@@ -30,7 +30,7 @@ import com.example.hardwarewale.bean.OrderItems;
 import com.example.hardwarewale.bean.Product;
 import com.example.hardwarewale.bean.Shopkeeper;
 import com.example.hardwarewale.bean.User;
-import com.example.hardwarewale.databinding.DeliveryDetailsBinding;
+import com.example.hardwarewale.databinding.DeliveryDetailBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
@@ -45,7 +45,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlaceProductActivity extends AppCompatActivity {
-    DeliveryDetailsBinding binding;
+    DeliveryDetailBinding binding;
     Product product;
     int flag = 0;
     String productName, userName, date, userEmail, userAddress, userMobile, userId, brand, categoryId, shopkeeperToken,
@@ -61,7 +61,7 @@ public class PlaceProductActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DeliveryDetailsBinding.inflate(LayoutInflater.from(this));
+        binding = DeliveryDetailBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
 
         Intent in = getIntent();
@@ -256,6 +256,7 @@ public class PlaceProductActivity extends AppCompatActivity {
                                         public void onClick(View v) {
                                             ab.dismiss();
                                             Intent in = new Intent(PlaceProductActivity.this, HomeActivity.class);
+                                            in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                             startActivity(in);
                                         }
                                     });
