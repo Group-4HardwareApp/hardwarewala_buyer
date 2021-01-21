@@ -187,6 +187,12 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 paymentOption = parent.getItemAtPosition(position).toString();
+                if (paymentOption.equals("Cash on delivery ")) {
+
+                } else if (paymentOption.equals("Other")) {
+                    Intent intent2 = new Intent(PlaceOrderActivity.this, PaymentGateWay.class);
+                    startActivity(intent2);
+                }
             }
 
             @Override

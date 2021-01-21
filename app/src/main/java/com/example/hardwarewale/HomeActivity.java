@@ -4,7 +4,10 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -40,6 +43,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,7 +65,7 @@ public class HomeActivity extends AppCompatActivity {
     Product product;
     ProductAdapter adapter;
     String userId;
-
+    private static final int REQUEST_CODE = 1234;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -74,7 +79,7 @@ public class HomeActivity extends AppCompatActivity {
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         sp = getSharedPreferences("user", MODE_PRIVATE);
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        voiceSearch();
         getNavigationDrawer();
         showDiscountedProducts();
         showRecentUpdates();
@@ -139,6 +144,25 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }//eOf onCreate
+
+    private void voiceSearch() {
+        homeBinding.ivMic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
+                if (intent.resolveActivity(getPackageManager()) != null) {
+//                    Toast.makeText(Home.this, "in if of voice !!", Toast.LENGTH_SHORT).show();
+                    startActivityForResult(intent, 10);
+                } else {
+                    Toast.makeText(HomeActivity.this, "Your device Doesn't support Speech Input", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
 
     private void addCart() {
         CartService.CartApi cartAPI = CartService.getCartApiInstance();
@@ -223,7 +247,6 @@ public class HomeActivity extends AppCompatActivity {
                         editor.commit();
                     } else if (response.code() == 404) {
                         sendUserToProfileActivity();
-
                     }
                 }
 
@@ -465,5 +488,19 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         System.exit(0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 10:
+                if (resultCode == RESULT_OK && data != null) {
+                    ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    Log.e("TAG", "" + result.get(0));
+                    homeBinding.etSearch.setText(result.get(0).trim());
+//                  activityHomeBinding.ivcross.setVisibility(View.VISIBLE);activityHomeBinding.tvAppName.setVisibility(View.GONE);
+                }
+        }
     }
 }

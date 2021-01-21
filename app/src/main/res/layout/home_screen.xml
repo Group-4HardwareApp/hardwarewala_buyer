@@ -84,23 +84,71 @@
                         android:layout_gravity="end|top">
 
                         <TextView
-                            android:id="@+id/count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/rounded_corner"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:text="1"
-                            android:textColor="@color/white"
-                            android:textSize="10sp"
-                            android:textStyle="bold"
+                            android:id="@+id/tvAppName"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.6"
+                            android:gravity="center_vertical"
+                            android:text="HardwareWale"
+                            android:textColor="@color/black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etSearch"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_weight="0.6"
+                            android:background="@drawable/button_decoration"
+                            android:hint="Search Product"
+                            android:paddingLeft="10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="12sp"
                             android:visibility="gone" />
-                    </FrameLayout>
-                    <!--/FrameLayout-->
-                </LinearLayout>
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
+                        <ImageView
+                            android:id="@+id/ivSearch"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:src="@drawable/search_icon" />
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:id="@+id/ivMic"
+                            android:src="@drawable/mic_icon" />
+                        <ImageView
+                            android:id="@+id/ivCart"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/cart_icon" />
+                         
+                        <FrameLayout
+                                android:id="@+id/counterValuePanel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end|top">
+
+                                <TextView
+                                    android:id="@+id/count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/rounded_corner"
+                                    android:text="1"
+                                    android:layout_marginTop="5dp"
+                                    android:paddingLeft="5dp"
+                                    android:paddingRight="5dp"
+                                    android:textColor="@color/white"
+                                    android:textSize="13sp"
+                                    android:textStyle="bold" />
+                            </FrameLayout>
+                    </LinearLayout>
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -210,7 +258,6 @@
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
-
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
