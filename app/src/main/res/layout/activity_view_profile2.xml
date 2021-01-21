@@ -183,10 +183,9 @@
                         android:layout_alignRight="@+id/ivAddToCart"
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="4dp"
-                        android:text="Deliver "
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
-
                 </RelativeLayout>
 
                 <TextView
@@ -199,8 +198,6 @@
                     android:text="Delivered "
                     android:textColor="@color/black"
                     android:textSize="14sp" />
-
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -226,10 +223,9 @@
                         android:layout_alignRight="@+id/ivBuy"
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="4dp"
-                        android:text="Cancel"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
-
                 </RelativeLayout>
 
                 <TextView
@@ -238,7 +234,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rrCancel"
                     android:layout_alignRight="@+id/ivBuy"
-
                     android:layout_marginTop="4dp"
                     android:text="Cancelled"
                     android:textColor="@color/black"
@@ -269,14 +264,13 @@
                         android:layout_alignRight="@+id/ivBuy"
                         android:layout_marginLeft="14dp"
                         android:layout_marginTop="4dp"
-                        android:text="Onway"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="20sp" />
 
                 </RelativeLayout>
 
                 <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/rrOnway"

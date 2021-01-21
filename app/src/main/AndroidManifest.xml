@@ -19,13 +19,16 @@
         <activity
             android:name=".LauncherActivity"
             android:screenOrientation="portrait">
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <activity android:name=".Breakabl" />
+        <activity
+            android:name=".PaymentGateWay"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait" />
@@ -102,8 +105,9 @@
             android:name=".OrderHistoryDetailsActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".RatingActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".RatingActivity"
+            android:screenOrientation="portrait" />
 
         <service
             android:name=".MyFirebaseMessagingService"
@@ -113,6 +117,10 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_ILgsfZCZoFIKMb" />
 
     </application>
 </manifest>

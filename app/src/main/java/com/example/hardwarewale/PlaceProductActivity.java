@@ -103,7 +103,7 @@ public class PlaceProductActivity extends AppCompatActivity {
                     userEmail = user.getEmail();
                     userName = user.getName();
                     userToken = user.getToken();
-                    Log.e("user token","===>"+userToken);
+                    Log.e("user token", "===>" + userToken);
                     binding.tvEmail.setText("" + user.getEmail());
                     binding.tvAddress.setText("" + user.getAddress());
                     binding.tvName.setText("" + user.getName());
@@ -221,6 +221,12 @@ public class PlaceProductActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 paymentOption = parent.getItemAtPosition(position).toString();
+                if (paymentOption.equals("Cash on delivery ")) {
+
+                } else if (paymentOption.equals("Other")) {
+                    Intent intent1 = new Intent(PlaceProductActivity.this, PaymentGateWay.class);
+                    startActivity(intent1);
+                }
             }
 
             @Override
