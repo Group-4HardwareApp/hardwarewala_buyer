@@ -97,11 +97,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
                     if (response.code() == 200) {
                         final ArrayList<Comment> commentList = response.body();
-                        if (commentList.size() == 0) {
-                            binding.tvRating.setVisibility(View.GONE);
-                            binding.rl.setVisibility(View.GONE);
-                        }
-                        calculateAverageRating(commentList);
+                        /*calculateAverageRating(commentList);
                         binding.tvViewReview.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -109,7 +105,23 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                                 in.putExtra("commentList", commentList);
                                 startActivity(in);
                             }
-                        });
+                        });*/
+                        if (commentList.size() == 0) {
+                            binding.tvRating.setVisibility(View.GONE);
+                            binding.rl.setVisibility(View.GONE);
+                        } else {
+                            calculateAverageRating(commentList);
+                            binding.tvRating.setVisibility(View.VISIBLE);
+                            binding.rl.setVisibility(View.VISIBLE);
+                            binding.tvViewReview.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent in = new Intent(ProductDescriptionActivity.this, RatingActivity.class);
+                                    in.putExtra("commentList", commentList);
+                                    startActivity(in);
+                                }
+                            });
+                        }
                     } else
                         Toast.makeText(ProductDescriptionActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
@@ -143,6 +155,8 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             }
             average = ((user1 * 1) + (user2 * 2) + (user3 * 3) + (user4 * 4) + (user5 * 5)) / (user1 + user2 + user3 + user4 + user5);
             binding.ratingBar.setRating(average);
+            binding.tvRate.setText(average+" out of 5");
+            Log.e("avg rating ","==>"+Float.valueOf(average));
         }
     }
 

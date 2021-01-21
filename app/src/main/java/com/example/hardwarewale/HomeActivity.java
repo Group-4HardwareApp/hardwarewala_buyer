@@ -172,11 +172,13 @@ public class HomeActivity extends AppCompatActivity {
             public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
                 if (response.code() == 200) {
                     ArrayList<Cart> cart = response.body();
-                    int Count = cart.size();
-                    homeBinding.count.setText("" + Count);
-                    homeBinding.count.setVisibility(View.VISIBLE);
-                } else
-                    homeBinding.count.setVisibility(View.GONE);
+                    if (cart.size() == 0) {
+                        homeBinding.count.setVisibility(View.GONE);
+                    } else {
+                        homeBinding.count.setText("" + cart.size());
+                        homeBinding.count.setVisibility(View.VISIBLE);
+                    }
+                }
             }
 
             @Override

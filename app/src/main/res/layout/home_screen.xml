@@ -9,30 +9,79 @@
     tools:context=".HomeActivity"
     tools:openDrawer="start">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize">
 
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBarLayout"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize">
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/yellow">
+                android:layout_height="match_parent"
+                android:background="@color/yellow">
 
-                    <LinearLayout
-                        android:id="@+id/ll"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/tvAppName"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.7"
+                        android:gravity="center_vertical"
+                        android:text="HardwareWale"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="0.7"
+                        android:background="@drawable/button_decoration"
+                        android:hint="Search Product"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/ivSearch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/search_icon" />
+
+                    <!--FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.1"
+                        android:layout_height="wrap_content"
+                        android:padding="3dp"-->
+
+                    <ImageView
+                        android:id="@+id/ivCart"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/cart_icon" />
+
+                    <FrameLayout
+                        android:id="@+id/counterValuePanel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|top">
 
                         <TextView
                             android:id="@+id/tvAppName"
@@ -70,17 +119,15 @@
                             android:layout_weight="0.1"
                             android:id="@+id/ivMic"
                             android:src="@drawable/mic_icon" />
-
-
-                            <ImageView
-                                android:id="@+id/ivCart"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="0.1"
-                                android:layout_marginLeft="5dp"
-                                android:src="@drawable/cart_icon" />
-
-                            <FrameLayout
+                        <ImageView
+                            android:id="@+id/ivCart"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1"
+                            android:layout_marginLeft="5dp"
+                            android:src="@drawable/cart_icon" />
+                         
+                        <FrameLayout
                                 android:id="@+id/counterValuePanel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -103,104 +150,114 @@
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>
 
-            <TextView
-                android:id="@+id/tvDiscounts"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/appBarLayout"
-                android:layout_marginTop="15dp"
-                android:paddingLeft="15dp"
-                android:text="Discounted Products"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appBarLayout">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/HomeDiscount"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvDiscounts"
-                android:layout_margin="10dp"
-                android:isScrollContainer="false"
-                android:orientation="horizontal"
-                android:scrollbarSize="5dp"
-                android:scrollbars="horizontal"
-                android:visibility="visible"/>
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvCategories"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/HomeDiscount"
-                android:layout_margin="5dp"
-                android:paddingLeft="15dp"
-                android:text="Categories"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvDiscounts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="Discounted Products"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvHomeCategory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvCategories"
-                android:layout_margin="10dp"
-                android:isScrollContainer="false"
-                android:orientation="horizontal"
-                android:scrollbarSize="10dp"
-                android:scrollbars="horizontal"
-                android:visibility="visible"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/HomeDiscount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvDiscounts"
+                    android:layout_margin="10dp"
+                    android:isScrollContainer="false"
+                    android:orientation="horizontal"
+                    android:scrollbarSize="5dp"
+                    android:scrollbars="horizontal"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/tvRecentUpdates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rvHomeCategory"
-                android:layout_margin="5dp"
-                android:paddingLeft="15dp"
-                android:text="Recent Updates"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvCategories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/HomeDiscount"
+                    android:layout_margin="5dp"
+                    android:paddingLeft="15dp"
+                    android:text="Categories"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvHomeRecentUpdates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvRecentUpdates"
-                android:layout_margin="10dp"
-                android:isScrollContainer="false"
-                android:orientation="horizontal"
-                android:scrollbarSize="10dp"
-                android:scrollbars="horizontal"
-                android:visibility="visible"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHomeCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvCategories"
+                    android:layout_margin="10dp"
+                    android:isScrollContainer="false"
+                    android:orientation="horizontal"
+                    android:scrollbarSize="10dp"
+                    android:scrollbars="horizontal"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/tvCategory1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rvHomeRecentUpdates"
-                android:layout_margin="5dp"
-                android:paddingLeft="15dp"
-                android:text="Categories"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvRecentUpdates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rvHomeCategory"
+                    android:layout_margin="5dp"
+                    android:paddingLeft="15dp"
+                    android:text="Recent Updates"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvHomeCategory1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvCategory1"
-                android:layout_margin="10dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHomeRecentUpdates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvRecentUpdates"
+                    android:layout_margin="10dp"
+                    android:isScrollContainer="false"
+                    android:orientation="horizontal"
+                    android:scrollbarSize="10dp"
+                    android:scrollbars="horizontal"
+                    android:visibility="visible" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rvHomeCategory1"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:visibility="gone" />
-        </RelativeLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/tvCategory1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rvHomeRecentUpdates"
+                    android:layout_margin="5dp"
+                    android:paddingLeft="15dp"
+                    android:text="Categories"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHomeCategory1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvCategory1"
+                    android:layout_margin="10dp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rvHomeCategory1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
