@@ -10,15 +10,34 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/yellow">
 
-        <TextView
-            android:id="@+id/tvActivityName"
+        <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create profile"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:visibility="visible" />
+            android:layout_height="?attr/actionBarSize"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageView
+                android:id="@+id/backPress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.1"
+                android:src="@drawable/arrow_back_icon" />
+
+            <TextView
+                android:id="@+id/tvActivityName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:text="Create profile"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+        </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"

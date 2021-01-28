@@ -9,17 +9,34 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/yellow">
+        android:background="@color/yellow"
+        android:gravity="center">
 
-        <TextView
-            android:id="@+id/tvAppName"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="View Bill"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="-5dp"
+                android:src="@drawable/arrow_down_icon" />
+
+            <TextView
+                android:id="@+id/tvAppName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="-10dp"
+                android:layout_gravity="center"
+                android:text="View Bill"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout

@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:background="@color/yellow"
         android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent">
+        android:background="@color/yellow">
 
         <LinearLayout
             android:id="@+id/ll"
-            android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <TextView
-                android:gravity="center_vertical"
-                android:id="@+id/tvAppName"
-                android:layout_height="match_parent"
-                android:layout_weight="0.8"
+            <ImageView
+                android:id="@+id/backPress"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.1"
+                android:src="@drawable/arrow_back_icon" />
+
+            <TextView
+                android:id="@+id/tvAppName"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.8"
+                android:gravity="center_vertical"
                 android:text="Order history"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -30,9 +39,35 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <LinearLayout
+        android:id="@+id/manageOrderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="You have not placed any order yet"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/shopping_bag_icon" />
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvOrderHistory"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent" />
+        android:layout_margin="10dp" />
 </LinearLayout>

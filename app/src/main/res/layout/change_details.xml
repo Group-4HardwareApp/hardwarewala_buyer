@@ -28,7 +28,7 @@
                     android:id="@+id/ivCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/cancel_icon"
+                    android:src="@drawable/close_icon"
                     android:layout_alignParentEnd="true"/>
 
                 <TextView

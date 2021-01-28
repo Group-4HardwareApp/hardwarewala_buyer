@@ -4,19 +4,30 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.cardview.widget.CardView;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.OrderDetailsActivity;
 import com.example.hardwarewale.OrderHistoryDetailsActivity;
+import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.OrderService;
 import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.bean.Order;
@@ -61,15 +72,31 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
         holder.binding.tvOrderId.setText("" + id);
         holder.binding.tvOrderStatus.setText("" + order.getShippingStatus());
 
+        final SpannableString content = new SpannableString("View more");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        holder.binding.btnViewMore.setText(content);
+
+        Drawable unwrappedDrawable = AppCompatResources.getDrawable(context, R.drawable.close_icon);
+        Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
+        DrawableCompat.setTint(wrappedDrawable, Color.WHITE);
+
         holder.binding.btnCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (connectivity.isConnectedToInternet(context)) {
-                    final AlertDialog.Builder ab = new AlertDialog.Builder(context);
-                    ab.setMessage("Are you sure ?");
-                    ab.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    final AlertDialog ab = new AlertDialog.Builder(context).create();
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.alert_dialog, null);
+                    ab.setView(view);
+                    TextView tvtitleMsg = view.findViewById(R.id.tvTilteMsg);
+                    tvtitleMsg.setText("You want to cancel this order");
+
+                    CardView btnCancel = view.findViewById(R.id.btnCancel);
+                    CardView btnOkay = view.findViewById(R.id.btnOkay);
+
+                    btnOkay.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
                             pd = new ProgressDialog(context);
                             pd.setTitle("Removing");
                             pd.setMessage("Please wait...");
@@ -84,6 +111,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
                                         orderList.remove(position);
                                         pd.dismiss();
                                         notifyDataSetChanged();
+                                        ab.dismiss();
                                     } else
                                         Log.e("code", "==>" + response.code());
                                 }
@@ -96,10 +124,10 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
                             });
                         }
                     });
-                    ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                             dialog.cancel();
+                        public void onClick(View v) {
+                            ab.dismiss();
                         }
                     });
                     ab.show();
@@ -131,6 +159,7 @@ public class ManageOrderAdapter extends RecyclerView.Adapter<ManageOrderAdapter.
 
     public class ManageOrderViewHolder extends RecyclerView.ViewHolder {
         ManageOrderItemListBinding binding;
+
         public ManageOrderViewHolder(ManageOrderItemListBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

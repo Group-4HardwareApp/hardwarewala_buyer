@@ -51,15 +51,17 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
     public void onBindViewHolder(@NonNull final BuyCartViewHolder holder, final int position) {
         final Cart cart = cartList.get(position);
         final double qtyInStock = cart.getQtyInStock();
-        int quantity = (int) qtyInStock;
+        final int quantity = (int) qtyInStock;
         int qty = 1;
         holder.binding.tvQty.setText("" + qty);
         cart.setQty(qty);
 
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.productImage);
         holder.binding.tvProductName.setText("" + cart.getName());
+
+        holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.dark_red));
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
-        holder.binding.tvProductQty.setText("Available : " + quantity);
+        holder.binding.tvProductQty.setText("In stock : " + quantity);
 
         holder.binding.ivAdd.setColorFilter(context.getResources().getColor(R.color.dark_green));
         holder.binding.ivAdd.setOnClickListener(new View.OnClickListener() {

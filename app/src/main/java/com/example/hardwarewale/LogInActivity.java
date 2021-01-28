@@ -53,7 +53,6 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-
                 if (user != null) {
                     Toast.makeText(LogInActivity.this, "user already logged in with uid" + user.getUid(), Toast.LENGTH_SHORT).show();
                     sendUserToHomeScreen();
@@ -86,5 +85,16 @@ public class LogInActivity extends AppCompatActivity {
     private void sendUserToHomeScreen() {
         Intent intent = new Intent(LogInActivity.this,HomeActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+        System.exit(0);
     }
 }

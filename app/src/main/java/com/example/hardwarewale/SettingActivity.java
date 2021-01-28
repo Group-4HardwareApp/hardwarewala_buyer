@@ -23,6 +23,7 @@ import androidx.core.content.PermissionChecker;
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.ActivityCreateProfileBinding;
+import com.example.hardwarewale.utility.FileUtils;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
@@ -56,6 +57,14 @@ public class SettingActivity extends AppCompatActivity {
         View v = binding.getRoot();
         setContentView(v);
         binding.tvActivityName.setText("Update profile");
+
+        binding.backPress.setVisibility(View.VISIBLE);
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

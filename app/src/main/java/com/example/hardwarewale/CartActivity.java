@@ -46,6 +46,13 @@ public class CartActivity extends AppCompatActivity {
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         showCartProduct();
 
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         binding.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

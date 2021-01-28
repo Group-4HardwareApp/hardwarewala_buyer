@@ -3,6 +3,7 @@ package com.example.hardwarewale.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -51,10 +52,15 @@ public class RecentUpdateAdapter extends RecyclerView.Adapter<RecentUpdateAdapte
         public RecentUpdateViewHolder(ShowDiscountsBinding binding){
             super(binding.getRoot());
             this.binding = binding;
-           // int position = getAdapterPosition();
-           // Product p = recentProductList.get(position);
-            //if(position != RecyclerView.NO_POSITION && listener != null)
-              //  listener.onItemClick(p,position);
+            binding.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    Product p = recentProductList.get(position);
+                    if(position != RecyclerView.NO_POSITION && listener != null)
+                        listener.onItemClick(p,position);
+                }
+            });
         }
     }
 

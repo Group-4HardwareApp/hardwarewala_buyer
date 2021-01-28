@@ -23,6 +23,7 @@ import com.example.hardwarewale.api.CommentService;
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.Comment;
 import com.example.hardwarewale.bean.OrderItems;
+import com.example.hardwarewale.bean.Product;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.OrderDetailItemListBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +40,8 @@ import retrofit2.Response;
 public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDetailAddCommentAdapter.OrderDetailViewHolder> {
     ArrayList<OrderItems> itemList;
     Context context;
-    String userId, rating, date, text, productId, userName, userImag, coment;
+    String userId, rating, date, text, productId, commentId, userName, userImag, coment;
+    int flag = 0;
     long timestamp;
 
     public OrderDetailAddCommentAdapter(Context context, ArrayList<OrderItems> itemList) {
@@ -105,6 +107,54 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
                     }
                 });
 
+                CommentService.CommentApi api = CommentService.getCommentApiInstance();
+                Call<ArrayList<Comment>> call2 = api.getCommentOfProduct(productId);
+                call2.enqueue(new Callback<ArrayList<Comment>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<Comment>> call, Response<ArrayList<Comment>> response) {
+                        if (response.isSuccessful()) {
+                            ArrayList<Comment> commentList = response.body();
+                            for (Comment c : commentList) {
+                                if (userId.equals(c.getUserId())) {
+                                    commentId = c.getCommentId();
+                                    flag = 1;
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<Comment>> call, Throwable t) {
+
+                    }
+                });
+
+                if (flag == 1) {
+                    Comment comment = new Comment();
+                    comment.setUserName(userName);
+                    comment.setTimestamp(timestamp);
+                    comment.setComment(coment);
+                    comment.setDate(date);
+                    comment.setRating(comment.getRating());
+                    comment.setUserId(userId);
+                    comment.setUserImg(userImag);
+                    Call<Comment> call3 = api.updateComment(comment,commentId);
+                    call3.enqueue(new Callback<Comment>() {
+                        @Override
+                        public void onResponse(Call<Comment> call, Response<Comment> response) {
+                            if(response.isSuccessful()){
+                                Comment c = response.body();
+                            }
+                            Log.e("response code","===>"+response.code());
+                        }
+
+                        @Override
+                        public void onFailure(Call<Comment> call, Throwable t) {
+                           Log.e("error","==>"+t);
+                        }
+                    });
+                }
+
                 ivCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -116,7 +166,7 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
                     @Override
                     public void onClick(View v) {
                         coment = etComment.getText().toString().trim();
-                        if(TextUtils.isEmpty(coment)){
+                        if (TextUtils.isEmpty(coment)) {
                             etComment.setError("Enter comment");
                             return;
                         }

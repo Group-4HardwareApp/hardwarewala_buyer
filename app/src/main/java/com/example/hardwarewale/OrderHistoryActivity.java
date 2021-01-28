@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -49,6 +50,13 @@ public class OrderHistoryActivity extends AppCompatActivity {
         Intent in = getIntent();
         Log.e("userId : ", "===>" + userId);
         showOrders();
+
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void showOrders() {
@@ -60,13 +68,18 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
                     if (response.code() == 200) {
                         final ArrayList<Order> orderList = response.body();
+                        if (orderList.size() == 0) {
+                             binding.manageOrderLayout.setVisibility(View.VISIBLE);
+                             binding.rvOrderHistory.setVisibility(View.GONE);
+                        }
                         adapter = new OrderHistoryAdapter(OrderHistoryActivity.this, orderList);
                         binding.rvOrderHistory.setAdapter(adapter);
                         binding.rvOrderHistory.setLayoutManager(new LinearLayoutManager(OrderHistoryActivity.this));
                     }
                 }
+
                 public void onFailure(Call<ArrayList<Order>> call, Throwable t) {
-                    Log.e("Error : ", "==> "+t);
+                    Log.e("Error : ", "==> " + t);
                     Toast.makeText(OrderHistoryActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
             });

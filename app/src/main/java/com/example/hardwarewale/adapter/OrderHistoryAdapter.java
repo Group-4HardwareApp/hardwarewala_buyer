@@ -2,6 +2,8 @@ package com.example.hardwarewale.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,13 +49,21 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
           holder.binding.tvOrderDate.setText(""+order.getDate());
           holder.binding.tvOrderStatus.setText(""+ order.getShippingStatus());
           String status = order.getShippingStatus();
-          if(status.equals("Cancelled"))
+          if(status.equals("Cancelled")) {
               holder.binding.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.red));
-          else
+             // Intent in = new Intent(context,OrderDetailAddCommentAdapter.class);
+             // in.putExtra("order status",order.getShippingStatus());
+              //context.startActivity(in);
+          }else
               holder.binding.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.dark_green));
 
           final ArrayList<OrderItems> items = (ArrayList<OrderItems>) order.getOrderItems();
-          holder.binding.btnViewMore.setOnClickListener(new View.OnClickListener() {
+
+        SpannableString content = new SpannableString("View more");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        holder.binding.btnViewMore.setText(content);
+
+        holder.binding.btnViewMore.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
                   Intent in = new Intent(context, OrderHistoryDetailsActivity.class);

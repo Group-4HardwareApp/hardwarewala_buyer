@@ -7,14 +7,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.CartService;
+import com.example.hardwarewale.api.OrderService;
 import com.example.hardwarewale.bean.Cart;
+import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.databinding.ActivityCartItemBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.squareup.picasso.Picasso;
@@ -51,20 +56,28 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.binding.tvProductName.setText("" + cart.getName());
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
         holder.binding.tvProductDescription.setText("" + cart.getDescription());
+
         holder.binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (connectivity.isConnectedToInternet(context)) {
-                    final AlertDialog.Builder ab = new AlertDialog.Builder(context);
-                    ab.setMessage("Are you sure ? ");
-                    ab.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    final AlertDialog ab = new AlertDialog.Builder(context).create();
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.alert_dialog, null);
+                    ab.setView(view);
+
+                    TextView tvtitleMsg = view.findViewById(R.id.tvTilteMsg);
+                    tvtitleMsg.setText("You want to remove this product from cart");
+                    CardView btnCancel = view.findViewById(R.id.btnCancel);
+                    CardView btnOkay = view.findViewById(R.id.btnOkay);
+
+                    btnOkay.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
                             pd = new ProgressDialog(context);
                             pd.setTitle("Removing");
                             pd.setMessage("Please wait...");
                             pd.show();
-
                             CartService.CartApi cartApi = CartService.getCartApiInstance();
                             Call<Cart> call = cartApi.removeProductFormCart(cart.getCartId());
                             call.enqueue(new Callback<Cart>() {
@@ -76,6 +89,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                                         cartList.remove(position);
                                         pd.dismiss();
                                         notifyDataSetChanged();
+                                        ab.dismiss();
                                     }
                                 }
 
@@ -86,10 +100,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                             });
                         }
                     });
-                    ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        public void onClick(View v) {
+                            ab.dismiss();
                         }
                     });
                     ab.show();

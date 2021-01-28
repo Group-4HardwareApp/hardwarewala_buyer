@@ -3,6 +3,7 @@ package com.example.hardwarewale;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,13 @@ public class RatingActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent in = getIntent();
         commentList = (ArrayList<Comment>) in.getSerializableExtra("commentList");
+
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         for(Comment comment : commentList) {
             adapter = new ShowCommentAdapter(this, commentList);
