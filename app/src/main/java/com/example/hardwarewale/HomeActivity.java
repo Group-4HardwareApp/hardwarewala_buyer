@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -362,6 +363,15 @@ public class HomeActivity extends AppCompatActivity {
                     recentUpdateAdapter = new RecentUpdateAdapter(HomeActivity.this, recentProductList);
                     homeBinding.rvHomeRecentUpdates.setAdapter(recentUpdateAdapter);
                     homeBinding.rvHomeRecentUpdates.setLayoutManager(new LinearLayoutManager(HomeActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                      recentUpdateAdapter.setOnItemClick(new RecentUpdateAdapter.OnRecyclerViewClick() {
+                          @Override
+                          public void onItemClick(Product product, int position) {
+                 Toast.makeText(HomeActivity.this,"item Clicked",Toast.LENGTH_SHORT).show();
+                          Intent intent4 = new Intent(HomeActivity.this,ProductDescriptionActivity.class);
+                          intent4.putExtra("pdt",product);
+                          startActivity(intent4);
+                          }
+                      });
                 }
 
                 @Override
@@ -440,7 +450,12 @@ public class HomeActivity extends AppCompatActivity {
                 } else if (id == R.id.menuProfile) {
                     Intent in = new Intent(HomeActivity.this, ViewProfileActivity.class);
                     startActivity(in);
-                } else if (id == R.id.menuLogout) {
+                }
+                else if(id == R.id.menuContactus){
+                    Intent in = new Intent(HomeActivity.this,ContactActivity.class);
+                    startActivity(in);
+                }
+                else if (id == R.id.menuLogout) {
                     AlertDialog.Builder ab = new AlertDialog.Builder(HomeActivity.this);
                     ab.setMessage("Do you want to logout ?");
                     ab.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
