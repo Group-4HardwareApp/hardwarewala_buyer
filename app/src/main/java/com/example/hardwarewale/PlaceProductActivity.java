@@ -4,6 +4,8 @@ import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +72,13 @@ public class PlaceProductActivity extends AppCompatActivity {
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         connectivity = new InternetConnectivity();
 
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         productName = product.getName();
         brand = product.getBrand();
         productId = product.getProductId();
@@ -135,6 +144,10 @@ public class PlaceProductActivity extends AppCompatActivity {
                 Toast.makeText(PlaceProductActivity.this, "Failure", Toast.LENGTH_SHORT).show();
             }
         });
+
+        SpannableString content = new SpannableString("Change details");
+        content.setSpan(new UnderlineSpan(),0,content.length(),0);
+        binding.tvChangeDetails.setText(content);
 
         binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
             @Override

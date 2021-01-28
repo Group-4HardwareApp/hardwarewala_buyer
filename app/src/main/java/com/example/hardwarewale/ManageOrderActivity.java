@@ -3,6 +3,7 @@ package com.example.hardwarewale;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -33,6 +34,13 @@ public class ManageOrderActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         showOrders();
+
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void showOrders() {
@@ -44,6 +52,10 @@ public class ManageOrderActivity extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Order>> call, Response<ArrayList<Order>> response) {
                     if (response.code() == 200) {
                         ArrayList<Order> orderList = response.body();
+                        if(orderList.size()==0){
+                            binding.manageOrderLayout.setVisibility(View.VISIBLE);
+                            binding.rvManageOrder.setVisibility(View.GONE);
+                        }
                         adapter = new ManageOrderAdapter(ManageOrderActivity.this, orderList);
                         binding.rvManageOrder.setAdapter(adapter);
                         binding.rvManageOrder.setLayoutManager(new LinearLayoutManager(ManageOrderActivity.this));

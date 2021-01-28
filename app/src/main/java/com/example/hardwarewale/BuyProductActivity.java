@@ -33,6 +33,13 @@ public class BuyProductActivity extends AppCompatActivity {
         Intent in = getIntent();
         product = (Product) in.getSerializableExtra("product");
 
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         name = product.getName();
         imageUrl = product.getImageUrl();
         description = product.getDescription();

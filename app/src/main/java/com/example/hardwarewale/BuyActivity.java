@@ -31,8 +31,7 @@ public class BuyActivity extends AppCompatActivity {
     BuyCart buyCart;
     String currentUserId;
     BuyCartAdapter adapter;
-    double total=0, price,tot;
-    int qty;
+    double total=0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +43,13 @@ public class BuyActivity extends AppCompatActivity {
         cartList = (ArrayList<Cart>) in.getSerializableExtra("cartlist");
         buyCart = new BuyCart();
         buyCart.setCartList(cartList);
+
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         CartService.CartApi cartApi = CartService.getCartApiInstance();
         Call<BuyCart> call = cartApi.getCartProductWithQty(buyCart);

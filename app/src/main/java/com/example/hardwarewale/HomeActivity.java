@@ -389,9 +389,9 @@ public class HomeActivity extends AppCompatActivity {
 
                         discountAdapter.onItemClickListener(new DiscountAdapter.onRecyeclerViewClick() {
                             @Override
-                            public void onItemClick(Product p, int position) {
+                            public void onItemClick(Product product, int position) {
                                 Intent in = new Intent(HomeActivity.this, ProductDescriptionActivity.class);
-                                in.putExtra("product", p);
+                                in.putExtra("product", product);
                                 startActivity(in);
                             }
                         });

@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +48,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlaceOrderActivity<list> extends AppCompatActivity {
-    com.example.hardwarewale.databinding.DeliveryDetailBinding binding;
+    DeliveryDetailBinding binding;
     List<Cart> cartList;
     User user;
     ArrayList<String> deliveryOptions, paymentMode, tokenList = null;
@@ -65,6 +67,13 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
         cartList = (List<Cart>) in.getSerializableExtra("updatedCartList");
         total = in.getDoubleExtra("total", 0.0);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         createTokenList();
 
@@ -101,6 +110,10 @@ public class PlaceOrderActivity<list> extends AppCompatActivity {
 
             }
         });
+
+        SpannableString content = new SpannableString("Change Details");
+        content.setSpan(new UnderlineSpan(),0,content.length(),0);
+        binding.tvChangeDetails.setText(content);
 
         binding.tvChangeDetails.setOnClickListener(new View.OnClickListener() {
             @Override

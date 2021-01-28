@@ -1,4 +1,4 @@
-package com.example.hardwarewale;
+package com.example.hardwarewale.utility;
 
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
@@ -14,6 +14,8 @@ import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+
+import com.example.hardwarewale.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
