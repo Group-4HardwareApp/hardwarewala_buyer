@@ -88,6 +88,8 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             binding.tvProductName.setText("" + discount.getName());
             binding.tvProductPrice.setPaintFlags(binding.tvProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             binding.tvProductPrice.setText("₹ " + discount.getPrice());
+            binding.tvProductPrice.setPaintFlags(binding.tvProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            binding.tvProductPrice.setText("₹ " + discount.getPrice());
             binding.tvBrand.setText("" + discount.getBrand());
 
             double dis = discount.getDiscount();
