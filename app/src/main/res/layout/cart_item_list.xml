@@ -19,7 +19,8 @@
             android:layout_alignParentEnd="true"
             android:layout_gravity="end"
             android:layout_marginTop="-3dp"
-            android:src="@drawable/cancel_icon" />
+            android:src="@drawable/cancel_icon"
+            android:visibility="gone"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -56,27 +57,29 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Price"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
                     android:textColor="@color/black" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
 
                     <TextView
                         android:id="@+id/tvProductQty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
                         android:gravity="center"
                         android:text="10"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:layout_marginTop="5dp"/>
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:layout_marginLeft="5dp"
-                        android:layout_toRightOf="@id/tvProductQty"
+                        android:layout_alignParentEnd="true"
                         android:orientation="horizontal"
                         android:weightSum="1">
 

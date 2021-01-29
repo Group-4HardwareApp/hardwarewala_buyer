@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-
 import com.example.hardwarewale.databinding.RazorPayBinding;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
@@ -44,6 +42,7 @@ public class PaymentGateWay extends Activity implements PaymentResultListener {
                 startActivity(httpIntent);
             }
         });
+
     }
 
     public void startPayment() {

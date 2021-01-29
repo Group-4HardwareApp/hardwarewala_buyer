@@ -18,11 +18,20 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
+            <ImageView
+                android:id="@+id/backPress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.1"
+                android:src="@drawable/arrow_back_icon" />
+
             <TextView
                 android:id="@+id/tvAppName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.8"
+                android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:text="Buy product"
                 android:textColor="@color/black"
@@ -44,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             app:cardElevation="10dp">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -152,9 +162,9 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/ivAddToCart"
-            android:text="Buy"
             android:layout_margin="5dp"
             android:gravity="center"
+            android:text="Buy"
             android:textColor="@color/black" />
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

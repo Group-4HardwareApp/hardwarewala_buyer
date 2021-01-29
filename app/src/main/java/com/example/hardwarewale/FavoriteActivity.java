@@ -39,6 +39,13 @@ public class FavoriteActivity extends AppCompatActivity {
         Intent in = new Intent();
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         showFavoriteProduct();
+
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void showFavoriteProduct() {
@@ -53,7 +60,7 @@ public class FavoriteActivity extends AppCompatActivity {
                         for (Favorite f : favoriteList)
                             Log.e("======", "data" + f);
                         if(favoriteList.size() == 0){
-                            binding.tvEmpty.setVisibility(View.VISIBLE);
+                            binding.favrouiteLayout.setVisibility(View.VISIBLE);
                             binding.rvFavoriteScreen.setVisibility(View.GONE);
                             binding.btnbuy.setVisibility(View.GONE);
                         }
@@ -65,7 +72,7 @@ public class FavoriteActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(Favorite favorite, int position) {
                                 Intent in = new Intent(FavoriteActivity.this, ProductDescriptionActivity.class);
-                                in.putExtra("favorite",favorite);
+                                in.putExtra("favorite",favorite.getFavoriteId());
                                 startActivity(in);
                             }
                         });

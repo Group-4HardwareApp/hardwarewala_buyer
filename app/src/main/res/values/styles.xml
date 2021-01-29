@@ -1,5 +1,4 @@
 <resources>
-
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -38,9 +37,9 @@
     </style>
 
     <style name="DialogStyle" parent="Theme.AppCompat">
-        <item name="colorAccent">@color/yellow</item>
+        <item name="colorAccent">@color/black</item>
         <item name="android:background">@color/white</item>
-        <item name="android:textColor">@color/yellow</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="ActionBar" parent="Theme.AppCompat">

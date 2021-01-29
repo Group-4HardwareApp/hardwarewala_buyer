@@ -86,10 +86,10 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             binding.ivImage.setVisibility(View.GONE);
             binding.iv.setVisibility(View.VISIBLE);
             binding.tvProductName.setText("" + discount.getName());
-           Log.e("Product  Name ","====="+discount.getName());
             binding.tvProductPrice.setPaintFlags(binding.tvProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             binding.tvProductPrice.setText("₹ " + discount.getPrice());
-            Log.e("Discount ","------------------------------>"+discount.getDiscount());
+            binding.tvProductPrice.setPaintFlags(binding.tvProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            binding.tvProductPrice.setText("₹ " + discount.getPrice());
             binding.tvBrand.setText("" + discount.getBrand());
 
             double dis = discount.getDiscount();

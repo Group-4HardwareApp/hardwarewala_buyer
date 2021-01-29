@@ -7,18 +7,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.FavoriteActivity;
 import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.CartService;
 import com.example.hardwarewale.api.FavoriteService;
+import com.example.hardwarewale.api.OrderService;
 import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.bean.Favorite;
+import com.example.hardwarewale.bean.Order;
 import com.example.hardwarewale.databinding.ActivityCartItemBinding;
 import com.example.hardwarewale.databinding.ActivityFavoriteItemBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
@@ -34,7 +38,7 @@ import retrofit2.Response;
 public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder> {
     List<Favorite> favoriteList;
     Context context;
-    private OnRecyclerViewClick listener;
+    OnRecyclerViewClick listener;
     ProgressDialog pd;
     InternetConnectivity connectivity = new InternetConnectivity();
 
@@ -57,15 +61,24 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
         holder.binding.tvProductName.setText("" + favorite.getName());
         holder.binding.tvProductPrice.setText("₹" + favorite.getPrice());
         holder.binding.tvProductDescription.setText("" + favorite.getDescription());
+
         holder.binding.ivCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (connectivity.isConnectedToInternet(context)) {
-                    AlertDialog.Builder ab = new AlertDialog.Builder(context);
-                    ab.setMessage("Are you sure ?");
-                    ab.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    final AlertDialog ab = new AlertDialog.Builder(context).create();
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.alert_dialog, null);
+                    ab.setView(view);
+                    TextView tvtitleMsg = view.findViewById(R.id.tvTilteMsg);
+                    tvtitleMsg.setText("You want to this product from favourite");
+
+                    CardView btnCancel = view.findViewById(R.id.btnCancel);
+                    CardView btnOkay = view.findViewById(R.id.btnOkay);
+
+                    btnOkay.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(View v) {
                             pd = new ProgressDialog(context);
                             pd.setTitle("Removing");
                             pd.setMessage("Please wait...");
@@ -81,6 +94,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                                         favoriteList.remove(position);
                                         pd.dismiss();
                                         notifyDataSetChanged();
+                                        ab.dismiss();
                                     }
                                 }
 
@@ -91,10 +105,10 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
                             });
                         }
                     });
-                    ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        public void onClick(View v) {
+                            ab.dismiss();
                         }
                     });
                     ab.show();
@@ -110,6 +124,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
 
     public class FavoriteViewHolder extends RecyclerView.ViewHolder {
         ActivityFavoriteItemBinding binding;
+
         public FavoriteViewHolder(ActivityFavoriteItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;

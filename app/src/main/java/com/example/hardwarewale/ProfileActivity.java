@@ -28,6 +28,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.example.hardwarewale.api.UserService;
 import com.example.hardwarewale.bean.User;
 import com.example.hardwarewale.databinding.ActivityCreateProfileBinding;
+import com.example.hardwarewale.utility.FileUtils;
 import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -61,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity {
         sp = getSharedPreferences("user", MODE_PRIVATE);
         View view = binding.getRoot();
         setContentView(view);
+
+        binding.backPress.setVisibility(View.GONE);
 
         awesomeValidation = new AwesomeValidation(BASIC);
 

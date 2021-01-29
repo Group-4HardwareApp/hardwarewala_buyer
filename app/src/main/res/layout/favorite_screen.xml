@@ -1,28 +1,37 @@
-<LinearLayout android:layout_height="wrap_content"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:background="@color/yellow"
         android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:layout_width="match_parent">
+        android:background="@color/yellow">
 
         <LinearLayout
             android:id="@+id/ll"
-            android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal"
             android:weightSum="1">
 
+            <ImageView
+                android:id="@+id/backPress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0.1"
+                android:src="@drawable/arrow_back_icon" />
+
             <TextView
-                android:gravity="center_vertical"
                 android:id="@+id/tvAppName"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.8"
-                android:layout_width="0dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
                 android:text="Favourites"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -31,52 +40,64 @@
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:gravity="center"
-        android:id="@+id/tvEmpty"
-        android:layout_height="match_parent"
+    <LinearLayout
+        android:id="@+id/favrouiteLayout"
         android:layout_width="match_parent"
-        android:padding="100dp"
-        android:text="No favourites here"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:visibility="gone" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="No favourites yet"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/favorite_icon" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFavoriteScreen"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent" />
+        android:layout_gravity="center"
+        android:layout_margin="10dp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/btnbuy"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:orientation="horizontal"
         android:visibility="gone"
         app:cardBackgroundColor="@color/yellow"
         app:cardElevation="10dp">
 
         <LinearLayout
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:padding="5dp">
 
             <ImageView
                 android:id="@+id/ivBuy"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/shopping_bag_icon" />
 
             <TextView
-                android:layout_alignRight="@+id/ivBuy"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/ivBuy"
                 android:paddingLeft="5dp"
                 android:text="Buy"
                 android:textColor="@color/black" />

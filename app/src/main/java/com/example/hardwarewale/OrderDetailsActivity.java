@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +28,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = OrderDetailScreenBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent in = getIntent();
         items = (ArrayList<OrderItems>) in.getSerializableExtra("item");
         
@@ -38,5 +37,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
             binding.rvOrderDetails.setAdapter(adapter);
             binding.rvOrderDetails.setLayoutManager(new LinearLayoutManager(this));
         }
+
+        binding.backPress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }
