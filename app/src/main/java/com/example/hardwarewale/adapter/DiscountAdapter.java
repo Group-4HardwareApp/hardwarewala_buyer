@@ -55,11 +55,11 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.Discou
         public DiscountViewHolder(ShowDiscountsBinding binding){
             super(binding.getRoot());
             this.binding = binding;
-           /* int positon = getAdapterPosition();
-            Product p = productList.get(positon);
+            int positon = getAdapterPosition();
+            Product product = productList.get(positon);
             if(positon != RecyclerView.NO_POSITION && listener != null)
                 listener.onItemClick(product,positon);
-*/
+
         }
     }
     
