@@ -63,7 +63,7 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.Discou
                     int positon = getAdapterPosition();
                     Product p = productList.get(positon);
                     if (positon != RecyclerView.NO_POSITION && listener != null)
-                        listener.onItemClick(product, positon);
+                        listener.onItemClick(p, positon);
                 }
             });
         }

@@ -1,15 +1,22 @@
 package com.example.hardwarewale;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hardwarewale.adapter.BuyCartAdapter;
 import com.example.hardwarewale.api.CartService;
@@ -31,7 +38,8 @@ public class BuyActivity extends AppCompatActivity {
     BuyCart buyCart;
     String currentUserId;
     BuyCartAdapter adapter;
-    double total=0;
+    double total = 0;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +64,7 @@ public class BuyActivity extends AppCompatActivity {
         call.enqueue(new Callback<BuyCart>() {
             @Override
             public void onResponse(Call<BuyCart> call, Response<BuyCart> response) {
-                Log.e("Response code","=========>"+response.code());
+                Log.e("Response code", "=========>" + response.code());
                 if (response.code() == 200) {
                     cartList = new ArrayList<Cart>();
                     buyCart = response.body();
@@ -66,11 +74,79 @@ public class BuyActivity extends AppCompatActivity {
                     binding.rvBuy.setLayoutManager(new LinearLayoutManager(BuyActivity.this));
                     binding.rvBuy.setAdapter(adapter);
 
-                    for(Cart c : updatedCartList){
+                    for (Cart c : updatedCartList) {
                         total = total + c.getPrice();
-                        binding.tvAmt.setText(""+total);
-                        Log.e("shopkeeper id","==>"+c.getShopkeeperId());
+                        binding.tvAmt.setText("" + total);
+                        Log.e("shopkeeper id", "==>" + c.getShopkeeperId());
                     }
+
+                    new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.DOWN | ItemTouchHelper.UP) {
+
+                        @Override
+                        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                            Toast.makeText(BuyActivity.this, "on Move", Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+
+                        @Override
+                        public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                            Toast.makeText(BuyActivity.this, "on Swiped ", Toast.LENGTH_SHORT).show();
+                            //Remove swiped item from list and notify the RecyclerView
+                            final AlertDialog ab = new AlertDialog.Builder(BuyActivity.this).create();
+                            LayoutInflater inflater = (LayoutInflater) BuyActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                            View view = inflater.inflate(R.layout.alert_dialog, null);
+                            ab.setView(view);
+
+                            TextView tvtitleMsg = view.findViewById(R.id.tvTilteMsg);
+                            tvtitleMsg.setText("You want to remove this product from buy cart");
+                            CardView btnCancel = view.findViewById(R.id.btnCancel);
+                            CardView btnOkay = view.findViewById(R.id.btnOkay);
+
+                            btnOkay.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    pd = new ProgressDialog(BuyActivity.this);
+                                    pd.setTitle("Removing");
+                                    pd.setMessage("Please wait...");
+                                    pd.show();
+
+                                    final int position = viewHolder.getAdapterPosition();
+
+                                    Cart cart = updatedCartList.get(position);
+                                    Log.e("cart id", "===>" + cart.getCartId());
+                                    CartService.CartApi cartApi = CartService.getCartApiInstance();
+                                    Call<Cart> call = cartApi.removeProductFormCart(cart.getCartId());
+                                    call.enqueue(new Callback<Cart>() {
+                                        @Override
+                                        public void onResponse(Call<Cart> call, Response<Cart> response) {
+                                            Log.e("data", "========>" + response);
+                                            if (response.code() == 200) {
+                                                Cart c = response.body();
+                                                updatedCartList.remove(position);
+                                                pd.dismiss();
+                                                adapter.notifyDataSetChanged();
+                                                ab.dismiss();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Cart> call, Throwable t) {
+                                            Log.e("failed", "=========>" + t);
+                                        }
+                                    });
+
+                                }
+                            });
+                            btnCancel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    ab.dismiss();
+                                }
+                            });
+                            ab.show();
+                        }
+                    }).attachToRecyclerView(binding.rvBuy);
+
                 }
             }
 
@@ -84,12 +160,12 @@ public class BuyActivity extends AppCompatActivity {
         binding.ivContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(updatedCartList.size()!=0) {
+                if (updatedCartList.size() != 0) {
                     Intent in = new Intent(BuyActivity.this, PlaceOrderActivity.class);
                     in.putExtra("updatedCartList", updatedCartList);
                     String total = binding.tvAmt.getText().toString();
                     double amount = Double.parseDouble(total);
-                    in.putExtra("total",amount);
+                    in.putExtra("total", amount);
                     startActivity(in);
                 }
             }

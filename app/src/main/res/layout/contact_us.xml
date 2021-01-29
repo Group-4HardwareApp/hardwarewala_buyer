@@ -31,15 +31,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/civImage"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="150dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="30dp"
         android:background="@drawable/button_contact"
         android:drawableRight="@drawable/phone"
-        android:padding="12dp"
+        android:padding="15dp"
         android:text="Contact with Phone"
         android:textColor="@color/black"
-        android:textSize="17sp" />
+        android:textSize="15sp"
+        android:drawablePadding="10dp" />
 
 
     <TextView
@@ -47,13 +48,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvCall"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="30dp"
         android:background="@drawable/button_contact"
         android:drawableRight="@drawable/email_icon"
-        android:padding="12dp"
+        android:padding="15dp"
         android:text="Contact with Email"
         android:textColor="@color/black"
-        android:textSize="17sp" />
+        android:textSize="15sp" />
 </RelativeLayout>
