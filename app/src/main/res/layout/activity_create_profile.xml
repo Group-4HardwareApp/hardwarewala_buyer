@@ -55,7 +55,7 @@
                 android:layout_width="170dp"
                 android:layout_height="170dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="50dp"
                 android:src="@drawable/profile_logo"
                 app:civ_border_color="@color/black" />
 
@@ -196,13 +196,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/etAddress"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="50dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="60dp"
+                android:elevation="10dp"
                 android:background="@drawable/button_decoration"
                 android:text="Save"
                 android:textColor="@color/black"
-                android:textSize="17sp" />
+                android:textSize="15sp"
+                android:layout_margin="20dp"/>
 
         </RelativeLayout>
     </ScrollView>

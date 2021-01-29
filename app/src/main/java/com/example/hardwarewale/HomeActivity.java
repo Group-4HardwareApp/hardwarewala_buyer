@@ -155,7 +155,7 @@ public class HomeActivity extends AppCompatActivity {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
 
                 if (intent.resolveActivity(getPackageManager()) != null) {
-//                    Toast.makeText(Home.this, "in if of voice !!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(Home.this, "in if of voice !!", Toast.LENGTH_SHORT).show();
                     startActivityForResult(intent, 10);
                 } else {
                     Toast.makeText(HomeActivity.this, "Your device Doesn't support Speech Input", Toast.LENGTH_SHORT).show();
@@ -400,7 +400,7 @@ public class HomeActivity extends AppCompatActivity {
                         discountAdapter.onItemClickListener(new DiscountAdapter.onRecyeclerViewClick() {
                             @Override
                             public void onItemClick(Product product, int position) {
-                                Intent in = new Intent(HomeActivity.this, ProductDescriptionActivity.class);
+                                Intent in = new Intent(HomeActivity.this, DiscountedProductDescription.class);
                                 in.putExtra("product", product);
                                 startActivity(in);
                             }
