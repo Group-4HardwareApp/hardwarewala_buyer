@@ -24,10 +24,10 @@ public class ContactActivity extends AppCompatActivity {
         binding = ContactUsBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
         Intent in = getIntent();
-        binding.tvCall.setOnClickListener(new View.OnClickListener() {
+        binding.ivContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mobileNumber = "99XXXXXX51";
+                String mobileNumber = "+91963XXX6501";
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_DIAL); // Action for what intent called for
                 intent.setData(Uri.parse("tel: " + mobileNumber)); // Data with intent respective action on intent
@@ -35,7 +35,7 @@ public class ContactActivity extends AppCompatActivity {
 
             }
         });
-        binding.tvEmail.setOnClickListener(new View.OnClickListener() {
+        binding.ivEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
