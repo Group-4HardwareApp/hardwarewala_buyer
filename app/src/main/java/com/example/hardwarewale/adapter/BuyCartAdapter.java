@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.hardwarewale.R;
 import com.example.hardwarewale.api.CartService;
@@ -59,11 +61,9 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
         Picasso.get().load(cart.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.productImage);
         holder.binding.tvProductName.setText("" + cart.getName());
 
-        holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.dark_red));
         holder.binding.tvProductPrice.setText("₹ " + cart.getPrice());
         holder.binding.tvProductQty.setText("In stock : " + quantity);
 
-        holder.binding.ivAdd.setColorFilter(context.getResources().getColor(R.color.dark_green));
         holder.binding.ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +82,6 @@ public class BuyCartAdapter extends RecyclerView.Adapter<BuyCartAdapter.BuyCartV
             }
         });
 
-        holder.binding.ivSubrtact.setColorFilter(context.getResources().getColor(R.color.red));
         holder.binding.ivSubrtact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

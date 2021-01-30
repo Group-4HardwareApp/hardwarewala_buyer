@@ -57,15 +57,16 @@ public class DiscountAdapter extends RecyclerView.Adapter<DiscountAdapter.Discou
         public DiscountViewHolder(ShowDiscountsBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            binding.getRoot().setOnClickListener(new View.OnClickListener() {
+          binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     int positon = getAdapterPosition();
                     Product p = productList.get(positon);
                     if (positon != RecyclerView.NO_POSITION && listener != null)
-                        listener.onItemClick(product, positon);
+                        listener.onItemClick(p, positon);
                 }
             });
+
         }
     }
 

@@ -56,6 +56,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     Double price;
     ArrayList<Cart> cartList;
     List<Favorite> favoriteList;
+
     int flag = 0, flag1 = 0;
     ShowCommentAdapter showCommentAdapter;
     private SliderAdapterExample sliderAdapterExample;
@@ -69,23 +70,26 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         Intent in = getIntent();
         product = (Product) in.getSerializableExtra("product");
         favorite = (Favorite) in.getSerializableExtra("favorite");
-        discount = (Product) in.getSerializableExtra("product");
-
+        discount = (Product) in.getSerializableExtra("discount");
+   //     Log.e("discount","===>"+discount.getName());
 
         if(product!=null) {
             productData();
-            getCartList();
-            getFavoriteList();
             setProductDetails();
+            getFavoriteList();
             addProductToFvorite();
+            getCartList();
             addProductToCart();
             showSimilarProducts();
             viewRating();
         }
-        if(discount != null){
+        /*if(discount != null){
             binding.ivImage.setVisibility(View.GONE);
             binding.iv.setVisibility(View.VISIBLE);
             binding.tvProductName.setText("" + discount.getName());
+            Log.e("discounted name ","====>"+discount.getName());
+            binding.tvProductPrice.setPaintFlags(binding.tvProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            binding.tvProductPrice.setText("₹ " + discount.getPrice());
             binding.tvProductPrice.setPaintFlags(binding.tvProductPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             binding.tvProductPrice.setText("₹ " + discount.getPrice());
             binding.tvBrand.setText("" + discount.getBrand());
@@ -95,7 +99,6 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             binding.tvProductDiscount.setText("" + off + "% Off");
             binding.tvProductDescription.setText("" + discount.getDescription());
             binding.tvQuantity.setText("" + discount.getQtyInStock());
-
             sliderAdapterExample = new SliderAdapterExample(this);
             binding.iv.setSliderAdapter(sliderAdapterExample);
             binding.iv.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -220,7 +223,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
                     public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                         if (response.code() == 200) {
                             ArrayList<Product> productList = response.body();
-                            if (product.getName() == null)
+                            if (discount.getName() == null)
                                 binding.tvNoSimilarProducts.setVisibility(View.VISIBLE);
                             else {
                                 adapter = new RecentUpdateAdapter(ProductDescriptionActivity.this, productList);
@@ -292,7 +295,7 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             } else
                 Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_SHORT).show();
         }//end of discount
-
+*/
         binding.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

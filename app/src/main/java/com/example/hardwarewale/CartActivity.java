@@ -44,6 +44,7 @@ public class CartActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Intent in = getIntent();
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         showCartProduct();
 
         binding.backPress.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +85,7 @@ public class CartActivity extends AppCompatActivity {
                         binding.rvCartScreen.setAdapter(adapter);
                         binding.rvCartScreen.setLayoutManager(new LinearLayoutManager(CartActivity.this));
                         al = cartList;
+                        adapter.notifyDataSetChanged();
                     }
                 }
 
