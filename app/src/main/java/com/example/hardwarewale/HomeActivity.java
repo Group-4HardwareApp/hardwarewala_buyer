@@ -451,6 +451,11 @@ public class HomeActivity extends AppCompatActivity {
                     Intent in = new Intent(HomeActivity.this, ViewProfileActivity.class);
                     startActivity(in);
                 }
+                else  if(id == R.id.menuTermsCondition) {
+                    Intent in = new Intent(HomeActivity.this ,TermsConditionActivity.class);
+                    startActivity(in);
+
+                }
                 else if(id == R.id.menuContactus){
                     Intent in = new Intent(HomeActivity.this,ContactActivity.class);
                     startActivity(in);
@@ -479,8 +484,6 @@ public class HomeActivity extends AppCompatActivity {
                     ab.show();
                 } else if (id == R.id.menuContactus) {
                     Toast.makeText(HomeActivity.this, "Contactus clicked", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.menuCustomerSupport) {
-                    Toast.makeText(HomeActivity.this, "Customer support clicked", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
