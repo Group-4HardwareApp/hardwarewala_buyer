@@ -112,6 +112,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".ContactActivity"
             android:screenOrientation="portrait"/>
+<activity android:name=".TermsConditionActivity"
+    android:screenOrientation="portrait"/>
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
