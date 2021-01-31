@@ -368,7 +368,7 @@ public class HomeActivity extends AppCompatActivity {
                           public void onItemClick(Product product, int position) {
                  Toast.makeText(HomeActivity.this,"item Clicked",Toast.LENGTH_SHORT).show();
                           Intent intent4 = new Intent(HomeActivity.this,ProductDescriptionActivity.class);
-                          intent4.putExtra("pdt",product);
+                          intent4.putExtra("product",product);
                           startActivity(intent4);
                           }
                       });

@@ -116,7 +116,8 @@
 
         <activity android:name=".DiscountedProductDescription"
             android:screenOrientation="portrait"/>
-
+<activity android:name=".RecentProductDescription"
+    android:screenOrientation="portrait"/>
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
