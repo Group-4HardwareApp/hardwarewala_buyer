@@ -42,7 +42,6 @@
                 android:id="@+id/menuPrivacyPolicy"
                 android:title="Privacy Policy"
                 android:icon="@drawable/privacy_icon"/>
-
             <item
                 android:id="@+id/menuLogout"
                 android:icon="@drawable/logout_icon"

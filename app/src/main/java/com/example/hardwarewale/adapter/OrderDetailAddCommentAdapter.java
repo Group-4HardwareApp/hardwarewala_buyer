@@ -2,7 +2,9 @@ package com.example.hardwarewale.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,11 +64,14 @@ public class OrderDetailAddCommentAdapter extends RecyclerView.Adapter<OrderDeta
         holder.binding.tvProductName.setText("" + item.getName());
         holder.binding.tvProductName.setTextColor(context.getResources().getColor(R.color.black));
         holder.binding.tvProductPrice.setText("₹ " + item.getPrice());
-        holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.black));
+        //holder.binding.tvProductPrice.setTextColor(context.getResources().getColor(R.color.red));
         holder.binding.tvProductQty.setText("Qty : " + item.getQty());
         holder.binding.tvProductQty.setTextColor(context.getResources().getColor(R.color.black));
         Picasso.get().load(item.getImageUrl()).placeholder(R.drawable.default_photo_icon).into(holder.binding.ivProductImage);
 
+        SpannableString content = new SpannableString("Add Comment");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        holder.binding.tvAddComment.setText(content);
         holder.binding.tvAddComment.setVisibility(View.VISIBLE);
         holder.binding.tvAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
