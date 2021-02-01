@@ -1,6 +1,7 @@
 package com.example.hardwarewale;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -42,11 +45,13 @@ import com.example.hardwarewale.utility.InternetConnectivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,6 +72,7 @@ public class HomeActivity extends AppCompatActivity {
     ProductAdapter adapter;
     String userId;
     private static final int REQUEST_CODE = 1234;
+    ProgressDialog pd;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
@@ -144,8 +150,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+  //      navHeader();
     }//eOf onCreate
 
+    /*private void navHeader() {
+        View headerLayout = homeBinding.navigationView.getHeaderView(0);
+        CircleImageView userImage = headerLayout.findViewById(R.id.civdp);
+
+        TextView tvUsername = headerLayout.findViewById(R.id.username);
+
+        TextView shopkeeperId = headerLayout.findViewById(R.id.shopkeeperId);
+        Picasso.get().load(sp.getString("imageUrl", "imageurl here")).into(userImage);
+        tvUsername.setText(sp.getString("name", "name here"));
+        shopkeeperId.setText(sp.getString("userId", "id here"));
+    }
+*/
     private void voiceSearch() {
         homeBinding.ivMic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -456,24 +475,34 @@ public class HomeActivity extends AppCompatActivity {
                     startActivity(in);
                 }
                 else if (id == R.id.menuLogout) {
-                    AlertDialog.Builder ab = new AlertDialog.Builder(HomeActivity.this);
-                    ab.setMessage("Do you want to logout ?");
-                    ab.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    final AlertDialog ab = new AlertDialog.Builder(HomeActivity.this).create();
+                    LayoutInflater inflater = (LayoutInflater) HomeActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.alert_dialog, null);
+                    ab.setView(view);
+
+                    TextView tvtitleMsg = view.findViewById(R.id.tvTilteMsg);
+                    tvtitleMsg.setText("You want to logout ");
+                    CardView btnCancel = view.findViewById(R.id.btnCancel);
+                    CardView btnOkay = view.findViewById(R.id.btnOkay);
+
+                    btnOkay.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            final ProgressDialog pd = new ProgressDialog(HomeActivity.this);
-                            pd.setTitle("Please wait...");
+                        public void onClick(View v) {
+                            pd = new ProgressDialog(HomeActivity.this);
+                            pd.setTitle("Removing");
+                            pd.setMessage("Please wait...");
                             pd.show();
                             //SharedPreferences.Editor editor = sp.edit();editor.clear();editor.commit();
                             mAuth.signOut();
                             pd.dismiss();
                             navivateUserToLoginActivity();
+
                         }
                     });
-                    ab.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    btnCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        public void onClick(View v) {
+                            ab.dismiss();
                         }
                     });
                     ab.show();

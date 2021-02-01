@@ -40,7 +40,7 @@
                 android:icon="@drawable/contact_us_icon"/>
             <item
                 android:id="@+id/menuCustomerSupport"
-                android:title="Customer Support"
+                android:title="About us"
                 android:icon="@drawable/contact_support"/>
 
             <item
