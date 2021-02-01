@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
@@ -14,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,7 +41,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -451,8 +447,8 @@ public class HomeActivity extends AppCompatActivity {
                     Intent in = new Intent(HomeActivity.this, ViewProfileActivity.class);
                     startActivity(in);
                 }
-                else  if(id == R.id.menuTermsCondition) {
-                    Intent in = new Intent(HomeActivity.this ,TermsConditionActivity.class);
+                else  if(id == R.id.menuPrivacyPolicy) {
+                    Intent in = new Intent(HomeActivity.this , PrivacyPolicyActivity.class);
                     startActivity(in);
 
                 }

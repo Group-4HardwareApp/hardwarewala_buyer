@@ -39,9 +39,9 @@
                 android:title="Contact us"
                 android:icon="@drawable/contact_us_icon"/>
             <item
-                android:id="@+id/menuTermsCondition"
-                android:title="Terms Condition"
-                android:icon="@drawable/contact_support"/>
+                android:id="@+id/menuPrivacyPolicy"
+                android:title="Privacy Policy"
+                android:icon="@drawable/privacy_icon"/>
 
             <item
                 android:id="@+id/menuLogout"
