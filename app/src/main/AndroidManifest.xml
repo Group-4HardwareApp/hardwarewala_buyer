@@ -114,7 +114,7 @@
         <activity android:name=".ContactActivity"
             android:screenOrientation="portrait"/>
 
-          <activity android:name=".TermsConditionActivity"
+          <activity android:name=".PrivacyPolicyActivity"
               android:screenOrientation="portrait"/>
         <activity android:name=".DiscountedProductDescription"
             android:screenOrientation="portrait"/>
