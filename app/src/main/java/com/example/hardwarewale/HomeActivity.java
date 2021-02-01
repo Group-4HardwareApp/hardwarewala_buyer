@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.text.Editable;
@@ -48,7 +46,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -387,7 +384,7 @@ public class HomeActivity extends AppCompatActivity {
                           public void onItemClick(Product product, int position) {
                  Toast.makeText(HomeActivity.this,"item Clicked",Toast.LENGTH_SHORT).show();
                           Intent intent4 = new Intent(HomeActivity.this,ProductDescriptionActivity.class);
-                          intent4.putExtra("pdt",product);
+                          intent4.putExtra("product",product);
                           startActivity(intent4);
                           }
                       });
@@ -470,6 +467,11 @@ public class HomeActivity extends AppCompatActivity {
                     Intent in = new Intent(HomeActivity.this, ViewProfileActivity.class);
                     startActivity(in);
                 }
+                else  if(id == R.id.menuPrivacyPolicy) {
+                    Intent in = new Intent(HomeActivity.this , PrivacyPolicyActivity.class);
+                    startActivity(in);
+
+                }
                 else if(id == R.id.menuContactus){
                     Intent in = new Intent(HomeActivity.this,ContactActivity.class);
                     startActivity(in);
@@ -508,8 +510,6 @@ public class HomeActivity extends AppCompatActivity {
                     ab.show();
                 } else if (id == R.id.menuContactus) {
                     Toast.makeText(HomeActivity.this, "Contactus clicked", Toast.LENGTH_SHORT).show();
-                } else if (id == R.id.menuCustomerSupport) {
-                    Toast.makeText(HomeActivity.this, "Customer support clicked", Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
