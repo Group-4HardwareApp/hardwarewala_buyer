@@ -11,13 +11,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.hardwarewale.BuyActivity;
-import com.example.hardwarewale.OrderDetailsActivity;
 import com.example.hardwarewale.OrderHistoryDetailsActivity;
 import com.example.hardwarewale.R;
-import com.example.hardwarewale.ReOrderActivity;
+
 import com.example.hardwarewale.bean.Order;
-import com.example.hardwarewale.bean.OrderCart;
 import com.example.hardwarewale.bean.OrderItems;
 import com.example.hardwarewale.databinding.ActivityOrderHistoryItemListBinding;
 
@@ -54,9 +51,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
         String status = order.getShippingStatus();
         if (status.equals("Cancelled")) {
             holder.binding.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.red));
-            // Intent in = new Intent(context,OrderDetailAddCommentAdapter.class);
-            // in.putExtra("order status",order.getShippingStatus());
-            //context.startActivity(in);
+            
         } else
             holder.binding.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.dark_green));
 
@@ -75,7 +70,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 context.getApplicationContext().startActivity(in);
             }
         });
-
+/*
         holder.binding.btnReOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +80,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 context.getApplicationContext().startActivity(in);
             }
         });
-    }
+*/    }
 
     @Override
     public int getItemCount() {
