@@ -70,8 +70,7 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 context.getApplicationContext().startActivity(in);
             }
         });
-/*
-        holder.binding.btnReOrder.setOnClickListener(new View.OnClickListener() {
+        /*holder.binding.btnReOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent in = new Intent(context, ReOrderActivity.class);
@@ -79,8 +78,8 @@ public class OrderHistoryAdapter extends RecyclerView.Adapter<OrderHistoryAdapte
                 in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
                 context.getApplicationContext().startActivity(in);
             }
-        });
-*/    }
+        });*/
+    }
 
     @Override
     public int getItemCount() {

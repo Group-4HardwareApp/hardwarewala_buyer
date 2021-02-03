@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
-            android:layout_weight="0.7 "
+            android:layout_weight="0.7"
             android:orientation="vertical">
 
             <TextView
@@ -61,12 +61,12 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="5dp"
                 android:drawableRight="@drawable/comment_icon"
-                android:drawablePadding="3dp"
                 android:text="Add comment"
+                android:drawablePadding="3dp"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
