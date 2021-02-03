@@ -219,6 +219,7 @@
                         android:paddingLeft="20dp"
                         android:paddingRight="20dp"
                         android:text="Save"
+                        android:textSize="18sp"
                         android:textColor="@color/black" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

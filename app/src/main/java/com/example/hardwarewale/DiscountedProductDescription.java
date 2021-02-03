@@ -139,7 +139,7 @@ public class DiscountedProductDescription extends AppCompatActivity {
     }
 
     private void calculateAverageRating(ArrayList<Comment> list) {
-        Long average, user1 = 0L, user2 = 0L, user3 = 0L, user4 = 0L, user5 = 0L;
+        float average, user1 = 0L, user2 = 0L, user3 = 0L, user4 = 0L, user5 = 0L;
         for (Comment comment : list) {
             if (comment.getRating() == 5) {
                 user5++;

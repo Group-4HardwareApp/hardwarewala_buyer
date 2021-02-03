@@ -77,9 +77,9 @@ public class CartActivity extends AppCompatActivity {
                         al = new ArrayList<Cart>();
                         ArrayList<Cart> cartList = response.body();
                         if (cartList.size() == 0) {
-                           binding.ivEmptyCart.setVisibility(View.VISIBLE);
-                           binding.rvCartScreen.setVisibility(View.INVISIBLE);
-                           binding.btnbuy.setVisibility(View.GONE);
+                            binding.ivEmptyCart.setVisibility(View.VISIBLE);
+                            binding.rvCartScreen.setVisibility(View.INVISIBLE);
+                            binding.btnbuy.setVisibility(View.GONE);
                         }
                         adapter = new CartAdapter(CartActivity.this, cartList);
                         binding.rvCartScreen.setAdapter(adapter);
@@ -99,4 +99,3 @@ public class CartActivity extends AppCompatActivity {
             Toast.makeText(this, "Please check your connection", Toast.LENGTH_SHORT).show();
     }
 }
-
