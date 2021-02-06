@@ -1,8 +1,6 @@
 package com.example.hardwarewale;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -10,10 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.hardwarewale.adapter.RecentUpdateAdapter;
 import com.example.hardwarewale.adapter.SliderAdapterExample;
 import com.example.hardwarewale.api.CartService;
@@ -24,15 +24,9 @@ import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.bean.Comment;
 import com.example.hardwarewale.bean.Favorite;
 import com.example.hardwarewale.bean.Product;
-import com.example.hardwarewale.bean.SliderItem;
 import com.example.hardwarewale.databinding.ActivityProductDescriptionBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
-import com.smarteist.autoimageslider.IndicatorView.draw.controller.DrawController;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,10 +36,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CartProductDescription extends AppCompatActivity {
+public class FavoriteProductDescription extends AppCompatActivity {
     ActivityProductDescriptionBinding binding;
     RecentUpdateAdapter adapter;
-    Cart cart;
+
     Product product;
     Favorite fav, favorite;
     FirebaseUser currentUser;
@@ -56,23 +50,24 @@ public class CartProductDescription extends AppCompatActivity {
     List<Favorite> favoriteList;
     int flag = 0;
     int flag1 = 0;
+    Cart cart1;
 
     private SliderAdapterExample sliderAdapterExample;
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
-     public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDescriptionBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
         Intent in = getIntent();
-        cart = (Cart) in.getSerializableExtra("cart");
-        id = cart.getProductId();
-        binding.btnAddToCart.setVisibility(View.GONE);
+        favorite = (Favorite) in.getSerializableExtra("favorite");
+        id = favorite.getProductId();
+        binding.ivAddtoFavorite.setVisibility(View.GONE);
 
         Log.e("id==============",">>>>>>>>"+id);
 
-        if(cart!=null) {
+        if(favorite!=null) {
             productData();
             getFavoriteList();
             addProductToFvorite();
@@ -85,7 +80,7 @@ public class CartProductDescription extends AppCompatActivity {
         binding.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(CartProductDescription.this, BuyProductActivity.class);
+                Intent in = new Intent(FavoriteProductDescription.this, BuyProductActivity.class);
                 in.putExtra("product",product);
                 Log.e("IntentproductName","=====>"+product.getName());
                 startActivity(in);
@@ -125,14 +120,14 @@ public class CartProductDescription extends AppCompatActivity {
                             binding.tvViewReview.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent in = new Intent(CartProductDescription.this, RatingActivity.class);
+                                    Intent in = new Intent(FavoriteProductDescription.this, RatingActivity.class);
                                     in.putExtra("commentList", commentList);
                                     startActivity(in);
                                 }
                             });
                         }
                     } else
-                        Toast.makeText(CartProductDescription.this, "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FavoriteProductDescription.this, "Error", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -219,7 +214,7 @@ public class CartProductDescription extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<ArrayList<Cart>> call, Response<ArrayList<Cart>> response) {
                     cartList = response.body();
-                    String pId = cart.getProductId();
+                    String pId = cart1.getProductId();
                     for (Cart cart : cartList) {
                         if (pId.equals(cart.getProductId())) {
                             flag = 1;
@@ -239,10 +234,10 @@ public class CartProductDescription extends AppCompatActivity {
         binding.btnAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (connectivity.isConnectedToInternet(CartProductDescription.this)) {
+                if (connectivity.isConnectedToInternet(FavoriteProductDescription.this)) {
                     if (flag == 1) {
                         binding.tvAddToCart.setText("Already Added");
-                        Toast.makeText(CartProductDescription.this, "Product Already Added", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FavoriteProductDescription.this, "Product Already Added", Toast.LENGTH_SHORT).show();
                     } else {
                         Cart cart = new Cart(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
                         CartService.CartApi api = CartService.getCartApiInstance();
@@ -252,7 +247,7 @@ public class CartProductDescription extends AppCompatActivity {
                             public void onResponse(Call<Cart> call, Response<Cart> response) {
                                 if (response.isSuccessful()) {
                                     Cart c = response.body();
-                                    Toast.makeText(CartProductDescription.this, "Product added", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FavoriteProductDescription.this, "Product added", Toast.LENGTH_SHORT).show();
                                     binding.tvAddToCart.setText("Add to cart");
                                     flag = 1;
                                 }
@@ -265,7 +260,7 @@ public class CartProductDescription extends AppCompatActivity {
                         });
                     }
                 } else
-                    Toast.makeText(CartProductDescription.this, "Internet not connected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FavoriteProductDescription.this, "Internet not connected", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -279,7 +274,7 @@ public class CartProductDescription extends AppCompatActivity {
                 public void onResponse(Call<List<Favorite>> call, Response<List<Favorite>> response) {
                     if (response.code() == 200) {
                         favoriteList = response.body();
-                        String pId = cart.getProductId();
+                        String pId = cart1.getProductId();
                         for (Favorite favorite : favoriteList) {
                             if (pId.equals(favorite.getProductId())) {
                                 flag1 = 1;
@@ -302,10 +297,10 @@ public class CartProductDescription extends AppCompatActivity {
         binding.ivAddtoFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (connectivity.isConnectedToInternet(CartProductDescription.this)) {
+                if (connectivity.isConnectedToInternet(FavoriteProductDescription.this)) {
                     if (flag1 == 1) {
                         binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
-                        Toast.makeText(CartProductDescription.this, "Already added", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FavoriteProductDescription.this, "Already added", Toast.LENGTH_SHORT).show();
                         addProductToFvorite();
                     } else {
                         final Favorite f = new Favorite(userId, categoryId, productId, name, price, brand, imageUrl, description, shopkeeperId);
@@ -318,13 +313,13 @@ public class CartProductDescription extends AppCompatActivity {
                                     fav = response.body();
                                     binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_border_icon));
                                     binding.ivAddtoFavorite.setImageDrawable(getDrawable(R.drawable.favorite_icon));
-                                    Toast.makeText(CartProductDescription.this, "Product added successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FavoriteProductDescription.this, "Product added successfully", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<Favorite> call, Throwable t) {
-                                Toast.makeText(CartProductDescription.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FavoriteProductDescription.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                                 Log.e("Error ", "===>" + t);
                             }
                         });
@@ -336,7 +331,7 @@ public class CartProductDescription extends AppCompatActivity {
 
     private void showSimilarProducts() {
         if (connectivity.isConnectedToInternet(this)) {
-            productName = cart.getName();
+            productName = favorite.getName();
             ProductService.ProductApi api = ProductService.getProductApiInstance();
             Call<ArrayList<Product>> call = api.searchProductByName(productName);
             call.enqueue(new Callback<ArrayList<Product>>() {
@@ -344,24 +339,23 @@ public class CartProductDescription extends AppCompatActivity {
                 public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
                     if (response.code() == 200) {
                         ArrayList<Product> productList = response.body();
-                        if (cart.getName() == null)
+                        if (favorite.getName() == null)
                             binding.tvNoSimilarProducts.setVisibility(View.VISIBLE);
                         else {
-                            adapter = new RecentUpdateAdapter(CartProductDescription.this, productList);
+                            adapter = new RecentUpdateAdapter(FavoriteProductDescription.this, productList);
                             binding.rvSimilarProducts.setAdapter(adapter);
-                            binding.rvSimilarProducts.setLayoutManager(new LinearLayoutManager(CartProductDescription.this, RecyclerView.HORIZONTAL, false));
+                            binding.rvSimilarProducts.setLayoutManager(new LinearLayoutManager(FavoriteProductDescription.this, RecyclerView.HORIZONTAL, false));
                         }
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
-                    Toast.makeText(CartProductDescription.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FavoriteProductDescription.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     Log.e("Error : ", "==> " + t);
                 }
             });
         }
     }
-
 
 }
