@@ -127,10 +127,8 @@
         <activity
             android:name=".RecentProductDescription"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".ReOrderActivity"
-            android:screenOrientation="portrait"/>
-
+<activity android:name=".CartProductDescription"
+    android:screenOrientation="portrait"/>
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">
