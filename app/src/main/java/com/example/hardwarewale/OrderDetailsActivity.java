@@ -38,7 +38,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
             binding.rvOrderDetails.setAdapter(adapter);
             binding.rvOrderDetails.setLayoutManager(new LinearLayoutManager(this));
         }
-
+/*
         binding.btnbuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,7 +46,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 //in.putExtra("items",);
             }
         });
-
+*/
         binding.backPress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
