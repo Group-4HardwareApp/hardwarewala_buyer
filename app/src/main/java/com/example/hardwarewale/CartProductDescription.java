@@ -61,7 +61,7 @@ public class CartProductDescription extends AppCompatActivity {
     InternetConnectivity connectivity = new InternetConnectivity();
 
     @Override
-     public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityProductDescriptionBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
@@ -189,19 +189,36 @@ public class CartProductDescription extends AppCompatActivity {
 
                     Log.e("product name", "====>"+ product.getName());
                     binding.tvProductName.setText(""+product.getName());
-                    binding.ivImage.setVisibility(View.VISIBLE);
-                    Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.comment_icon).into(binding.ivImage);
+                    binding.ivImage.setVisibility(View.GONE);
+
                     binding.tvProductDiscount.setText(""+product.getDiscount()+"% Off");
                     binding.tvBrand.setText(""+product.getBrand());
                     binding.tvQuantity.setText(""+product.getQtyInStock());
                     binding.tvProductDescription.setText(""+product.getDescription());
-                    binding.iv.setVisibility(View.GONE);
+
                     binding.tvProductPrice.setText(""+product.getPrice());
                     double dis = price * (discount / 100);
                     double offerPrice = price - dis;
                     binding.tvDiscountedPrice.setText("₹ " + offerPrice);
 
                 }
+                sliderAdapterExample = new SliderAdapterExample(CartProductDescription.this);
+                binding.iv.setSliderAdapter(sliderAdapterExample);
+                binding.iv.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                binding.iv.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                binding.iv.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                binding.iv.setIndicatorSelectedColor(Color.YELLOW);
+                binding.iv.setIndicatorMargin(1);
+                binding.iv.setIndicatorUnselectedColor(Color.GRAY);
+                binding.iv.setScrollTimeInSec(2);
+                binding.iv.setOnIndicatorClickListener(new DrawController.ClickListener() {
+                    @Override
+                    public void onIndicatorClicked(int position) {
+
+                    }
+                });
+
+                renewItems(binding.getRoot());
             }
 
             @Override
@@ -363,5 +380,24 @@ public class CartProductDescription extends AppCompatActivity {
         }
     }
 
+    public void renewItems(View view) {
 
+        List<SliderItem> sliderItemList = new ArrayList<>();
+        if (product.getImageUrl()!=null){
+            SliderItem sliderItem1=new SliderItem();
+            sliderItem1.setImageUrl(product.getImageUrl());
+            sliderItemList.add(sliderItem1);
+            if (product.getSecondImageUrl()!=null){
+                SliderItem sliderItem2=new SliderItem();
+                sliderItem2.setImageUrl(product.getSecondImageUrl());
+                sliderItemList.add(sliderItem2);
+                if (product.getThirdImageurl()!=null){
+                    SliderItem sliderItem3=new SliderItem();
+                    sliderItem3.setImageUrl(product.getThirdImageurl());
+                    sliderItemList.add(sliderItem3);
+                }
+            }
+        }
+        sliderAdapterExample.renewItems(sliderItemList);
+    }
 }
