@@ -1,6 +1,8 @@
 package com.example.hardwarewale;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -8,12 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.hardwarewale.adapter.RecentUpdateAdapter;
 import com.example.hardwarewale.adapter.SliderAdapterExample;
 import com.example.hardwarewale.api.CartService;
@@ -24,9 +24,15 @@ import com.example.hardwarewale.bean.Cart;
 import com.example.hardwarewale.bean.Comment;
 import com.example.hardwarewale.bean.Favorite;
 import com.example.hardwarewale.bean.Product;
+import com.example.hardwarewale.bean.SliderItem;
 import com.example.hardwarewale.databinding.ActivityProductDescriptionBinding;
 import com.example.hardwarewale.utility.InternetConnectivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.IndicatorView.draw.controller.DrawController;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,7 +45,7 @@ import retrofit2.Response;
 public class FavoriteProductDescription extends AppCompatActivity {
     ActivityProductDescriptionBinding binding;
     RecentUpdateAdapter adapter;
-
+    Cart cart1;
     Product product;
     Favorite fav, favorite;
     FirebaseUser currentUser;
@@ -50,7 +56,6 @@ public class FavoriteProductDescription extends AppCompatActivity {
     List<Favorite> favoriteList;
     int flag = 0;
     int flag1 = 0;
-    Cart cart1;
 
     private SliderAdapterExample sliderAdapterExample;
     InternetConnectivity connectivity = new InternetConnectivity();
@@ -61,9 +66,9 @@ public class FavoriteProductDescription extends AppCompatActivity {
         binding = ActivityProductDescriptionBinding.inflate(LayoutInflater.from(this));
         setContentView(binding.getRoot());
         Intent in = getIntent();
+
         favorite = (Favorite) in.getSerializableExtra("favorite");
         id = favorite.getProductId();
-        binding.ivAddtoFavorite.setVisibility(View.GONE);
 
         Log.e("id==============",">>>>>>>>"+id);
 
@@ -165,13 +170,13 @@ public class FavoriteProductDescription extends AppCompatActivity {
     }
 
     private void productData() {
-        //call api;
+     //Show  Product Data
         ProductService.ProductApi productDetailApi = ProductService.getProductApiInstance();
         Call<Product> call1 = productDetailApi.viewProduct(id);
         call1.enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
-                if(response.code() == 200){
+                if(response.code() == 200) {
                     product = response.body();
                     categoryId = product.getCategoryId();
                     brand = product.getBrand();
@@ -182,20 +187,36 @@ public class FavoriteProductDescription extends AppCompatActivity {
                     qtyInStock = product.getQtyInStock();
                     imageUrl = product.getImageUrl();
 
-                    Log.e("product name", "====>"+ product.getName());
-                    binding.tvProductName.setText(""+product.getName());
-                    binding.ivImage.setVisibility(View.VISIBLE);
-                    Picasso.get().load(product.getImageUrl()).placeholder(R.drawable.comment_icon).into(binding.ivImage);
-                    binding.tvProductDiscount.setText(""+product.getDiscount()+"% Off");
-                    binding.tvBrand.setText(""+product.getBrand());
-                    binding.tvQuantity.setText(""+product.getQtyInStock());
-                    binding.tvProductDescription.setText(""+product.getDescription());
-                    binding.iv.setVisibility(View.GONE);
-                    binding.tvProductPrice.setText(""+product.getPrice());
+                    Log.e("product name", "====>" + product.getName());
+                    binding.tvProductName.setText("" + product.getName());
+                    binding.ivImage.setVisibility(View.GONE);
+                    binding.ivAddtoFavorite.setVisibility(View.GONE);
+                    binding.tvProductDiscount.setText("" + product.getDiscount() + "% Off");
+                    binding.tvBrand.setText("" + product.getBrand());
+                    binding.tvQuantity.setText("" + product.getQtyInStock());
+                    binding.tvProductDescription.setText("" + product.getDescription());
+
+                    binding.tvProductPrice.setText("" + product.getPrice());
                     double dis = price * (discount / 100);
                     double offerPrice = price - dis;
                     binding.tvDiscountedPrice.setText("₹ " + offerPrice);
+                    sliderAdapterExample = new SliderAdapterExample(FavoriteProductDescription.this);
+                    binding.iv.setSliderAdapter(sliderAdapterExample);
+                    binding.iv.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                    binding.iv.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                    binding.iv.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                    binding.iv.setIndicatorSelectedColor(Color.GREEN);
+                    binding.iv.setIndicatorMargin(1);
+                    binding.iv.setIndicatorUnselectedColor(Color.BLACK);
+                    binding.iv.setScrollTimeInSec(2);
+                    binding.iv.setOnIndicatorClickListener(new DrawController.ClickListener() {
+                        @Override
+                        public void onIndicatorClicked(int position) {
 
+                        }
+                    });
+
+                    renewItems(binding.getRoot());
                 }
             }
 
@@ -274,7 +295,7 @@ public class FavoriteProductDescription extends AppCompatActivity {
                 public void onResponse(Call<List<Favorite>> call, Response<List<Favorite>> response) {
                     if (response.code() == 200) {
                         favoriteList = response.body();
-                        String pId = cart1.getProductId();
+                        String pId = favorite.getProductId();
                         for (Favorite favorite : favoriteList) {
                             if (pId.equals(favorite.getProductId())) {
                                 flag1 = 1;
@@ -358,4 +379,24 @@ public class FavoriteProductDescription extends AppCompatActivity {
         }
     }
 
+    public void renewItems(View view) {
+
+        List<SliderItem> sliderItemList = new ArrayList<>();
+        if (product.getImageUrl()!=null){
+            SliderItem sliderItem1=new SliderItem();
+            sliderItem1.setImageUrl(product.getImageUrl());
+            sliderItemList.add(sliderItem1);
+            if (product.getSecondImageUrl()!=null){
+                SliderItem sliderItem2=new SliderItem();
+                sliderItem2.setImageUrl(product.getSecondImageUrl());
+                sliderItemList.add(sliderItem2);
+                if (product.getThirdImageurl()!=null){
+                    SliderItem sliderItem3=new SliderItem();
+                    sliderItem3.setImageUrl(product.getThirdImageurl());
+                    sliderItemList.add(sliderItem3);
+                }
+            }
+        }
+        sliderAdapterExample.renewItems(sliderItemList);
+    }
 }

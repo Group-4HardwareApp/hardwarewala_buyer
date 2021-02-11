@@ -69,8 +69,8 @@
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/iv"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
-                    android:background="@drawable/ic_launcher_background"
+                    android:layout_height="220dp"
+                    android:background="@color/white"
                     app:sliderAnimationDuration="600"
                     app:sliderAutoCycleDirection="back_and_forth"
                     app:sliderIndicatorAnimationDuration="600"

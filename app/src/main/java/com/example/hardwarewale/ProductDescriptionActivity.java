@@ -367,18 +367,22 @@ public class ProductDescriptionActivity extends AppCompatActivity {
     }
 
     public void renewItems(View view) {
+
         List<SliderItem> sliderItemList = new ArrayList<>();
-        for (int i = 1; i < 4; i++) {
-            SliderItem sliderItem = new SliderItem();
-            if (i == 1) {
-                sliderItem.setImageUrl(product.getImageUrl());
-            } else if (i == 2) {
-                sliderItem.setImageUrl(product.getSecondImageUrl());
-            } else if (i == 3) {
-                sliderItem.setImageUrl(product.getThirdImageurl());
+        if (product.getImageUrl()!=null){
+            SliderItem sliderItem1=new SliderItem();
+            sliderItem1.setImageUrl(product.getImageUrl());
+            sliderItemList.add(sliderItem1);
+            if (product.getSecondImageUrl()!=null){
+                SliderItem sliderItem2=new SliderItem();
+                sliderItem2.setImageUrl(product.getSecondImageUrl());
+                sliderItemList.add(sliderItem2);
+                if (product.getThirdImageurl()!=null){
+                    SliderItem sliderItem3=new SliderItem();
+                    sliderItem3.setImageUrl(product.getThirdImageurl());
+                    sliderItemList.add(sliderItem3);
+                }
             }
-            sliderItemList.add(sliderItem);
         }
         sliderAdapterExample.renewItems(sliderItemList);
-    }
-}
+    }}
